@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'screen/plusbutton_screen.dart';
 import 'screen/splash_screen.dart';
 
 void main() {
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Cook Notes Demo',
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: PlusButtonScreen(),
 
       // theme: ThemeData(
       //   // This is the theme of your application.
