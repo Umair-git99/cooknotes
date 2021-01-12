@@ -11,7 +11,6 @@ class RecipeListScreen extends StatefulWidget {
 }
 
 class _RecipeListScreenState extends State<RecipeListScreen> {
-  var change = new List(20);
   @override
   Widget build(BuildContext context) {
     return Scaffold(

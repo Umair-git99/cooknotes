@@ -21,8 +21,8 @@ List<User> mockData = [
             cookHours: '1',
             cookMins: '30',
             numPerson: '5',
-            ingredients: 'asam\nikan\nbawang',
-            instruction: 'masak sampai sedap'),
+            ingredients: "ikan\nasam\nsantan\nbawang",
+            instruction: "masak sampai sedap"),
         Recipe(
             foodName: "Chicken Lasagna",
             prepHours: '0',
@@ -39,7 +39,7 @@ List<User> mockData = [
             cookHours: '0',
             cookMins: '30',
             numPerson: '4',
-            ingredients: 'ayam\nbawang\ntepung',
+            ingredients: "ayam\nbawang\ntepung",
             instruction: 'masak sampai sedap'),
       ]),
 ];

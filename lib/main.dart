@@ -1,5 +1,6 @@
 import 'package:cooknotes/models/mock_user.dart';
-import 'package:cooknotes/screen/recipelist_screen.dart';
+import 'package:cooknotes/screen/display_recipe_screen.dart';
+//import 'package:cooknotes/screen/recipelist_screen.dart';
 import 'package:flutter/material.dart';
 //import 'screen/plusbutton_screen.dart';
 //import 'screen/splash_screen.dart';
@@ -17,6 +18,6 @@ class MyApp extends StatelessWidget {
         title: 'Cook Notes Demo',
         debugShowCheckedModeBanner: false,
         //home: PlusButtonScreen(),
-        home: RecipeListScreen(mockData[0]));
+        home: DisplayRecipeScreen(mockData[0].recipe[0]));
   }
 }
