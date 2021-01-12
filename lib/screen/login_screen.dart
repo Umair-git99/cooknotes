@@ -26,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: TextField(
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
-              color: Colors.black,
+              color: Color(0xff00556A),
               fontFamily: 'Lato Bold',
             ),
             decoration: InputDecoration(
@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.email,
-                color: Colors.black,
+                color: Color(0xff00556A),
               ),
               hintText: 'Username or Email',
               hintStyle: kHintTextStyle,
@@ -69,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.lock,
-                color: Colors.black,
+                color: Color(0xff00556A),
               ),
               hintText: 'Password',
               hintStyle: kHintTextStyle,
@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
         ),
-        color: Colors.green,
+        color: Color(0xff00556A),
         child: Text(
           'LOGIN',
           style: TextStyle(
@@ -126,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Text(
           '- OR -',
           style: TextStyle(
-            color: Colors.black,
+            color: Color(0xff00556A),
             fontWeight: FontWeight.w400,
           ),
         ),
@@ -182,7 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
             TextSpan(
               text: 'Register',
               style: TextStyle(
-                color: Colors.blueGrey,
+                color: Color(0xff00556A),
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
               ),
@@ -231,7 +231,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Text(
                         'Welcome To CookNotes!',
                         style: TextStyle(
-                          color: Colors.black,
+                          color: Color(0xff00556A),
                           fontFamily: 'Lato Bold',
                           fontSize: 35.0,
                           fontWeight: FontWeight.bold,
