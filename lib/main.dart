@@ -1,4 +1,5 @@
 import 'package:cooknotes/screen/articlelist_screen.dart';
+import 'package:cooknotes/screen/create_profile_screen.dart';
 import 'package:cooknotes/screen/display_article_screen.dart';
 import 'package:cooknotes/screen/display_recipe_screen.dart';
 import 'package:cooknotes/screen/recipelist_screen.dart';
@@ -19,11 +20,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Cook Notes Demo',
         debugShowCheckedModeBanner: false,
-        // home: SplashScreens());
+        home: CreateProfileScreen());
 
-        //  home: UpdateRecipeScreen(mockData[1].recipe[1]));
-        //  home: DisplayRecipeScreen(mockData[1].recipe[1]));
-        home: RecipeListScreen(mockData[1]));
+    //  home: UpdateRecipeScreen(mockData[1].recipe[1]));
+    //  home: DisplayRecipeScreen(mockData[1].recipe[1]));
+    //home: RecipeListScreen(mockData[1]));
     //home: DisplayArticleScreen(mockData[1].article[0]));
   }
 }

@@ -8,8 +8,6 @@ class User {
   String displayName;
   String usertype;
   int age;
-  String gender;
-  String cookingSkill;
   String email;
   String password;
 
@@ -22,8 +20,6 @@ class User {
       this.displayName,
       this.usertype,
       this.age,
-      this.gender,
-      this.cookingSkill,
       this.email,
       this.password,
       this.recipe,

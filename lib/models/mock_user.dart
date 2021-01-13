@@ -12,8 +12,6 @@ List<User> mockData = [
       profilePic: 'assets/tony.jpg',
       usertype: 'U',
       age: 21,
-      gender: 'Male',
-      cookingSkill: 'Amateur',
       email: 'umair.bzk@gmail.com',
       password: 'Abc123',
       recipe: [
@@ -53,8 +51,6 @@ List<User> mockData = [
       displayName: 'Chef Alif',
       usertype: 'C',
       age: 21,
-      gender: 'Male',
-      cookingSkill: 'Amateur',
       email: 'chefalif@gmail.com',
       password: 'Abc123',
       recipe: [
