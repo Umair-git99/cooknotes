@@ -1,4 +1,5 @@
 import 'package:cooknotes/screen/articlelist_screen.dart';
+import 'package:cooknotes/screen/display_article_screen.dart';
 import 'package:cooknotes/screen/display_recipe_screen.dart';
 import 'package:cooknotes/screen/recipelist_screen.dart';
 
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         // home: SplashScreens());
         //  home: DisplayRecipeScreen(mockData[1].recipe[1]));
-        home: ArticleListScreen(mockData[1]));
+        //home: ArticleListScreen(mockData[1]));
+        home: DisplayArticleScreen(mockData[1].article[0]));
   }
 }

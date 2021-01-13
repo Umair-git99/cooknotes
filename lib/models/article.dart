@@ -1,12 +1,15 @@
 class Article {
   String title;
+  String author;
   String content;
+  String date;
 
-  Article({this.title, this.content});
+  Article({this.title, this.author, this.content, this.date});
 
   Article.copy(Article from)
       : this(
-          title: from.title,
-          content: from.content,
-        );
+            title: from.title,
+            author: from.author,
+            content: from.content,
+            date: from.date);
 }

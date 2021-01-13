@@ -85,7 +85,17 @@ List<User> mockData = [
       article: [
         Article(
             title: "10 Basic Cooking Tricks You Should Know",
-            content: "1. Don't overcrowd the pan.\n" +
-                "2. Let red meat sit before cutting into it\n")
+            author: "Chef Alif",
+            content: "1. \tDon't overcrowd the pan.\n" +
+                "2. \tLet red meat sit before cutting into it\n" +
+                "3. \tStore spices in the right location.\n" +
+                "4. \tShut the stove off before eggs are done.\n" +
+                "5. \tChop herbs with salt.\n" +
+                "6. \tAdd salt to boiling pasta water.\n" +
+                "7. \tUse pasta water to create a pasta sauce.\n" +
+                "8. \tAlways keep a few essentials on hand.\n" +
+                "9. \tUse a paper towel to preserve vegetables.\n" +
+                "10. \t10. Keep the root of the onion intact to help with slicing.",
+            date: "13/1/2021")
       ]),
 ];
