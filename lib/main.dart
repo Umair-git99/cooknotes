@@ -2,6 +2,7 @@ import 'package:cooknotes/screen/articlelist_screen.dart';
 import 'package:cooknotes/screen/create_profile_screen.dart';
 import 'package:cooknotes/screen/display_article_screen.dart';
 import 'package:cooknotes/screen/display_recipe_screen.dart';
+import 'package:cooknotes/screen/edit_profile_screen.dart';
 import 'package:cooknotes/screen/recipelist_screen.dart';
 import 'package:cooknotes/screen/update_recipe_screen.dart';
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Cook Notes Demo',
         debugShowCheckedModeBanner: false,
-        home: CreateProfileScreen());
+        home: EditProfileScreen(mockData[0]));
 
     //  home: UpdateRecipeScreen(mockData[1].recipe[1]));
     //  home: DisplayRecipeScreen(mockData[1].recipe[1]));

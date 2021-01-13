@@ -8,7 +8,7 @@ import 'article.dart';
 List<User> mockData = [
   User(
       username: 'umair',
-      displayName: 'Umair',
+      displayName: 'Umair Hamzah',
       profilePic: 'assets/tony.jpg',
       usertype: 'U',
       age: 21,
