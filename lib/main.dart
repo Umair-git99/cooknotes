@@ -1,10 +1,8 @@
-import 'package:cooknotes/models/mock_user.dart';
-import 'package:cooknotes/screen/display_recipe_screen.dart';
-//import 'package:cooknotes/screen/recipelist_screen.dart';
+//import 'package:cooknotes/models/mock_user.dart';
+//import 'package:cooknotes/screen/display_recipe_screen.dart';
+import 'package:cooknotes/screen/logout_screen.dart';
+import 'package:cooknotes/screen/splash_screen.dart';
 import 'package:flutter/material.dart';
-//import 'screen/plusbutton_screen.dart';
-//import 'screen/splash_screen.dart';
-//import 'package:splashscreen/splashscreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Cook Notes Demo',
         debugShowCheckedModeBanner: false,
-        //home: PlusButtonScreen(),
-        home: DisplayRecipeScreen(mockData[0].recipe[0]));
+        home: LogOut());
+    //home: DisplayRecipeScreen(mockData[0].recipe[0]));
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:cooknotes/utilities/constants.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -14,14 +13,20 @@ class _LoginScreenState extends State<LoginScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        // Text(
-        //   'Email',
-        //   style: kLabelStyle,
-        // ),
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 6.0,
+                offset: Offset(0, 2),
+              ),
+            ],
+          ),
           height: 60.0,
           child: TextField(
             keyboardType: TextInputType.emailAddress,
@@ -37,7 +42,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: Color(0xff00556A),
               ),
               hintText: 'Username or Email',
-              hintStyle: kHintTextStyle,
+              hintStyle: TextStyle(
+                color: Color(0xff00556A),
+                fontFamily: 'Lato',
+              ),
             ),
           ),
         ),
@@ -49,14 +57,20 @@ class _LoginScreenState extends State<LoginScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        // Text(
-        //   'Password',
-        //   style: kLabelStyle,
-        // ),
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 6.0,
+                offset: Offset(0, 2),
+              ),
+            ],
+          ),
           height: 60.0,
           child: TextField(
             obscureText: true,
@@ -72,7 +86,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: Color(0xff00556A),
               ),
               hintText: 'Password',
-              hintStyle: kHintTextStyle,
+              hintStyle: TextStyle(
+                color: Color(0xff00556A),
+                fontFamily: 'Lato',
+              ),
             ),
           ),
         ),
@@ -88,7 +105,11 @@ class _LoginScreenState extends State<LoginScreen> {
         padding: EdgeInsets.only(right: 0.0),
         child: Text(
           'Forgot Password?',
-          style: kLabelStyle,
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Lato',
+          ),
         ),
       ),
     );
@@ -133,7 +154,11 @@ class _LoginScreenState extends State<LoginScreen> {
         SizedBox(height: 20.0),
         Text(
           'Sign in with',
-          style: kLabelStyle,
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Lato',
+          ),
         ),
       ],
     );
@@ -167,7 +192,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildSignupBtn() {
     return GestureDetector(
-      onTap: () => print('Sign Up Button Pressed'),
+      // onTap: () => print('Register Button Pressed'),
+      onTap: () {},
+
+      // body: Container(
       child: RichText(
         text: TextSpan(
           children: [
@@ -190,6 +218,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ],
         ),
       ),
+      //),
     );
   }
 
