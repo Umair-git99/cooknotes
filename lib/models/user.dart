@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 
 class User {
   String username;
-  AssetImage profilePic;
+  String profilePic;
   String displayName;
   String usertype;
   int age;

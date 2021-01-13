@@ -59,7 +59,7 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
                               fontSize: 20.0,
                               color: Color(0xff00556A),
                               fontFamily: 'Lato Black')),
-                      new Text("28",
+                      new Text(widget.user.recipe.length.toString(),
                           style: TextStyle(
                               fontSize: 50.0,
                               color: Color(0xff00556A),
@@ -80,8 +80,8 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
                   itemBuilder: (context, index) => Padding(
                     padding: EdgeInsets.all(10),
                     child: ListTile(
-                        leading: Icon(Icons.dinner_dining,
-                            size: 50, color: Colors.black54),
+                        leading: Image.asset(widget.user.recipe[index].image,
+                            width: 100, height: 100),
                         title: Text(widget.user.recipe[index].foodName,
                             style: TextStyle(
                                 fontSize: 20.0,
@@ -94,7 +94,8 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
                                 new Icon(Icons.person, color: Colors.black54),
                                 SizedBox(width: 5),
                                 new Text(
-                                    widget.user.recipe[index].numPerson +
+                                    widget.user.recipe[index].numPerson
+                                            .toString() +
                                         ' person',
                                     style: TextStyle(
                                         fontSize: 15.0,
@@ -109,9 +110,11 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
                                 SizedBox(width: 5),
                                 new Text(
                                     'Cook Time: ' +
-                                        widget.user.recipe[index].cookHours +
+                                        widget.user.recipe[index].cookHours
+                                            .toString() +
                                         ' h ' +
-                                        widget.user.recipe[index].cookMins +
+                                        widget.user.recipe[index].cookMins
+                                            .toString() +
                                         ' mins',
                                     style: TextStyle(
                                         fontSize: 15.0,

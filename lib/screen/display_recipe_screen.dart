@@ -60,7 +60,7 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image.asset(
-                  "assets/asampedas.jpg",
+                  widget.recipe.image,
                   height: 150,
                   width: 100,
                   fit: BoxFit.cover,
@@ -84,7 +84,7 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
                               fontSize: 15.0,
                               color: Color(0xff00556A),
                               fontFamily: 'Lato Black')),
-                      new Text(widget.recipe.numPerson + " person",
+                      new Text(widget.recipe.numPerson.toString() + " person",
                           style: TextStyle(
                               fontSize: 15.0,
                               color: Colors.black54,
@@ -101,9 +101,9 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
                               color: Color(0xff00556A),
                               fontFamily: 'Lato Black')),
                       new Text(
-                          widget.recipe.prepHours +
+                          widget.recipe.prepHours.toString() +
                               " hour\n" +
-                              widget.recipe.prepMins +
+                              widget.recipe.prepMins.toString() +
                               " minutes",
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -123,9 +123,9 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
                               color: Color(0xff00556A),
                               fontFamily: 'Lato Black')),
                       new Text(
-                          widget.recipe.cookHours +
+                          widget.recipe.cookHours.toString() +
                               " hour \n" +
-                              widget.recipe.cookMins +
+                              widget.recipe.cookMins.toString() +
                               " minutes",
                           textAlign: TextAlign.center,
                           style: TextStyle(

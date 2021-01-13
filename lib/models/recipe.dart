@@ -1,15 +1,17 @@
 class Recipe {
   String foodName;
-  String prepHours;
-  String prepMins;
-  String cookHours;
-  String cookMins;
-  String numPerson;
+  String image;
+  int prepHours;
+  int prepMins;
+  int cookHours;
+  int cookMins;
+  int numPerson;
   String ingredients;
   String instruction;
 
   Recipe(
       {this.foodName,
+      this.image,
       this.prepHours,
       this.prepMins,
       this.cookHours,
@@ -21,6 +23,7 @@ class Recipe {
   Recipe.copy(Recipe from)
       : this(
           foodName: from.foodName,
+          image: from.image,
           prepHours: from.prepHours,
           prepMins: from.prepMins,
           cookHours: from.cookHours,
