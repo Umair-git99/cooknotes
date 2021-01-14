@@ -10,6 +10,7 @@ import 'package:cooknotes/screen/plusbutton_screen.dart';
 import 'package:cooknotes/screen/profile_screen.dart';
 import 'package:cooknotes/screen/recipelist_screen.dart';
 import 'package:cooknotes/screen/register_screen.dart';
+import 'package:cooknotes/screen/settings_screen.dart';
 import 'package:cooknotes/screen/splash_screen.dart';
 import 'package:cooknotes/screen/update_article_screen.dart';
 import 'package:cooknotes/screen/update_recipe_screen.dart';
@@ -31,7 +32,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         //  home: HomeScreen(mockData[0], mockData));
         // home: ProfileScreen(mockData[1]));
-        home: SplashScreens());
+        //home: SplashScreens());
+        home: SettingsScreen(mockData[0]));
     //   home: PlusButtonScreen(mockData[0]));
     //  home: UpdateRecipeScreen(mockData[1].recipe[1]));
     //  home: DisplayRecipeScreen(mockData[1].recipe[1]));
