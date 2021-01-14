@@ -1,8 +1,10 @@
 import 'package:cooknotes/models/mock_user.dart';
 import 'package:cooknotes/screen/constants.dart';
 import 'package:cooknotes/screen/create_profile_screen.dart';
+import 'package:cooknotes/screen/display_recipe_screen.dart';
 import 'package:cooknotes/screen/login_screen.dart';
 import 'package:cooknotes/screen/plusbutton_screen.dart';
+import 'package:cooknotes/screen/recipelist_screen.dart';
 import 'package:cooknotes/screen/register_screen.dart';
 import 'package:cooknotes/screen/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -23,11 +25,23 @@ Route<dynamic> createRoute(settings) {
       );
     case createProfileRoute:
       return MaterialPageRoute(
-        builder: (context) => CreateProfileScreen(settings.arguments),
+        builder: (context) => CreateProfileScreen(settings.arguments, mockData),
       );
     case homeRoute:
       return MaterialPageRoute(
         builder: (context) => HomeScreen(settings.arguments, mockData),
+      );
+    case recipeListRoute:
+      return MaterialPageRoute(
+        builder: (context) {
+          return RecipeListScreen(settings.arguments);
+        },
+      );
+    case displayRecipeRoute:
+      return MaterialPageRoute(
+        builder: (context) {
+          return DisplayRecipeScreen(settings.arguments);
+        },
       );
     case plusRoute:
       return MaterialPageRoute(
@@ -42,7 +56,6 @@ Route<dynamic> createRoute(settings) {
         },
       );
     case logoutRoute:
-      return MaterialPageRoute(
-          builder: (context) => LogoutScreen(settings.arguments));
+      return MaterialPageRoute(builder: (context) => LogoutScreen());
   }
 }

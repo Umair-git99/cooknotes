@@ -1,6 +1,8 @@
 import 'package:cooknotes/models/user.dart';
 import 'package:flutter/material.dart';
 
+import 'constants.dart';
+
 class HomeScreen extends StatefulWidget {
   final User user;
   final List<User> all;
@@ -17,11 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.0),
         child: AppBar(
-          leading: IconButton(
-            icon: Image.asset('assets/cooknotes.png'),
-            onPressed: () {},
-          ),
-          centerTitle: true,
+          automaticallyImplyLeading: false,
           elevation: 0,
           backgroundColor: Colors.white,
           title: Text('COOKNOTES',
@@ -30,7 +28,10 @@ class _HomeScreenState extends State<HomeScreen> {
           actions: <Widget>[
             FlatButton(
               textColor: Colors.black,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, logoutRoute, (_) => false);
+              },
               child: Text("Logout",
                   style: TextStyle(
                       fontSize: 15.0,
@@ -60,13 +61,17 @@ class _HomeScreenState extends State<HomeScreen> {
             (widget.user.recipe.length != null) ? _imageScroll() : null,
             SizedBox(height: 20),
             RaisedButton(
-                padding: EdgeInsets.symmetric(horizontal: 40.0),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0)),
-                color: new Color(0xff00556A),
-                textColor: Colors.white,
-                child: Text('View All'),
-                onPressed: () {}),
+              padding: EdgeInsets.symmetric(horizontal: 40.0),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)),
+              color: new Color(0xff00556A),
+              textColor: Colors.white,
+              child: Text('View All'),
+              onPressed: () {
+                Navigator.pushNamed(context, recipeListRoute,
+                    arguments: widget.user);
+              },
+            ),
             SizedBox(height: 40),
             Text('Weekly tips\nfrom chefs',
                 textAlign: TextAlign.left,

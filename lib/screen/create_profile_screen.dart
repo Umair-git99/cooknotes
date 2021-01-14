@@ -1,20 +1,22 @@
 import 'dart:io' as Io;
 import 'dart:convert';
 import 'package:cooknotes/models/user.dart';
+import 'package:cooknotes/screen/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CreateProfileScreen extends StatefulWidget {
   final User user;
+  List<User> all;
 
-  CreateProfileScreen(this.user);
+  CreateProfileScreen(this.user, this.all);
   @override
   _CreateProfileScreenState createState() => _CreateProfileScreenState();
 }
 
 class _CreateProfileScreenState extends State<CreateProfileScreen> {
-  String _age;
+  int _age;
   Io.File _image;
   final picker = ImagePicker();
 
@@ -147,22 +149,14 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.symmetric(vertical: 0.5, horizontal: 0.5),
           hintText: '0',
-          // focusedBorder: OutlineInputBorder(
-          //    borderSide: BorderSide(color: Colors.black, width: 1.0),
-          //    borderRadius: BorderRadius.circular(20.0),
         ),
-        //   border: new OutlineInputBorder(
-        //    borderSide: BorderSide.none,
-        //   borderRadius: BorderRadius.circular(20),
-        //  ),
-        //  ),
         validator: (String value) {
           if (value.isEmpty) {
             return 'Required';
           }
         },
         onSaved: (String value) {
-          _age = value;
+          _age = int.parse(value);
         },
       ),
     );
@@ -230,7 +224,21 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                                         return;
                                       }
                                       _formKey.currentState.save();
-                                      print('Age: ' + _age);
+                                      print('Age: ' + _age.toString());
+
+                                      widget.user.age = _age;
+                                      widget.user.profilePic =
+                                          widget.all[0].profilePic;
+                                      widget.user.usertype =
+                                          widget.all[0].usertype;
+                                      widget.user.notification =
+                                          widget.all[0].notification;
+                                      widget.user.theme = widget.all[0].theme;
+                                      widget.user.recipe = widget.all[0].recipe;
+
+                                      Navigator.pushReplacementNamed(
+                                          context, homeRoute,
+                                          arguments: widget.user);
                                     }),
                               ],
                             ),

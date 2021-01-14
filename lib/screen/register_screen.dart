@@ -209,7 +209,8 @@ class _LoginScreenState extends State<RegisterScreen> {
 
           widget.all.add(newUser);
 
-          Navigator.pushNamed(context, createProfileRoute, arguments: newUser);
+          Navigator.pushReplacementNamed(context, createProfileRoute,
+              arguments: newUser);
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(

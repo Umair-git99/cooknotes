@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'login_screen.dart';
 
 class LogoutScreen extends StatefulWidget {
-  final User user;
-
-  LogoutScreen(this.user);
+  LogoutScreen();
   @override
   _LogoutScreenState createState() => _LogoutScreenState();
 }
@@ -56,8 +54,9 @@ class _LogoutScreenState extends State<LogoutScreen> {
       padding: EdgeInsets.symmetric(vertical: 25.0),
       child: RaisedButton(
         elevation: 5.0,
-        // onPressed: () => print('Login Button Pressed'),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamedAndRemoveUntil(context, loginRoute, (_) => false);
+        },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
@@ -69,7 +68,6 @@ class _LogoutScreenState extends State<LogoutScreen> {
             color: Colors.white,
             letterSpacing: 1.5,
             fontSize: 18.0,
-            //fontWeight: FontWeight.bold,
             fontFamily: 'Lato Bold',
           ),
         ),
