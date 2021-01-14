@@ -1,3 +1,4 @@
+import 'package:cooknotes/screen/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -75,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: TextField(
             obscureText: true,
             style: TextStyle(
-              color: Colors.white,
+              color: Color(0xff00556A),
               fontFamily: 'Lato Bold',
             ),
             decoration: InputDecoration(
@@ -148,7 +149,8 @@ class _LoginScreenState extends State<LoginScreen> {
           '- OR -',
           style: TextStyle(
             color: Color(0xff00556A),
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Lato bold',
           ),
         ),
         SizedBox(height: 20.0),
@@ -193,7 +195,10 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildSignupBtn() {
     return GestureDetector(
       // onTap: () => print('Register Button Pressed'),
-      onTap: () {},
+      onTap: () {
+        Navigator.push(context,
+            new MaterialPageRoute(builder: (context) => RegisterScreen()));
+      },
 
       // body: Container(
       child: RichText(
@@ -225,65 +230,46 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light,
-        child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: Stack(
-            children: <Widget>[
-              Container(
-                height: double.infinity,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.white,
-                    ],
-                    stops: [0.1, 0.4, 0.7, 0.9],
-                  ),
+      body: Center(
+        child: Stack(
+          children: <Widget>[
+            Container(
+              // height: double.infinity,
+              child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 40.0,
+                  vertical: 120.0,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'Welcome To CookNotes!',
+                      style: TextStyle(
+                        color: Color(0xff00556A),
+                        fontFamily: 'Lato Bold',
+                        fontSize: 35.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 30.0),
+                    _buildEmailTF(),
+                    SizedBox(
+                      height: 30.0,
+                    ),
+                    _buildPasswordTF(),
+                    _buildForgotPasswordBtn(),
+                    _buildLoginBtn(),
+                    _buildSignInWithText(),
+                    _buildSocialBtnRow(),
+                    _buildSignupBtn(),
+                  ],
                 ),
               ),
-              Container(
-                height: double.infinity,
-                child: SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 40.0,
-                    vertical: 120.0,
-                  ),
-                  // child: Image.assets("assets/cooknotes.png",),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'Welcome To CookNotes!',
-                        style: TextStyle(
-                          color: Color(0xff00556A),
-                          fontFamily: 'Lato Bold',
-                          fontSize: 35.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 30.0),
-                      _buildEmailTF(),
-                      SizedBox(
-                        height: 30.0,
-                      ),
-                      _buildPasswordTF(),
-                      _buildForgotPasswordBtn(),
-                      _buildLoginBtn(),
-                      _buildSignInWithText(),
-                      _buildSocialBtnRow(),
-                      _buildSignupBtn(),
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );
