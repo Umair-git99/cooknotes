@@ -103,56 +103,6 @@ class _DisplayArticleScreenState extends State<DisplayArticleScreen> {
                 height: 30,
               )),
               SizedBox(height: 30),
-              Visibility(
-                visible: widget.user.usertype == 'C',
-                child: new Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    new IconButton(
-                        iconSize: 30,
-                        icon: Icon(Icons.edit, color: Color(0xff00556A)),
-                        onPressed: () {}),
-                    SizedBox(width: 20),
-                    new IconButton(
-                        iconSize: 30,
-                        icon: Icon(Icons.delete, color: Colors.red),
-                        onPressed: () {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text("Delete Article"),
-                                  content: Text(
-                                      "Are you sure want to delete this article?"),
-                                  actions: [
-                                    FlatButton(
-                                      child: Text("Yes",
-                                          style: TextStyle(
-                                              fontSize: 20.0,
-                                              color: Color(0xff00556A),
-                                              fontFamily: 'Lato Black')),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                    FlatButton(
-                                      child: Text("No",
-                                          style: TextStyle(
-                                              fontSize: 20.0,
-                                              color: Colors.red,
-                                              fontFamily: 'Lato Black')),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    )
-                                  ],
-                                );
-                              });
-                        }),
-                  ],
-                ),
-              )
             ],
           ),
         ),
