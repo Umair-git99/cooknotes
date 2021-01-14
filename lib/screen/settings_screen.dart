@@ -1,5 +1,5 @@
-import 'package:cooknotes/models/user.dart';
 import 'package:flutter/material.dart';
+import 'package:cooknotes/models/user.dart';
 import 'package:grouped_buttons/grouped_buttons.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -11,8 +11,6 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  List<String> _notification = [];
-  List<String> _theme = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,7 +89,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       CheckboxGroup(
                         labels: <String>['Daily', 'Weekly', 'Never'],
-                        checked: _notification,
+                        checked: widget.user.notification, //_notification,
                         onChange: (bool isChecked, String label, int index) =>
                             print(
                                 "isChecked: $isChecked   label: $label  index: $index"),
@@ -102,8 +100,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           } else {
                             print("only one");
                           }
-                          _notification = selected;
-                          print(_notification.toString());
+                          widget.user.notification = selected;
+                          print(selected.toString());
                         }),
                       ),
                       const Divider(
@@ -128,7 +126,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       CheckboxGroup(
                         labels: <String>['Light', 'Dark'],
-                        checked: _theme,
+                        checked: widget.user.theme,
                         onChange: (bool isChecked, String label, int index) =>
                             print(
                                 "isChecked: $isChecked   label: $label  index: $index"),
@@ -139,7 +137,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           } else {
                             print("only one");
                           }
-                          _theme = selected;
+                          widget.user.theme = selected;
                         }),
                       ),
                       const Divider(
@@ -176,55 +174,50 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ],
                       ),
                       SizedBox(height: 10),
-                      Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            RaisedButton(
-                                padding: EdgeInsets.symmetric(horizontal: 40.0),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15.0)),
-                                color: Colors.black,
-                                textColor: Colors.white,
-                                child: Text('Delete'),
-                                onPressed: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: Text("Delete Account"),
-                                          content: Text(
-                                              "Are you sure you want to delete your account?"),
-                                          actions: [
-                                            FlatButton(
-                                              child: Text("Yes",
-                                                  style: TextStyle(
-                                                      fontSize: 20.0,
-                                                      color: Color(0xff00556A),
-                                                      fontFamily:
-                                                          'Lato Black')),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                            FlatButton(
-                                              child: Text("No",
-                                                  style: TextStyle(
-                                                      fontSize: 20.0,
-                                                      color: Colors.red,
-                                                      fontFamily:
-                                                          'Lato Black')),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            )
-                                          ],
-                                        );
-                                      });
-                                }),
-                          ],
-                        ),
+                      Row(
+                        children: [
+                          SizedBox(width: 230),
+                          RaisedButton(
+                              padding: EdgeInsets.symmetric(horizontal: 40.0),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0)),
+                              color: Colors.black,
+                              textColor: Colors.white,
+                              child: Text('Delete'),
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text("Delete Account"),
+                                        content: Text(
+                                            "Are you sure you want to delete your account?"),
+                                        actions: [
+                                          FlatButton(
+                                            child: Text("Yes",
+                                                style: TextStyle(
+                                                    fontSize: 20.0,
+                                                    color: Color(0xff00556A),
+                                                    fontFamily: 'Lato Black')),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                          FlatButton(
+                                            child: Text("No",
+                                                style: TextStyle(
+                                                    fontSize: 20.0,
+                                                    color: Colors.red,
+                                                    fontFamily: 'Lato Black')),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          )
+                                        ],
+                                      );
+                                    });
+                              }),
+                        ],
                       ),
                       SizedBox(height: 40),
                       RaisedButton(

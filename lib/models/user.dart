@@ -11,6 +11,8 @@ class User {
   String email;
   String password;
 
+  List<String> notification;
+  List<String> theme;
   List<Recipe> recipe;
   List<Article> article;
 
@@ -23,5 +25,7 @@ class User {
       this.email,
       this.password,
       this.recipe,
-      this.article});
+      this.article,
+      this.notification,
+      this.theme});
 }
