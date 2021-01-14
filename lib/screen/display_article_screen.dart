@@ -1,11 +1,13 @@
 import 'package:cooknotes/models/article.dart';
+import 'package:cooknotes/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DisplayArticleScreen extends StatefulWidget {
   final Article article;
+  final User user;
 
-  DisplayArticleScreen(this.article);
+  DisplayArticleScreen(this.article, this.user);
 
   @override
   _DisplayArticleScreenState createState() => _DisplayArticleScreenState();
@@ -20,7 +22,9 @@ class _DisplayArticleScreenState extends State<DisplayArticleScreen> {
         child: AppBar(
           leading: IconButton(
             icon: Icon(Icons.arrow_back_rounded, color: Color(0xff00556A)),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
           centerTitle: true,
           elevation: 0,
@@ -60,7 +64,7 @@ class _DisplayArticleScreenState extends State<DisplayArticleScreen> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image.asset(
-                  "assets/article1.png",
+                  widget.article.image,
                   height: 150,
                   width: 100,
                   fit: BoxFit.cover,
@@ -99,52 +103,55 @@ class _DisplayArticleScreenState extends State<DisplayArticleScreen> {
                 height: 30,
               )),
               SizedBox(height: 30),
-              new Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  new IconButton(
-                      iconSize: 30,
-                      icon: Icon(Icons.edit, color: Color(0xff00556A)),
-                      onPressed: () {}),
-                  SizedBox(width: 20),
-                  new IconButton(
-                      iconSize: 30,
-                      icon: Icon(Icons.delete, color: Colors.red),
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text("Delete Article"),
-                                content: Text(
-                                    "Are you sure want to delete this article?"),
-                                actions: [
-                                  FlatButton(
-                                    child: Text("Yes",
-                                        style: TextStyle(
-                                            fontSize: 20.0,
-                                            color: Color(0xff00556A),
-                                            fontFamily: 'Lato Black')),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                  FlatButton(
-                                    child: Text("No",
-                                        style: TextStyle(
-                                            fontSize: 20.0,
-                                            color: Colors.red,
-                                            fontFamily: 'Lato Black')),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  )
-                                ],
-                              );
-                            });
-                      }),
-                ],
+              Visibility(
+                visible: widget.user.usertype == 'C',
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    new IconButton(
+                        iconSize: 30,
+                        icon: Icon(Icons.edit, color: Color(0xff00556A)),
+                        onPressed: () {}),
+                    SizedBox(width: 20),
+                    new IconButton(
+                        iconSize: 30,
+                        icon: Icon(Icons.delete, color: Colors.red),
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Delete Article"),
+                                  content: Text(
+                                      "Are you sure want to delete this article?"),
+                                  actions: [
+                                    FlatButton(
+                                      child: Text("Yes",
+                                          style: TextStyle(
+                                              fontSize: 20.0,
+                                              color: Color(0xff00556A),
+                                              fontFamily: 'Lato Black')),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    FlatButton(
+                                      child: Text("No",
+                                          style: TextStyle(
+                                              fontSize: 20.0,
+                                              color: Colors.red,
+                                              fontFamily: 'Lato Black')),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    )
+                                  ],
+                                );
+                              });
+                        }),
+                  ],
+                ),
               )
             ],
           ),

@@ -1,4 +1,6 @@
+import 'package:cooknotes/models/article.dart';
 import 'package:cooknotes/models/user.dart';
+import 'package:cooknotes/screen/display_article_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
@@ -81,6 +83,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: new Color(0xff00556A),
                     fontWeight: FontWeight.bold)),
             _imageScroll2(widget.all),
+            Visibility(
+              visible: widget.user.usertype == 'C',
+              child: RaisedButton(
+                padding: EdgeInsets.symmetric(horizontal: 40.0),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0)),
+                color: new Color(0xff00556A),
+                textColor: Colors.white,
+                child: Text('My Article'),
+                onPressed: () {},
+              ),
+            ),
+            SizedBox(height: 40)
           ],
         )),
       ),
@@ -162,8 +177,15 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(20),
               child: Column(
                 children: [
-                  new Image.asset(widget.all[index].article[i].image,
-                      width: 200, height: 200),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, displayArticleRoute,
+                          arguments: DisplayArguments(
+                              widget.all[index].article[i], widget.user));
+                    },
+                    child: new Image.asset(widget.all[index].article[i].image,
+                        width: 200, height: 200),
+                  ),
                   new Text(
                     widget.all[index].article[i].title,
                     style: TextStyle(
@@ -193,4 +215,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return count;
   }
+}
+
+class DisplayArguments {
+  Article article;
+  User user;
+
+  DisplayArguments(this.article, this.user);
 }

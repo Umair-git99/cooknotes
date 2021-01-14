@@ -49,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
-                Icons.email,
+                Icons.person,
                 color: Color(0xff00556A),
               ),
               hintText: 'Username',

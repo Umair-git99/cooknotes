@@ -53,13 +53,13 @@ List<User> mockData = [
             instruction: 'masak sampai sedap'),
       ]),
   User(
-      username: 'chefalif',
-      displayName: 'Chef Alif',
+      username: 'chefsyam',
+      displayName: 'Chef Syam',
       profilePic: 'assets/gordon.jpg',
       usertype: 'C',
       age: 21,
-      email: 'chefalif@gmail.com',
-      password: 'Abc123',
+      email: 'chefsyam@gmail.com',
+      password: 'abc123',
       notification: [
         'Daily'
       ],

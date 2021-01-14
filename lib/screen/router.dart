@@ -10,6 +10,7 @@ import 'package:cooknotes/screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'create_recipe_screen.dart';
+import 'display_article_screen.dart';
 import 'home_screen.dart';
 import 'logout_screen.dart';
 
@@ -35,6 +36,13 @@ Route<dynamic> createRoute(settings) {
       return MaterialPageRoute(
         builder: (context) {
           return RecipeListScreen(settings.arguments);
+        },
+      );
+    case displayArticleRoute:
+      return MaterialPageRoute(
+        builder: (context) {
+          DisplayArguments argument = settings.arguments;
+          return DisplayArticleScreen(argument.article, argument.user);
         },
       );
     case displayRecipeRoute:
