@@ -1,6 +1,13 @@
+import 'package:cooknotes/models/user.dart';
+import 'package:cooknotes/screen/constants.dart';
+import 'package:cooknotes/screen/create_recipe_screen.dart';
 import 'package:flutter/material.dart';
 
 class PlusButtonScreen extends StatefulWidget {
+  final User user;
+
+  PlusButtonScreen(this.user);
+
   @override
   _PlusButtonScreenState createState() => _PlusButtonScreenState();
 }
@@ -25,7 +32,12 @@ class _PlusButtonScreenState extends State<PlusButtonScreen> {
           actions: <Widget>[
             FlatButton(
               textColor: Colors.black,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  logoutRoute,
+                );
+              },
               child: Text("Logout",
                   style: TextStyle(
                       fontSize: 15.0,

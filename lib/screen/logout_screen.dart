@@ -1,12 +1,13 @@
+import 'package:cooknotes/screen/constants.dart';
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
 
-class LogOut extends StatefulWidget {
+class LogoutScreen extends StatefulWidget {
   @override
   _LogoutScreenState createState() => _LogoutScreenState();
 }
 
-class _LogoutScreenState extends State<LogOut> {
+class _LogoutScreenState extends State<LogoutScreen> {
   Widget _buildText() {
     return Column(
       children: <Widget>[
@@ -52,8 +53,7 @@ class _LogoutScreenState extends State<LogOut> {
         elevation: 5.0,
         // onPressed: () => print('Login Button Pressed'),
         onPressed: () {
-          Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => LoginScreen()));
+          Navigator.pushNamed(context, loginRoute);
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(

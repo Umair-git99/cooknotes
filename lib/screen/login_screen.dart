@@ -1,14 +1,21 @@
+import 'package:cooknotes/models/user.dart';
+import 'package:cooknotes/screen/constants.dart';
 import 'package:cooknotes/screen/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class LoginScreen extends StatefulWidget {
+  List<User> all;
+
+  LoginScreen(this.all);
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
 //  bool _rememberMe = false;
+  String displayName;
+  String displayPassword;
 
   Widget _buildEmailTF() {
     return Column(
@@ -31,6 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
           height: 60.0,
           child: TextField(
             keyboardType: TextInputType.emailAddress,
+            onChanged: (value) => displayName = value,
             style: TextStyle(
               color: Color(0xff00556A),
               fontFamily: 'Lato Bold',
@@ -75,6 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
           height: 60.0,
           child: TextField(
             obscureText: true,
+            onChanged: (value) => displayPassword = value,
             style: TextStyle(
               color: Color(0xff00556A),
               fontFamily: 'Lato Bold',
@@ -142,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildSignInWithText() {
+  Widget _buildText() {
     return Column(
       children: <Widget>[
         Text(
@@ -166,7 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildSocialBtnRow() {
+  Widget _buildGoogleLoginBtn() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
@@ -192,12 +201,10 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildSignupBtn() {
+  Widget _buildRegisterText() {
     return GestureDetector(
-      // onTap: () => print('Register Button Pressed'),
       onTap: () {
-        Navigator.push(context,
-            new MaterialPageRoute(builder: (context) => RegisterScreen()));
+        Navigator.pushNamed(context, registerRoute);
       },
 
       // body: Container(
@@ -262,9 +269,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     _buildPasswordTF(),
                     _buildForgotPasswordBtn(),
                     _buildLoginBtn(),
-                    _buildSignInWithText(),
-                    _buildSocialBtnRow(),
-                    _buildSignupBtn(),
+                    _buildText(),
+                    _buildGoogleLoginBtn(),
+                    _buildRegisterText(),
                   ],
                 ),
               ),

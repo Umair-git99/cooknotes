@@ -1,13 +1,23 @@
+import 'package:cooknotes/models/user.dart';
+import 'package:cooknotes/screen/constants.dart';
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
+  List<User> all;
+
+  RegisterScreen(this.all);
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<RegisterScreen> {
 //  bool _rememberMe = false;
+  String displayName;
+  String userName;
+  String displayPassword;
+  String displayRePassword;
+  String displayEmail;
 
   Widget _buildDisplayNameTF() {
     return Column(
@@ -27,6 +37,7 @@ class _LoginScreenState extends State<RegisterScreen> {
                   child: Container(
                       margin: EdgeInsets.only(right: 20, left: 10),
                       child: TextField(
+                        onChanged: (value) => displayName = value,
                         decoration: InputDecoration(
                           hintText: 'Display Name',
                           hintStyle: TextStyle(
@@ -60,6 +71,7 @@ class _LoginScreenState extends State<RegisterScreen> {
                   child: Container(
                       margin: EdgeInsets.only(right: 20, left: 10),
                       child: TextField(
+                        onChanged: (value) => userName = value,
                         decoration: InputDecoration(
                           hintText: 'Username',
                           hintStyle: TextStyle(
@@ -94,6 +106,7 @@ class _LoginScreenState extends State<RegisterScreen> {
                       margin: EdgeInsets.only(right: 20, left: 10),
                       child: TextField(
                         obscureText: true,
+                        onChanged: (value) => displayPassword = value,
                         decoration: InputDecoration(
                           hintText: 'Password',
                           hintStyle: TextStyle(
@@ -128,6 +141,7 @@ class _LoginScreenState extends State<RegisterScreen> {
                       margin: EdgeInsets.only(right: 20, left: 10),
                       child: TextField(
                         obscureText: true,
+                        onChanged: (value) => displayRePassword = value,
                         decoration: InputDecoration(
                           hintText: 'Re-enter Password',
                           hintStyle: TextStyle(
@@ -161,6 +175,7 @@ class _LoginScreenState extends State<RegisterScreen> {
                   child: Container(
                       margin: EdgeInsets.only(right: 20, left: 10),
                       child: TextField(
+                        onChanged: (value) => displayEmail = value,
                         decoration: InputDecoration(
                           hintText: 'Email',
                           hintStyle: TextStyle(
@@ -176,7 +191,7 @@ class _LoginScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildLoginBtn() {
+  Widget _buildRegisterBtn() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
@@ -216,7 +231,7 @@ class _LoginScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildSocialBtnRow() {
+  Widget _buildGoogleLoginBtn() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
@@ -242,12 +257,11 @@ class _LoginScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildSignupBtn() {
+  Widget _buildLoginText() {
     return GestureDetector(
       //onTap: () => print('Sign Up Button Pressed'),
       onTap: () {
-        Navigator.push(context,
-            new MaterialPageRoute(builder: (context) => LoginScreen()));
+        Navigator.pushNamed(context, loginRoute);
       },
       child: RichText(
         text: TextSpan(
@@ -306,10 +320,10 @@ class _LoginScreenState extends State<RegisterScreen> {
                     _buildPasswordTF(),
                     _buildRePasswordTF(),
                     _buildEmailTF(),
-                    _buildLoginBtn(),
+                    _buildRegisterBtn(),
                     _buildText(),
-                    _buildSocialBtnRow(),
-                    _buildSignupBtn(),
+                    _buildGoogleLoginBtn(),
+                    _buildLoginText(),
                   ],
                 ),
               ),
