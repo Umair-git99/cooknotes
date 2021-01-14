@@ -30,7 +30,8 @@ class MyApp extends StatelessWidget {
         title: 'Cook Notes Demo',
         debugShowCheckedModeBanner: false,
         //  home: HomeScreen(mockData[0], mockData));
-        home: ProfileScreen(mockData[1]));
+        // home: ProfileScreen(mockData[1]));
+        home: SplashScreens());
     //   home: PlusButtonScreen(mockData[0]));
     //  home: UpdateRecipeScreen(mockData[1].recipe[1]));
     //  home: DisplayRecipeScreen(mockData[1].recipe[1]));
