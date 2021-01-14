@@ -78,7 +78,7 @@ List<User> mockData = [
       article: [
         Article(
             title: "10 Basic Cooking Tricks You Should Know",
-            image: "assets/article1.png",
+            image: "assets/article1.jpg",
             author: "Chef Alif",
             content: "1. \tDon't overcrowd the pan.\n" +
                 "2. \tLet red meat sit before cutting into it\n" +

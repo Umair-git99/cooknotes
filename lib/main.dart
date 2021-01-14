@@ -1,4 +1,5 @@
 import 'package:cooknotes/screen/articlelist_screen.dart';
+import 'package:cooknotes/screen/create_article_screen.dart';
 import 'package:cooknotes/screen/create_profile_screen.dart';
 import 'package:cooknotes/screen/display_article_screen.dart';
 import 'package:cooknotes/screen/display_recipe_screen.dart';
@@ -6,6 +7,7 @@ import 'package:cooknotes/screen/edit_profile_screen.dart';
 import 'package:cooknotes/screen/home_screen.dart';
 import 'package:cooknotes/screen/recipelist_screen.dart';
 import 'package:cooknotes/screen/splash_screen.dart';
+import 'package:cooknotes/screen/update_article_screen.dart';
 import 'package:cooknotes/screen/update_recipe_screen.dart';
 
 import 'package:flutter/material.dart';
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
         title: 'Cook Notes Demo',
         debugShowCheckedModeBanner: false,
         //  home: HomeScreen(mockData[0], mockData));
-        home: SplashScreens());
+        home: UpdateArticleScreen(mockData[1].article[0]));
     //  home: UpdateRecipeScreen(mockData[1].recipe[1]));
     //  home: DisplayRecipeScreen(mockData[1].recipe[1]));
     //home: RecipeListScreen(mockData[1]));
