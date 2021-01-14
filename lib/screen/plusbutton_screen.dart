@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 class PlusButtonScreen extends StatefulWidget {
   final User user;
+  static String routeName = "/plusbutton";
 
   PlusButtonScreen(this.user);
 
@@ -32,12 +33,8 @@ class _PlusButtonScreenState extends State<PlusButtonScreen> {
           actions: <Widget>[
             FlatButton(
               textColor: Colors.black,
-              onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  logoutRoute,
-                );
-              },
+              onPressed: () => Navigator.pushNamed(context, logoutRoute,
+                  arguments: widget.user),
               child: Text("Logout",
                   style: TextStyle(
                       fontSize: 15.0,

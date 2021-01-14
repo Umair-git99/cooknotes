@@ -1,4 +1,5 @@
 import 'package:cooknotes/models/user.dart';
+import 'package:cooknotes/screen/constants.dart';
 import 'package:cooknotes/screen/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,9 +18,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 //  bool _rememberMe = false;
-  String _displayName;
+  String _username;
   String _password;
-
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Widget _buildEmailTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,9 +40,8 @@ class _LoginScreenState extends State<LoginScreen> {
             ],
           ),
           height: 60.0,
-          child: TextField(
+          child: TextFormField(
             keyboardType: TextInputType.emailAddress,
-            onChanged: (value) => _displayName = value,
             style: TextStyle(
               color: Color(0xff00556A),
               fontFamily: 'Lato Bold',
@@ -53,12 +53,21 @@ class _LoginScreenState extends State<LoginScreen> {
                 Icons.email,
                 color: Color(0xff00556A),
               ),
-              hintText: 'Username or Email',
+              hintText: 'Username',
               hintStyle: TextStyle(
                 color: Color(0xff00556A),
                 fontFamily: 'Lato',
               ),
             ),
+            validator: (String value) {
+              if (value.isEmpty) {
+                return 'Username is required';
+              }
+              return null;
+            },
+            onSaved: (String value) {
+              _username = value;
+            },
           ),
         ),
       ],
@@ -84,7 +93,16 @@ class _LoginScreenState extends State<LoginScreen> {
             ],
           ),
           height: 60.0,
-          child: TextField(
+          child: TextFormField(
+            validator: (String value) {
+              if (value.isEmpty) {
+                return 'Password is required';
+              }
+              return null;
+            },
+            onSaved: (String value) {
+              _password = value;
+            },
             obscureText: true,
             onChanged: (value) {
               _password = value;
@@ -136,7 +154,16 @@ class _LoginScreenState extends State<LoginScreen> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => print('Login Button Pressed'),
+        onPressed: () {
+          print('Login Button Pressed');
+          if (!_formKey.currentState.validate()) {
+            return;
+          }
+
+          _formKey.currentState.save();
+          print('Username: ' + _username);
+          print('Password: ' + _password);
+        },
         // onPressed: () async {
         //   for (var loginInfo in data.mockData) {
         //     if (displayName == loginInfo.username &&
@@ -187,10 +214,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             onPressed: () {
-              Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (context) => RegisterScreen(widget.all)));
+              Navigator.pushNamed(context, '/register');
             })
       ],
     );
@@ -202,37 +226,40 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Center(
         child: Stack(
           children: <Widget>[
-            Container(
-              // height: double.infinity,
-              child: SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
-                padding: EdgeInsets.symmetric(
-                  horizontal: 40.0,
-                  vertical: 120.0,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Welcome To CookNotes!',
-                      style: TextStyle(
-                        color: Color(0xff00556A),
-                        fontFamily: 'Lato Bold',
-                        fontSize: 35.0,
-                        fontWeight: FontWeight.bold,
+            Form(
+              key: _formKey,
+              child: Container(
+                // height: double.infinity,
+                child: SingleChildScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 40.0,
+                    vertical: 120.0,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'Welcome To CookNotes!',
+                        style: TextStyle(
+                          color: Color(0xff00556A),
+                          fontFamily: 'Lato Bold',
+                          fontSize: 35.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: 30.0),
-                    _buildEmailTF(),
-                    SizedBox(
-                      height: 30.0,
-                    ),
-                    _buildPasswordTF(),
-                    _buildForgotPasswordBtn(),
-                    _buildLoginBtn(),
-                    _buildRegisterText(),
-                  ],
+                      SizedBox(height: 30.0),
+                      _buildEmailTF(),
+                      SizedBox(
+                        height: 30.0,
+                      ),
+                      _buildPasswordTF(),
+                      _buildForgotPasswordBtn(),
+                      _buildLoginBtn(),
+                      _buildRegisterText(),
+                    ],
+                  ),
                 ),
               ),
             )

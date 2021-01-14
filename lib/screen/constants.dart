@@ -1,7 +1,7 @@
+const String homeRoute = '/';
 const String loginRoute = '/login';
 const String registerRoute = '/register';
 const String createProfileRoute = '/createprofile';
-const String homeRoute = '/';
 const String plusRoute = '/plusbutton';
 const String editProfileRoute = '/editprofile';
 const String createRecipeRoute = '/createrecipe';
@@ -13,3 +13,4 @@ const String articleListRoute = '/articlelist';
 const String editArticleRoute = '/editarticle';
 const String displayArticleRoute = '/displayarticle';
 const String logoutRoute = '/logout';
+const String splashRoute = '/splash';

@@ -137,6 +137,7 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
           if (value.isEmpty) {
             return 'Articles are required';
           }
+          return null;
         },
         onSaved: (String value) {
           _articlecontent = value;
@@ -207,7 +208,7 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
                             fontFamily: 'Lato Black'),
                       ),
                       SizedBox(height: 10),
-                      _buildArticleName,
+                      _buildArticleName(),
                       SizedBox(height: 20),
                       _buildImage(),
                       SizedBox(height: 30),
@@ -280,19 +281,30 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
       ),
     );
   }
-}
 
-Widget _buildArticleName = Container(
-  child: TextFormField(
-    decoration: new InputDecoration(
-      contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-      fillColor: Colors.black12,
-      filled: true,
-      hintText: '10 Basic Cooking Tricks You Should Know',
-      focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.black, width: 1.0),
-        borderRadius: BorderRadius.circular(30.0),
+  Widget _buildArticleName() {
+    Container(
+      child: TextFormField(
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Articles are required';
+          }
+          return null;
+        },
+        onSaved: (String value) {
+          _articlename = value;
+        },
+        decoration: new InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          fillColor: Colors.black12,
+          filled: true,
+          hintText: '10 Basic Cooking Tricks You Should Know',
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black, width: 1.0),
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+        ),
       ),
-    ),
-  ),
-);
+    );
+  }
+}

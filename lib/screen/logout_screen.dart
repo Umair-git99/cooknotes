@@ -1,13 +1,18 @@
+import 'package:cooknotes/models/user.dart';
 import 'package:cooknotes/screen/constants.dart';
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
 
 class LogoutScreen extends StatefulWidget {
+  final User user;
+
+  LogoutScreen(this.user);
   @override
   _LogoutScreenState createState() => _LogoutScreenState();
 }
 
 class _LogoutScreenState extends State<LogoutScreen> {
+  List<User> all;
   Widget _buildText() {
     return Column(
       children: <Widget>[
@@ -52,9 +57,7 @@ class _LogoutScreenState extends State<LogoutScreen> {
       child: RaisedButton(
         elevation: 5.0,
         // onPressed: () => print('Login Button Pressed'),
-        onPressed: () {
-          Navigator.pushNamed(context, loginRoute);
-        },
+        onPressed: () {},
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),

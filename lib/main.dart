@@ -6,10 +6,12 @@ import 'package:cooknotes/screen/display_article_screen.dart';
 import 'package:cooknotes/screen/display_recipe_screen.dart';
 import 'package:cooknotes/screen/edit_profile_screen.dart';
 import 'package:cooknotes/screen/home_screen.dart';
+import 'package:cooknotes/screen/login_screen.dart';
 import 'package:cooknotes/screen/plusbutton_screen.dart';
 import 'package:cooknotes/screen/profile_screen.dart';
 import 'package:cooknotes/screen/recipelist_screen.dart';
 import 'package:cooknotes/screen/register_screen.dart';
+import 'package:cooknotes/screen/router.dart';
 import 'package:cooknotes/screen/settings_screen.dart';
 import 'package:cooknotes/screen/splash_screen.dart';
 import 'package:cooknotes/screen/update_article_screen.dart';
@@ -29,12 +31,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Cook Notes Demo',
+        //    onGenerateRoute: createRoute,
         debugShowCheckedModeBanner: false,
         //  home: HomeScreen(mockData[0], mockData));
         // home: ProfileScreen(mockData[1]));
-        home: SplashScreens());
 
-    //   home: PlusButtonScreen(mockData[0]));
+        home: SplashScreens());
     //  home: UpdateRecipeScreen(mockData[1].recipe[1]));
     //  home: DisplayRecipeScreen(mockData[1].recipe[1]));
     //home: RecipeListScreen(mockData[1]));
