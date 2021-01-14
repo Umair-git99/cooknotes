@@ -1,5 +1,6 @@
 import 'package:cooknotes/models/mock_user.dart';
 import 'package:cooknotes/screen/constants.dart';
+import 'package:cooknotes/screen/create_profile_screen.dart';
 import 'package:cooknotes/screen/login_screen.dart';
 import 'package:cooknotes/screen/plusbutton_screen.dart';
 import 'package:cooknotes/screen/register_screen.dart';
@@ -20,10 +21,13 @@ Route<dynamic> createRoute(settings) {
       return MaterialPageRoute(
         builder: (context) => RegisterScreen(mockData),
       );
+    case createProfileRoute:
+      return MaterialPageRoute(
+        builder: (context) => CreateProfileScreen(settings.arguments),
+      );
     case homeRoute:
       return MaterialPageRoute(
-        builder: (context) =>
-            HomeScreen(settings.arguments, settings.arguments),
+        builder: (context) => HomeScreen(settings.arguments, mockData),
       );
     case plusRoute:
       return MaterialPageRoute(

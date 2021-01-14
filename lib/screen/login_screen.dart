@@ -17,7 +17,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-//  bool _rememberMe = false;
   String _username;
   String _password;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -104,9 +103,6 @@ class _LoginScreenState extends State<LoginScreen> {
               _password = value;
             },
             obscureText: true,
-            onChanged: (value) {
-              _password = value;
-            },
             style: TextStyle(
               color: Color(0xff00556A),
               fontFamily: 'Lato Bold',
@@ -164,34 +160,42 @@ class _LoginScreenState extends State<LoginScreen> {
           print('Username: ' + _username);
           print('Password: ' + _password);
 
-          for (int index = 0; index < widget.all.length; index++) {
+          bool correct = false;
+          int index = 0;
+          for (index = 0; index < widget.all.length; index++) {
             if (_username == widget.all[index].username &&
                 _password == widget.all[index].password) {
-              Navigator.pushReplacementNamed(context, homeRoute,
-                  arguments: HomeScreen(widget.all[index], widget.all));
+              correct = !correct;
+              break;
             }
           }
-          /*  showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: Text("Error "),
-                  content: Text("Incorrect name or password"),
-                  actions: <Widget>[
-                    FlatButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        return;
-                      },
-                      child: Text("Back",
-                          style: TextStyle(
-                              fontSize: 20.0,
-                              color: Color(0xff00556A),
-                              fontFamily: 'Lato Black')),
-                    ),
-                  ],
-                );
-              }); */
+
+          if (correct == true) {
+            Navigator.pushReplacementNamed(context, homeRoute,
+                arguments: widget.all[index]);
+          } else {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("Error "),
+                    content: Text("Incorrect name or password"),
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          return;
+                        },
+                        child: Text("Back",
+                            style: TextStyle(
+                                fontSize: 20.0,
+                                color: Color(0xff00556A),
+                                fontFamily: 'Lato Black')),
+                      ),
+                    ],
+                  );
+                });
+          }
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
@@ -233,7 +237,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             onPressed: () {
-              Navigator.pushReplacementNamed(context, '/register');
+              Navigator.pushReplacementNamed(context, registerRoute);
             })
       ],
     );

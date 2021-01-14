@@ -1,10 +1,14 @@
 import 'dart:io' as Io;
 import 'dart:convert';
+import 'package:cooknotes/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CreateProfileScreen extends StatefulWidget {
+  final User user;
+
+  CreateProfileScreen(this.user);
   @override
   _CreateProfileScreenState createState() => _CreateProfileScreenState();
 }

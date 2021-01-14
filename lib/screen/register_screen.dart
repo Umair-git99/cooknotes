@@ -14,13 +14,11 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<RegisterScreen> {
-//  bool _rememberMe = false;
-  String displayName;
-  String userName;
-  String displayPassword;
-  String displayRePassword;
-  String displayEmail;
-
+  String _displayname;
+  String _username;
+  String _password;
+  String _email;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Widget _buildDisplayNameTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,8 +36,16 @@ class _LoginScreenState extends State<RegisterScreen> {
               Expanded(
                   child: Container(
                       margin: EdgeInsets.only(right: 20, left: 10),
-                      child: TextField(
-                        onChanged: (value) => displayName = value,
+                      child: TextFormField(
+                        validator: (String value) {
+                          if (value.isEmpty) {
+                            return 'Display Name is required';
+                          }
+                          return null;
+                        },
+                        onSaved: (String value) {
+                          _displayname = value;
+                        },
                         decoration: InputDecoration(
                           hintText: 'Display Name',
                           hintStyle: TextStyle(
@@ -72,8 +78,16 @@ class _LoginScreenState extends State<RegisterScreen> {
               Expanded(
                   child: Container(
                       margin: EdgeInsets.only(right: 20, left: 10),
-                      child: TextField(
-                        onChanged: (value) => userName = value,
+                      child: TextFormField(
+                        validator: (String value) {
+                          if (value.isEmpty) {
+                            return 'Username is required';
+                          }
+                          return null;
+                        },
+                        onSaved: (String value) {
+                          _username = value;
+                        },
                         decoration: InputDecoration(
                           hintText: 'Username',
                           hintStyle: TextStyle(
@@ -106,49 +120,22 @@ class _LoginScreenState extends State<RegisterScreen> {
               Expanded(
                   child: Container(
                       margin: EdgeInsets.only(right: 20, left: 10),
-                      child: TextField(
+                      child: TextFormField(
                         obscureText: true,
-                        onChanged: (value) => displayPassword = value,
+                        validator: (String value) {
+                          if (value.isEmpty) {
+                            return 'Password is required';
+                          }
+                          return null;
+                        },
+                        onSaved: (String value) {
+                          _password = value;
+                        },
                         decoration: InputDecoration(
                           hintText: 'Password',
                           hintStyle: TextStyle(
                             color: Color(0xff00556A),
                             fontFamily: 'Lato',
-                          ),
-                        ),
-                      )))
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildRePasswordTF() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Row(
-            children: <Widget>[
-              IconButton(
-                  icon: Icon(
-                    Icons.lock,
-                    color: Color(0xff00556A),
-                  ),
-                  onPressed: null),
-              Expanded(
-                  child: Container(
-                      margin: EdgeInsets.only(right: 20, left: 10),
-                      child: TextField(
-                        obscureText: true,
-                        onChanged: (value) => displayRePassword = value,
-                        decoration: InputDecoration(
-                          hintText: 'Re-enter Password',
-                          hintStyle: TextStyle(
-                            color: Color(0xff00556A),
-                            fontFamily: 'Lato ',
                           ),
                         ),
                       )))
@@ -176,8 +163,16 @@ class _LoginScreenState extends State<RegisterScreen> {
               Expanded(
                   child: Container(
                       margin: EdgeInsets.only(right: 20, left: 10),
-                      child: TextField(
-                        onChanged: (value) => displayEmail = value,
+                      child: TextFormField(
+                        validator: (String value) {
+                          if (value.isEmpty) {
+                            return 'Email is required';
+                          }
+                          return null;
+                        },
+                        onSaved: (String value) {
+                          _email = value;
+                        },
                         decoration: InputDecoration(
                           hintText: 'Email',
                           hintStyle: TextStyle(
@@ -199,7 +194,23 @@ class _LoginScreenState extends State<RegisterScreen> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => print('Register Button Pressed'),
+        onPressed: () {
+          print('Register Button Pressed');
+          if (!_formKey.currentState.validate()) {
+            return;
+          }
+          _formKey.currentState.save();
+
+          User newUser = new User(
+              username: _username,
+              displayName: _displayname,
+              password: _password,
+              email: _email);
+
+          widget.all.add(newUser);
+
+          Navigator.pushNamed(context, createProfileRoute, arguments: newUser);
+        },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
@@ -250,41 +261,43 @@ class _LoginScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Stack(
-          children: <Widget>[
-            Container(
-              //height: double.infinity,
-              child: SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
-                padding: EdgeInsets.symmetric(
-                  horizontal: 40.0,
-                  vertical: 120.0,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Register',
-                      style: TextStyle(
-                        color: Color(0xff00556A),
-                        fontFamily: 'Lato Bold',
-                        fontSize: 35.0,
-                        fontWeight: FontWeight.bold,
+        child: Form(
+          key: _formKey,
+          child: Stack(
+            children: <Widget>[
+              Container(
+                //height: double.infinity,
+                child: SingleChildScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 40.0,
+                    vertical: 120.0,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'Register',
+                        style: TextStyle(
+                          color: Color(0xff00556A),
+                          fontFamily: 'Lato Bold',
+                          fontSize: 35.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                    _buildDisplayNameTF(),
-                    _buildUsernameTF(),
-                    _buildPasswordTF(),
-                    _buildRePasswordTF(),
-                    _buildEmailTF(),
-                    _buildRegisterBtn(),
-                    _buildLoginText(),
-                  ],
+                      _buildDisplayNameTF(),
+                      _buildUsernameTF(),
+                      _buildPasswordTF(),
+                      _buildEmailTF(),
+                      _buildRegisterBtn(),
+                      _buildLoginText(),
+                    ],
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
