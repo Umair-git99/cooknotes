@@ -1,12 +1,13 @@
+import 'package:cooknotes/models/mock_user.dart';
 import 'package:cooknotes/models/user.dart';
-import 'package:cooknotes/screen/constants.dart';
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
-  List<User> all;
+  final List<User> all;
 
   RegisterScreen(this.all);
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -217,74 +218,33 @@ class _LoginScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildText() {
-    return Column(
+  Widget _buildLoginText() {
+    return Row(
       children: <Widget>[
         Text(
-          '- OR -',
+          '     Already have an account ',
           style: TextStyle(
-            color: Color(0xff00556A),
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildGoogleLoginBtn() {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 25.0),
-      width: double.infinity,
-      child: RaisedButton(
-        elevation: 5.0,
-        onPressed: () => print('Login With Google button pressed'),
-        padding: EdgeInsets.all(15.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-        color: Colors.red,
-        child: Text(
-          'Login with Google',
-          style: TextStyle(
-            color: Colors.white,
-            letterSpacing: 1.5,
-            fontSize: 18.0,
+            color: Colors.black,
             fontWeight: FontWeight.bold,
-            fontFamily: 'Lato',
+            fontSize: 18.0,
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildLoginText() {
-    return GestureDetector(
-      //onTap: () => print('Sign Up Button Pressed'),
-      onTap: () {
-        Navigator.pushNamed(context, loginRoute);
-      },
-      child: RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(
-              text: 'Already have an account ? ',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 18.0,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            TextSpan(
-              text: 'Login',
+        TextButton(
+            child: Text(
+              'Login',
               style: TextStyle(
                 color: Color(0xff00556A),
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-          ],
-        ),
-      ),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => LoginScreen(widget.all)));
+            })
+      ],
     );
   }
 
@@ -321,8 +281,6 @@ class _LoginScreenState extends State<RegisterScreen> {
                     _buildRePasswordTF(),
                     _buildEmailTF(),
                     _buildRegisterBtn(),
-                    _buildText(),
-                    _buildGoogleLoginBtn(),
                     _buildLoginText(),
                   ],
                 ),
