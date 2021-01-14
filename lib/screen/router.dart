@@ -7,11 +7,11 @@ import 'package:cooknotes/screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'create_recipe_screen.dart';
+import 'home_screen.dart';
 import 'logout_screen.dart';
 
 Route<dynamic> createRoute(settings) {
   switch (settings.name) {
-    case splashRoute:
     case loginRoute:
       return MaterialPageRoute(
         builder: (context) => LoginScreen(mockData),
@@ -19,6 +19,11 @@ Route<dynamic> createRoute(settings) {
     case registerRoute:
       return MaterialPageRoute(
         builder: (context) => RegisterScreen(mockData),
+      );
+    case homeRoute:
+      return MaterialPageRoute(
+        builder: (context) =>
+            HomeScreen(settings.arguments, settings.arguments),
       );
     case plusRoute:
       return MaterialPageRoute(

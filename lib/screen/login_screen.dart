@@ -159,21 +159,40 @@ class _LoginScreenState extends State<LoginScreen> {
           if (!_formKey.currentState.validate()) {
             return;
           }
-
           _formKey.currentState.save();
+
           print('Username: ' + _username);
           print('Password: ' + _password);
+
+          for (int index = 0; index < widget.all.length; index++) {
+            if (_username == widget.all[index].username &&
+                _password == widget.all[index].password) {
+              Navigator.pushReplacementNamed(context, homeRoute,
+                  arguments: HomeScreen(widget.all[index], widget.all));
+            }
+          }
+          /*  showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text("Error "),
+                  content: Text("Incorrect name or password"),
+                  actions: <Widget>[
+                    FlatButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        return;
+                      },
+                      child: Text("Back",
+                          style: TextStyle(
+                              fontSize: 20.0,
+                              color: Color(0xff00556A),
+                              fontFamily: 'Lato Black')),
+                    ),
+                  ],
+                );
+              }); */
         },
-        // onPressed: () async {
-        //   for (var loginInfo in data.mockData) {
-        //     if (displayName == loginInfo.username &&
-        //         displayPassword == loginInfo.password) {
-        //       Navigator.push(context,
-        //           new MaterialPageRoute(builder: (context) => HomeScreen()),
-        //           );
-        //     }
-        //  }
-        //  },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
@@ -214,7 +233,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             onPressed: () {
-              Navigator.pushNamed(context, '/register');
+              Navigator.pushReplacementNamed(context, '/register');
             })
       ],
     );
