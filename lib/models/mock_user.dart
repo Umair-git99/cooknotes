@@ -49,6 +49,7 @@ List<User> mockData = [
   User(
       username: 'chefalif',
       displayName: 'Chef Alif',
+      profilePic: 'assets/gordon.jpg',
       usertype: 'C',
       age: 21,
       email: 'chefalif@gmail.com',
