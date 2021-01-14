@@ -174,50 +174,55 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ],
                       ),
                       SizedBox(height: 10),
-                      Row(
-                        children: [
-                          SizedBox(width: 230),
-                          RaisedButton(
-                              padding: EdgeInsets.symmetric(horizontal: 40.0),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0)),
-                              color: Colors.black,
-                              textColor: Colors.white,
-                              child: Text('Delete'),
-                              onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text("Delete Account"),
-                                        content: Text(
-                                            "Are you sure you want to delete your account?"),
-                                        actions: [
-                                          FlatButton(
-                                            child: Text("Yes",
-                                                style: TextStyle(
-                                                    fontSize: 20.0,
-                                                    color: Color(0xff00556A),
-                                                    fontFamily: 'Lato Black')),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                          FlatButton(
-                                            child: Text("No",
-                                                style: TextStyle(
-                                                    fontSize: 20.0,
-                                                    color: Colors.red,
-                                                    fontFamily: 'Lato Black')),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          )
-                                        ],
-                                      );
-                                    });
-                              }),
-                        ],
+                      Container(
+                        padding: EdgeInsets.all(15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            RaisedButton(
+                                padding: EdgeInsets.symmetric(horizontal: 40.0),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15.0)),
+                                color: Colors.black,
+                                textColor: Colors.white,
+                                child: Text('Delete'),
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text("Delete Account"),
+                                          content: Text(
+                                              "Are you sure you want to delete your account?"),
+                                          actions: [
+                                            FlatButton(
+                                              child: Text("Yes",
+                                                  style: TextStyle(
+                                                      fontSize: 20.0,
+                                                      color: Color(0xff00556A),
+                                                      fontFamily:
+                                                          'Lato Black')),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                            FlatButton(
+                                              child: Text("No",
+                                                  style: TextStyle(
+                                                      fontSize: 20.0,
+                                                      color: Colors.red,
+                                                      fontFamily:
+                                                          'Lato Black')),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            )
+                                          ],
+                                        );
+                                      });
+                                }),
+                          ],
+                        ),
                       ),
                       SizedBox(height: 40),
                       RaisedButton(
