@@ -57,7 +57,7 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Container(
-                height: 500,
+                height: 1200,
                 child: ListView.separated(
                   itemCount: widget.user.article.length,
                   itemBuilder: (context, index) => Padding(
