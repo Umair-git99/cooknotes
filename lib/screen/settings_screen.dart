@@ -322,8 +322,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       setState(() {
         _pageIndex = index;
       });
-      Navigator.pushReplacementNamed(context, settingsRoute,
-          arguments: widget.user);
+      // Navigator.pushReplacementNamed(context, settingsRoute,
+      //   arguments: widget.user);
     }
   }
 }

@@ -51,6 +51,16 @@ List<User> mockData = [
             numPerson: 4,
             ingredients: "ayam\nbawang\ntepung",
             instruction: 'masak sampai sedap'),
+        Recipe(
+            foodName: "Ikan Siakap Tiga Rasa",
+            image: 'assets/siakap.jpg',
+            prepHours: 0,
+            prepMins: 40,
+            cookHours: 2,
+            cookMins: 0,
+            numPerson: 1,
+            ingredients: 'ikan\nsos\ntepung jagung',
+            instruction: 'masak sampai sedap ye!'),
       ]),
   User(
       username: 'chefsyam',

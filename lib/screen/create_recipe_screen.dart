@@ -86,7 +86,7 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
               : InkWell(
                   child: Container(
                     width: 300,
-                    height: 300,
+                    height: 200,
                     color: Colors.black12,
                     child: new Icon(Icons.add_a_photo, size: 70),
                   ),
@@ -584,10 +584,10 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
 
                                 _formKey.currentState.save();
 
-                                List<int> imageFoodBytes =
-                                    _image.readAsBytesSync();
-                                String base64FoodImage =
-                                    base64UrlEncode(imageFoodBytes);
+                                //  List<int> imageFoodBytes =
+                                //      _image.readAsBytesSync();
+                                //   String base64FoodImage =
+                                //      base64UrlEncode(imageFoodBytes);
                                 //print('Image String: ' + base64FoodImage);
 
                                 print('Food Name: ' + _foodname);
@@ -613,7 +613,7 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
                                 widget.user.recipe.add(newRecipe);
 
                                 Navigator.pushReplacementNamed(
-                                    context, recipeListRoute,
+                                    context, homeRoute,
                                     arguments: widget.user);
                               }),
                         ],

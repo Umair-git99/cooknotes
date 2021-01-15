@@ -110,7 +110,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: new Color(0xff00556A))),
                 ],
               ),
-              SizedBox(height: 100),
+              SizedBox(height: 50),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  new Image.asset("assets/cook.png", width: 120),
+                  new Column(children: <Widget>[
+                    new Text("Total Cooking Notes",
+                        style: TextStyle(
+                            fontSize: 20.0,
+                            color: Color(0xff00556A),
+                            fontFamily: 'Lato Black')),
+                    new Text(widget.user.recipe.length.toString(),
+                        style: TextStyle(
+                            fontSize: 50.0,
+                            color: Color(0xff00556A),
+                            fontFamily: 'Lato Black'))
+                  ])
+                ],
+              ),
+              SizedBox(height: 50),
               RaisedButton(
                   padding: EdgeInsets.symmetric(horizontal: 40.0),
                   shape: RoundedRectangleBorder(
@@ -170,8 +189,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() {
         _pageIndex = 2;
       });
-      Navigator.pushReplacementNamed(context, profileRoute,
-          arguments: widget.user);
+      // Navigator.pushReplacementNamed(context, profileRoute,
+      //    arguments: widget.user);
     } else {
       setState(() {
         _pageIndex = index;

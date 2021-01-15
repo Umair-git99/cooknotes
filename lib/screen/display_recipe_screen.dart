@@ -1,17 +1,22 @@
 import 'package:cooknotes/models/recipe.dart';
+import 'package:cooknotes/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'constants.dart';
+
 class DisplayRecipeScreen extends StatefulWidget {
   final Recipe recipe;
+  final User user;
 
-  DisplayRecipeScreen(this.recipe);
+  DisplayRecipeScreen(this.recipe, this.user);
 
   @override
   _DisplayRecipeScreenState createState() => _DisplayRecipeScreenState();
 }
 
 class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
+  int _pageIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +25,9 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
         child: AppBar(
           leading: IconButton(
             icon: Icon(Icons.arrow_back_rounded, color: Color(0xff00556A)),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
           centerTitle: true,
           elevation: 0,
@@ -31,7 +38,10 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
           actions: <Widget>[
             FlatButton(
               textColor: Colors.black,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, logoutRoute, (_) => false);
+              },
               child: Text("Logout",
                   style: TextStyle(
                       fontSize: 15.0,
@@ -177,7 +187,11 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
                   new IconButton(
                       iconSize: 30,
                       icon: Icon(Icons.edit, color: Color(0xff00556A)),
-                      onPressed: () {}),
+                      onPressed: () {
+                        Navigator.pushNamed(context, updateRecipeRoute,
+                            arguments: UpdateRecipeArguments(
+                                widget.recipe, widget.user));
+                      }),
                   SizedBox(width: 20),
                   new IconButton(
                       iconSize: 30,
@@ -198,7 +212,8 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
                                             color: Color(0xff00556A),
                                             fontFamily: 'Lato Black')),
                                     onPressed: () {
-                                      Navigator.of(context).pop();
+                                      Navigator.pop(context);
+                                      removeRecipe();
                                     },
                                   ),
                                   FlatButton(
@@ -222,28 +237,70 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
+        selectedItemColor: Color(0xff00556A),
         showSelectedLabels: false,
         showUnselectedLabels: false,
+        currentIndex: _pageIndex,
+        onTap: _navigationTap,
         type: BottomNavigationBarType.fixed,
-        items: [
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: new Icon(Icons.home, color: Color(0xff00556A)),
+            icon: Icon(Icons.home),
             label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.add_circle_outline),
+            icon: Icon(Icons.add_circle_outline),
             label: "Add",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.person),
+            icon: Icon(Icons.person),
             label: "Profile",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.settings),
+            icon: Icon(Icons.settings),
             label: "Settings",
           ),
         ],
       ),
     );
   }
+
+  void _navigationTap(int index) {
+    if (index == 0) {
+      setState(() {
+        _pageIndex = 0;
+      });
+      Navigator.pushNamed(context, homeRoute, arguments: widget.user);
+    } else if (index == 1) {
+      setState(() {
+        _pageIndex = 1;
+      });
+      Navigator.pushNamed(context, plusRoute, arguments: widget.user);
+    } else if (index == 2) {
+      setState(() {
+        _pageIndex = 2;
+      });
+      Navigator.pushNamed(context, profileRoute, arguments: widget.user);
+    } else {
+      setState(() {
+        _pageIndex = index;
+      });
+      Navigator.pushNamed(context, settingsRoute, arguments: widget.user);
+    }
+  }
+
+  void removeRecipe() {
+    setState(() {
+      widget.user.recipe.remove(widget.recipe);
+      Navigator.pushNamed(context, homeRoute, arguments: widget.user);
+    });
+  }
+}
+
+class UpdateRecipeArguments {
+  Recipe recipe;
+  User user;
+
+  UpdateRecipeArguments(this.recipe, this.user);
 }

@@ -142,8 +142,8 @@ class _PlusButtonScreenState extends State<PlusButtonScreen> {
       setState(() {
         _pageIndex = 1;
       });
-      Navigator.pushReplacementNamed(context, plusRoute,
-          arguments: widget.user);
+      //Navigator.pushReplacementNamed(context, plusRoute,
+      //  arguments: widget.user);
     } else if (index == 2) {
       setState(() {
         _pageIndex = 2;

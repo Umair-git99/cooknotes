@@ -1,6 +1,7 @@
 import 'package:cooknotes/models/article.dart';
 import 'package:cooknotes/models/user.dart';
 import 'package:cooknotes/screen/display_article_screen.dart';
+import 'package:cooknotes/screen/recipelist_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
@@ -63,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: new Color(0xff00556A),
                     fontWeight: FontWeight.bold)),
             (widget.user.recipe.length != null) ? _imageScroll() : null,
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             RaisedButton(
               padding: EdgeInsets.symmetric(horizontal: 40.0),
               shape: RoundedRectangleBorder(
@@ -137,11 +138,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _imageScroll() {
     return Container(
       padding: EdgeInsets.only(top: 10.0, left: 20.0),
-      height: 350.0,
+      height: 260.0,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount:
-            (widget.user.recipe.length >= 3) ? 3 : widget.user.recipe.length,
+            widget.user.recipe.length > 3 ? 3 : widget.user.recipe.length,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.only(right: 20.0),
@@ -150,13 +151,20 @@ class _HomeScreenState extends State<HomeScreen> {
               width: 300.0,
               child: Column(
                 children: <Widget>[
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.asset(
-                      widget.user.recipe[index].image,
-                      height: 300.0,
-                      width: 300.0,
-                      fit: BoxFit.cover,
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, displayRecipeRoute,
+                          arguments: DisplayRecipeArguments(
+                              widget.user.recipe[index], widget.user));
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.asset(
+                        widget.user.recipe[index].image,
+                        height: 200.0,
+                        width: 300.0,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                   SizedBox(height: 10),
@@ -189,7 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   InkWell(
                     onTap: () {
                       Navigator.pushNamed(context, displayArticleRoute,
-                          arguments: DisplayArguments(
+                          arguments: DisplayArticleArguments(
                               widget.all[index].article[i], widget.user));
                     },
                     child: new Image.asset(widget.all[index].article[i].image,
@@ -230,7 +238,7 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         _pageIndex = 0;
       });
-      Navigator.pushNamed(context, homeRoute, arguments: widget.user);
+      //Navigator.pushNamed(context, homeRoute, arguments: widget.user);
     } else if (index == 1) {
       setState(() {
         _pageIndex = 1;
@@ -250,9 +258,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class DisplayArguments {
+class DisplayArticleArguments {
   Article article;
   User user;
 
-  DisplayArguments(this.article, this.user);
+  DisplayArticleArguments(this.article, this.user);
 }

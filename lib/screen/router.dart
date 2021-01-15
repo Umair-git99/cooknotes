@@ -10,6 +10,7 @@ import 'package:cooknotes/screen/recipelist_screen.dart';
 import 'package:cooknotes/screen/register_screen.dart';
 import 'package:cooknotes/screen/settings_screen.dart';
 import 'package:cooknotes/screen/splash_screen.dart';
+import 'package:cooknotes/screen/update_recipe_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'create_recipe_screen.dart';
@@ -44,7 +45,7 @@ Route<dynamic> createRoute(settings) {
     case displayArticleRoute:
       return MaterialPageRoute(
         builder: (context) {
-          DisplayArguments argument = settings.arguments;
+          DisplayArticleArguments argument = settings.arguments;
           return DisplayArticleScreen(argument.article, argument.user);
         },
       );
@@ -69,7 +70,15 @@ Route<dynamic> createRoute(settings) {
     case displayRecipeRoute:
       return MaterialPageRoute(
         builder: (context) {
-          return DisplayRecipeScreen(settings.arguments);
+          DisplayRecipeArguments argument = settings.arguments;
+          return DisplayRecipeScreen(argument.recipe, argument.user);
+        },
+      );
+    case updateRecipeRoute:
+      return MaterialPageRoute(
+        builder: (context) {
+          UpdateRecipeArguments argument = settings.arguments;
+          return UpdateRecipeScreen(argument.recipe, argument.user);
         },
       );
     case plusRoute:
