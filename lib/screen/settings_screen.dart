@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cooknotes/models/user.dart';
 import 'package:grouped_buttons/grouped_buttons.dart';
+import 'package:provider/provider.dart';
 
 import 'constants.dart';
 
@@ -16,13 +17,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
   int _pageIndex = 3;
   @override
   Widget build(BuildContext context) {
+    final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.0),
         child: AppBar(
           automaticallyImplyLeading: false,
           elevation: 0,
-          backgroundColor: Colors.white,
           title: Text('COOKNOTES',
               style: TextStyle(
                   color: Color(0xff00556A), fontFamily: 'Montserrat Black')),
@@ -61,7 +62,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               SizedBox(height: 10),
               Container(
                 child: new Card(
-                  color: Colors.blueGrey[50],
                   child: new Column(
                     children: <Widget>[
                       SizedBox(height: 15),
@@ -129,9 +129,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       CheckboxGroup(
                         labels: <String>['Light', 'Dark'],
                         checked: widget.user.theme,
-                        onChange: (bool isChecked, String label, int index) =>
-                            print(
-                                "isChecked: $isChecked   label: $label  index: $index"),
+                        onChange: (bool isChecked, String label, int index) {
+                          print(
+                              "isChecked: $isChecked   label: $label  index: $index");
+                          if (index == 0)
+                            changeModeNotifier.value = true;
+                          else
+                            changeModeNotifier.value = false;
+                        },
                         onSelected: (List selected) => setState(() {
                           if (selected.length > 1) {
                             selected.removeAt(0);
@@ -143,47 +148,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         }),
                       ),
                       SizedBox(height: 20),
-                      /* const Divider(
-                        color: Color(0xFF616161),
-                        height: 20,
-                        thickness: 1,
-                        indent: 10,
-                        endIndent: 10,
-                      ),
-                      SizedBox(height: 40), */
-                      /* RaisedButton(
-                          padding: EdgeInsets.symmetric(horizontal: 40.0),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0)),
-                          color: new Color(0xff00556A),
-                          textColor: Colors.white,
-                          child: Text('Save Changes'),
-                          onPressed: () {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text(
-                                        "Your settings have been saved!",
-                                        style: new TextStyle(
-                                            fontSize: 25.0,
-                                            fontFamily: 'Lato Black',
-                                            color: new Color(0xff00556A),
-                                            fontWeight: FontWeight.bold)),
-                                    actions: [
-                                      FlatButton(
-                                        child: Icon(Icons.check_circle,
-                                            size: 50,
-                                            color: new Color(0xff00556A)),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      )
-                                    ],
-                                  );
-                                });
-                          }), */
-                      //SizedBox(height: 30),
                     ],
                   ),
                 ),
@@ -193,7 +157,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
         selectedItemColor: Color(0xff00556A),
         showSelectedLabels: false,
         showUnselectedLabels: false,

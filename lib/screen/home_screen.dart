@@ -26,7 +26,6 @@ class _HomeScreenState extends State<HomeScreen> {
         child: AppBar(
           automaticallyImplyLeading: false,
           elevation: 0,
-          backgroundColor: Colors.white,
           title: Text('COOKNOTES',
               style: TextStyle(
                   color: Color(0xff00556A), fontFamily: 'Montserrat Black')),
@@ -92,7 +91,6 @@ class _HomeScreenState extends State<HomeScreen> {
         )),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
         selectedItemColor: Color(0xff00556A),
         showSelectedLabels: false,
         showUnselectedLabels: false,

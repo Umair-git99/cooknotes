@@ -18,14 +18,32 @@ import 'package:cooknotes/screen/update_article_screen.dart';
 import 'package:cooknotes/screen/update_recipe_screen.dart';
 
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 import 'models/mock_user.dart';
 
 void main() {
-  runApp(MyApp());
-}
+  runApp(ChangeNotifierProvider<ValueNotifier<bool>>(
+      create: (context) => ValueNotifier(true),
+      child: Consumer<ValueNotifier<bool>>(
+          builder: (_, notifier, __) => MaterialApp(
+                //   onGenerateRoute: createRoute,
+                title: 'Cook Notes Demo',
+                debugShowCheckedModeBanner: false,
+                theme: notifier.value
+                    //? ThemeData(primarySwatch: Colors.blue)
+                    ? ThemeData.light()
+                    : ThemeData.dark(),
 
-class MyApp extends StatelessWidget {
+                //home: ProfileScreen(mockData[1])
+                home: SplashScreens(),
+                //home: HomeScreen(mockData[0], mockData),
+              ))));
+}
+/* void main() {
+  runApp(MyApp());
+} */
+
+/* class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -42,4 +60,4 @@ class MyApp extends StatelessWidget {
     //home: RecipeListScreen(mockData[1]));
     //home: DisplayArticleScreen(mockData[1].article[0]));
   }
-}
+} */

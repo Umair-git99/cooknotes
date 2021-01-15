@@ -21,7 +21,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: AppBar(
           automaticallyImplyLeading: false,
           elevation: 0,
-          backgroundColor: Colors.white,
           title: Text('COOKNOTES',
               style: TextStyle(
                   color: Color(0xff00556A), fontFamily: 'Montserrat Black')),
@@ -147,7 +146,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
         selectedItemColor: Color(0xff00556A),
         showSelectedLabels: false,
         showUnselectedLabels: false,

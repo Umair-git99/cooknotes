@@ -30,7 +30,6 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
           ),
           centerTitle: true,
           elevation: 0,
-          backgroundColor: Colors.white,
           title: Text('COOKNOTES',
               style: TextStyle(
                   color: Color(0xff00556A), fontFamily: 'Montserrat Black')),
@@ -121,7 +120,6 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
         selectedItemColor: Color(0xff00556A),
         showSelectedLabels: false,
         showUnselectedLabels: false,

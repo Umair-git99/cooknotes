@@ -22,7 +22,7 @@ class _SplashScreensState extends State<SplashScreens> {
             splash: Image.asset('assets/cooknotes2.png'),
             nextScreen: LoginScreen(mockData),
             splashTransition: SplashTransition.scaleTransition,
-            pageTransitionType: PageTransitionType.fade,
+            pageTransitionType: PageTransitionType.leftToRight,
             splashIconSize: 250,
             backgroundColor: Colors.white));
   }

@@ -28,7 +28,6 @@ class _DisplayArticleScreenState extends State<DisplayArticleScreen> {
           ),
           centerTitle: true,
           elevation: 0,
-          backgroundColor: Colors.white,
           title: Text('COOKNOTES',
               style: TextStyle(
                   color: Color(0xff00556A), fontFamily: 'Montserrat Black')),
