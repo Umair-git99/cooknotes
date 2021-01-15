@@ -1,4 +1,5 @@
 import 'package:cooknotes/models/user.dart';
+import 'package:cooknotes/screen/constants.dart';
 import 'package:flutter/material.dart';
 
 class ArticleListScreen extends StatefulWidget {
@@ -19,7 +20,9 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
         child: AppBar(
           leading: IconButton(
             icon: Icon(Icons.arrow_back_rounded, color: Color(0xff00556A)),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
           centerTitle: true,
           elevation: 0,
@@ -118,21 +121,21 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
         showSelectedLabels: false,
         showUnselectedLabels: false,
         type: BottomNavigationBarType.fixed,
-        items: [
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: new Icon(Icons.home, color: Color(0xff00556A)),
+            icon: Icon(Icons.home, color: Color(0xff00556A)),
             label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.add_circle_outline),
+            icon: Icon(Icons.add_circle_outline),
             label: "Add",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.person),
+            icon: Icon(Icons.person),
             label: "Profile",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.settings),
+            icon: Icon(Icons.settings),
             label: "Settings",
           ),
         ],

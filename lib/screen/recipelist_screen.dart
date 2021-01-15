@@ -19,7 +19,9 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
         child: AppBar(
           leading: IconButton(
             icon: Icon(Icons.arrow_back_rounded, color: Color(0xff00556A)),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
           centerTitle: true,
           elevation: 0,

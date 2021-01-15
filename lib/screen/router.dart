@@ -1,11 +1,14 @@
 import 'package:cooknotes/models/mock_user.dart';
+import 'package:cooknotes/screen/articlelist_screen.dart';
 import 'package:cooknotes/screen/constants.dart';
 import 'package:cooknotes/screen/create_profile_screen.dart';
 import 'package:cooknotes/screen/display_recipe_screen.dart';
 import 'package:cooknotes/screen/login_screen.dart';
 import 'package:cooknotes/screen/plusbutton_screen.dart';
+import 'package:cooknotes/screen/profile_screen.dart';
 import 'package:cooknotes/screen/recipelist_screen.dart';
 import 'package:cooknotes/screen/register_screen.dart';
+import 'package:cooknotes/screen/settings_screen.dart';
 import 'package:cooknotes/screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -45,6 +48,24 @@ Route<dynamic> createRoute(settings) {
           return DisplayArticleScreen(argument.article, argument.user);
         },
       );
+    case profileRoute:
+      return MaterialPageRoute(
+        builder: (context) {
+          return ProfileScreen(settings.arguments);
+        },
+      );
+    case settingsRoute:
+      return MaterialPageRoute(
+        builder: (context) {
+          return SettingsScreen(settings.arguments);
+        },
+      );
+    case articleListRoute:
+      return MaterialPageRoute(
+        builder: (context) {
+          return ArticleListScreen(settings.arguments);
+        },
+      );
     case displayRecipeRoute:
       return MaterialPageRoute(
         builder: (context) {
@@ -54,7 +75,7 @@ Route<dynamic> createRoute(settings) {
     case plusRoute:
       return MaterialPageRoute(
         builder: (context) {
-          return PlusButtonScreen(mockData[0]);
+          return PlusButtonScreen(settings.arguments);
         },
       );
     case createRecipeRoute:
