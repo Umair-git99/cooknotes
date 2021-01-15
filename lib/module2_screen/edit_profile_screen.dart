@@ -1,9 +1,9 @@
 import 'package:cooknotes/models/user.dart';
-import 'package:cooknotes/screen/profile_screen.dart';
+import 'package:cooknotes/module2_screen/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'constants.dart';
+import '../constants.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final User user;

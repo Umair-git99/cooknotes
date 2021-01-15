@@ -1,6 +1,6 @@
 import 'package:cooknotes/models/article.dart';
 import 'package:cooknotes/models/user.dart';
-import 'package:cooknotes/screen/constants.dart';
+import '../constants.dart';
 import 'package:flutter/material.dart';
 
 class ArticleListScreen extends StatefulWidget {

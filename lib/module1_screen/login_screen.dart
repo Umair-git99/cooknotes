@@ -1,11 +1,11 @@
 import 'package:cooknotes/models/user.dart';
-import 'package:cooknotes/screen/constants.dart';
-import 'package:cooknotes/screen/register_screen.dart';
+import '../constants.dart';
+import 'package:cooknotes/module1_screen/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cooknotes/models/mock_user.dart' as data;
 
-import 'home_screen.dart';
+import 'package:cooknotes/module2_screen/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   final List<User> all;

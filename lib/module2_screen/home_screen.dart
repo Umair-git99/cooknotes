@@ -1,10 +1,10 @@
 import 'package:cooknotes/models/article.dart';
 import 'package:cooknotes/models/user.dart';
-import 'package:cooknotes/screen/display_article_screen.dart';
-import 'package:cooknotes/screen/recipelist_screen.dart';
+import 'package:cooknotes/module4_screen/display_article_screen.dart';
+import 'package:cooknotes/module3_screen/recipelist_screen.dart';
 import 'package:flutter/material.dart';
 
-import 'constants.dart';
+import '../constants.dart';
 
 class HomeScreen extends StatefulWidget {
   final User user;

@@ -3,7 +3,7 @@ import 'package:cooknotes/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'constants.dart';
+import '../constants.dart';
 
 class DisplayRecipeScreen extends StatefulWidget {
   final Recipe recipe;

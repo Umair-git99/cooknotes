@@ -3,7 +3,7 @@ import 'package:cooknotes/models/user.dart';
 import 'package:grouped_buttons/grouped_buttons.dart';
 import 'package:provider/provider.dart';
 
-import 'constants.dart';
+import '../constants.dart';
 
 class SettingsScreen extends StatefulWidget {
   final User user;

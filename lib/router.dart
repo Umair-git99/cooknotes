@@ -1,26 +1,25 @@
 import 'package:cooknotes/models/mock_user.dart';
-import 'package:cooknotes/screen/articlelist_screen.dart';
-import 'package:cooknotes/screen/constants.dart';
-import 'package:cooknotes/screen/create_profile_screen.dart';
-import 'package:cooknotes/screen/display_recipe_screen.dart';
-import 'package:cooknotes/screen/edit_profile_screen.dart';
-import 'package:cooknotes/screen/login_screen.dart';
-import 'package:cooknotes/screen/plusbutton_screen.dart';
-import 'package:cooknotes/screen/profile_screen.dart';
-import 'package:cooknotes/screen/recipelist_screen.dart';
-import 'package:cooknotes/screen/register_screen.dart';
-import 'package:cooknotes/screen/settings_screen.dart';
-import 'package:cooknotes/screen/splash_screen.dart';
-import 'package:cooknotes/screen/update_article_screen.dart';
-import 'package:cooknotes/screen/update_recipe_screen.dart';
+import 'package:cooknotes/module1_screen/login_screen.dart';
+import 'package:cooknotes/module1_screen/logout_screen.dart';
+import 'package:cooknotes/module1_screen/register_screen.dart';
+import 'package:cooknotes/module2_screen/create_profile_screen.dart';
+import 'package:cooknotes/module2_screen/edit_profile_screen.dart';
+import 'package:cooknotes/module2_screen/home_screen.dart';
+import 'package:cooknotes/module2_screen/profile_screen.dart';
+import 'package:cooknotes/module2_screen/settings_screen.dart';
+import 'package:cooknotes/module3_screen/create_recipe_screen.dart';
+import 'package:cooknotes/module3_screen/display_recipe_screen.dart';
+import 'package:cooknotes/module3_screen/plusbutton_screen.dart';
+import 'package:cooknotes/module3_screen/recipelist_screen.dart';
+import 'package:cooknotes/module3_screen/update_recipe_screen.dart';
+import 'package:cooknotes/module4_screen/articlelist_screen.dart';
+import 'package:cooknotes/module4_screen/create_article_screen.dart';
+import 'package:cooknotes/module4_screen/display_article2_screen.dart';
+import 'package:cooknotes/module4_screen/display_article_screen.dart';
+import 'package:cooknotes/module4_screen/update_article_screen.dart';
 import 'package:flutter/material.dart';
 
-import 'create_article_screen.dart';
-import 'create_recipe_screen.dart';
-import 'display_article2_screen.dart';
-import 'display_article_screen.dart';
-import 'home_screen.dart';
-import 'logout_screen.dart';
+import 'constants.dart';
 
 Route<dynamic> createRoute(settings) {
   switch (settings.name) {

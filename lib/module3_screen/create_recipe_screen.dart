@@ -2,49 +2,45 @@ import 'dart:io' as Io;
 import 'dart:convert';
 import 'package:cooknotes/models/recipe.dart';
 import 'package:cooknotes/models/user.dart';
-import 'package:cooknotes/screen/recipelist_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'constants.dart';
+import '../constants.dart';
 
-class UpdateRecipeScreen extends StatefulWidget {
-  final Recipe recipe;
+class CreateRecipeScreen extends StatefulWidget {
   final User user;
 
-  UpdateRecipeScreen(this.recipe, this.user);
+  CreateRecipeScreen(this.user);
   @override
-  _UpdateRecipeScreenState createState() => _UpdateRecipeScreenState();
+  _CreateRecipeScreenState createState() => _CreateRecipeScreenState();
 }
 
-class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
-  int _pageIndex = 0;
+class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
   String _foodname;
   String imageUrl;
   Io.File _image;
   final picker = ImagePicker();
-  int _prepHours;
-  int _prepMins;
-  int _cookHours;
-  int _cookMins;
-  int _numPerson;
+  String _prepHours;
+  String _prepMins;
+  String _cookHours;
+  String _cookMins;
+  String _numPerson;
   String _ingredients;
   String _instructions;
+
+  int _pageIndex = 1;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Widget _buildFoodName() {
     return Container(
       child: TextFormField(
-        initialValue: widget.recipe.foodName,
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
           fillColor: Colors.black12,
           filled: true,
-          hintText: widget.recipe.foodName,
-          hintStyle: TextStyle(
-              fontSize: 15.0, color: Colors.black, fontFamily: 'Lato Bold'),
+          hintText: 'Asam Pedas',
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.black, width: 1.0),
             borderRadius: BorderRadius.circular(30.0),
@@ -78,7 +74,7 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
           SizedBox(height: 10),
           (_image != null)
               ? Column(children: <Widget>[
-                  Image.file(_image),
+                  Image.file(_image, width: 300, height: 300),
                   RaisedButton(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15.0)),
@@ -87,20 +83,16 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
                         _imageDialog(context);
                       })
                 ])
-              : Column(
-                  children: [
-                    Image.asset(
-                      widget.recipe.image,
-                    ),
-                    SizedBox(height: 10),
-                    RaisedButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0)),
-                        child: Text('Change Image'),
-                        onPressed: () {
-                          _imageDialog(context);
-                        }),
-                  ],
+              : InkWell(
+                  child: Container(
+                    width: 300,
+                    height: 150,
+                    color: Colors.black12,
+                    child: new Icon(Icons.add_a_photo, size: 70),
+                  ),
+                  onTap: () {
+                    _imageDialog(context);
+                  },
                 ),
         ],
       ),
@@ -175,7 +167,7 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
       width: 60.0,
       height: 40.0,
       child: TextFormField(
-        initialValue: widget.recipe.prepHours.toString(),
+        initialValue: '0',
         keyboardType: TextInputType.number,
         inputFormatters: [
           new LengthLimitingTextInputFormatter(2),
@@ -186,7 +178,7 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
           fillColor: Colors.black12,
           filled: true,
-          hintText: widget.recipe.prepHours.toString(),
+          hintText: '0',
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.black, width: 1.0),
             borderRadius: BorderRadius.circular(20.0),
@@ -197,7 +189,7 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
           ),
         ),
         onSaved: (String value) {
-          _prepHours = int.parse(value);
+          _prepHours = value;
         },
       ),
     );
@@ -208,7 +200,7 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
       width: 60.0,
       height: 40.0,
       child: TextFormField(
-        initialValue: widget.recipe.prepMins.toString(),
+        initialValue: '0',
         keyboardType: TextInputType.number,
         inputFormatters: [
           new LengthLimitingTextInputFormatter(2),
@@ -219,7 +211,7 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
           fillColor: Colors.black12,
           filled: true,
-          hintText: widget.recipe.prepMins.toString(),
+          hintText: '0',
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.black, width: 1.0),
             borderRadius: BorderRadius.circular(20.0),
@@ -230,7 +222,7 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
           ),
         ),
         onSaved: (String value) {
-          _prepMins = int.parse(value);
+          _prepMins = value;
         },
       ),
     );
@@ -241,7 +233,7 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
       width: 60.0,
       height: 40.0,
       child: TextFormField(
-        initialValue: widget.recipe.cookHours.toString(),
+        initialValue: '0',
         keyboardType: TextInputType.number,
         inputFormatters: [
           new LengthLimitingTextInputFormatter(2),
@@ -252,7 +244,7 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
           fillColor: Colors.black12,
           filled: true,
-          hintText: widget.recipe.cookMins.toString(),
+          hintText: '0',
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.black, width: 1.0),
             borderRadius: BorderRadius.circular(20.0),
@@ -263,7 +255,7 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
           ),
         ),
         onSaved: (String value) {
-          _cookHours = int.parse(value);
+          _cookHours = value;
         },
       ),
     );
@@ -274,7 +266,7 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
       width: 60.0,
       height: 40.0,
       child: TextFormField(
-        initialValue: widget.recipe.cookMins.toString(),
+        initialValue: '0',
         keyboardType: TextInputType.number,
         inputFormatters: [
           new LengthLimitingTextInputFormatter(2),
@@ -285,7 +277,7 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
           fillColor: Colors.black12,
           filled: true,
-          hintText: widget.recipe.cookMins.toString(),
+          hintText: '0',
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.black, width: 1.0),
             borderRadius: BorderRadius.circular(20.0),
@@ -296,7 +288,7 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
           ),
         ),
         onSaved: (String value) {
-          _cookMins = int.parse(value);
+          _cookMins = value;
         },
       ),
     );
@@ -307,7 +299,6 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
       //width: 60.0,
       //height: 40.0,
       child: TextFormField(
-        initialValue: widget.recipe.numPerson.toString(),
         keyboardType: TextInputType.number,
         inputFormatters: [
           new LengthLimitingTextInputFormatter(2),
@@ -318,7 +309,7 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
           contentPadding: EdgeInsets.symmetric(vertical: 0.5, horizontal: 0.5),
           fillColor: Colors.black12,
           filled: true,
-          hintText: widget.recipe.numPerson.toString(),
+          hintText: '0',
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.black, width: 1.0),
             borderRadius: BorderRadius.circular(20.0),
@@ -334,7 +325,7 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
           }
         },
         onSaved: (String value) {
-          _numPerson = int.parse(value);
+          _numPerson = value;
         },
       ),
     );
@@ -343,14 +334,13 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
   Widget _buildIngredients() {
     return Container(
       child: TextFormField(
-        initialValue: widget.recipe.ingredients,
         keyboardType: TextInputType.multiline,
         maxLines: null,
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
           fillColor: Colors.black12,
           filled: true,
-          hintText: widget.recipe.ingredients,
+          hintText: 'Insert your ingredients here',
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.black, width: 1.0),
             borderRadius: BorderRadius.circular(10.0),
@@ -375,14 +365,13 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
   Widget _buildInstruction() {
     return Container(
       child: TextFormField(
-        initialValue: widget.recipe.instruction,
         keyboardType: TextInputType.multiline,
         maxLines: null,
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
           fillColor: Colors.black12,
           filled: true,
-          hintText: widget.recipe.instruction,
+          hintText: 'Insert your instruction here',
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.black, width: 1.0),
             borderRadius: BorderRadius.circular(10.0),
@@ -446,7 +435,7 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             // mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              new Text('Update Recipe',
+              new Text('Create A New Recipe',
                   style: TextStyle(
                       fontSize: 30.0,
                       color: Color(0xff00556A),
@@ -588,46 +577,43 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
                                   color: Colors.green[900]),
                               iconSize: 70,
                               onPressed: () {
-                                FocusScope.of(context)
-                                    .requestFocus(FocusNode());
                                 if (!_formKey.currentState.validate()) {
                                   return;
                                 }
+
                                 _formKey.currentState.save();
 
-                                //List<int> imageFoodBytes =
-                                //    _image.readAsBytesSync();
-                                //String base64FoodImage =
-                                //  base64UrlEncode(imageFoodBytes);
-                                // print('Image String: ' + base64FoodImage);
+                                //  List<int> imageFoodBytes =
+                                //      _image.readAsBytesSync();
+                                //   String base64FoodImage =
+                                //      base64UrlEncode(imageFoodBytes);
+                                //print('Image String: ' + base64FoodImage);
 
                                 print('Food Name: ' + _foodname);
-                                print('Preparation Hours:\t\t' +
-                                    _prepHours.toString());
-                                print('Preparation Minutes:\t\t' +
-                                    _prepMins.toString());
-                                print('Cooking Hours:\t\t' +
-                                    _cookHours.toString());
-                                print('Cooking Minutes:\t\t' +
-                                    _cookMins.toString());
-                                print('Serving for (person):\t' +
-                                    _numPerson.toString());
+                                print('Preparation Hours:\t\t' + _prepHours);
+                                print('Preparation Minutes:\t\t' + _prepMins);
+                                print('Cooking Hours:\t\t' + _cookHours);
+                                print('Cooking Minutes:\t\t' + _cookMins);
+                                print('Serving for (person):\t' + _numPerson);
                                 print('Ingredients:\t\t' + _ingredients);
                                 print('Instructions:\t\t' + _instructions);
 
-                                widget.recipe.foodName = _foodname;
-                                widget.recipe.prepHours = _prepHours;
-                                widget.recipe.prepMins = _prepMins;
-                                widget.recipe.cookHours = _cookHours;
-                                widget.recipe.cookMins = _cookMins;
-                                widget.recipe.numPerson = _numPerson;
-                                widget.recipe.ingredients = _ingredients;
-                                widget.recipe.instruction = _instructions;
+                                Recipe newRecipe = new Recipe(
+                                    foodName: _foodname,
+                                    image: 'assets/pizza.jpg',
+                                    prepHours: int.parse(_prepHours),
+                                    prepMins: int.parse(_prepMins),
+                                    cookHours: int.parse(_cookHours),
+                                    cookMins: int.parse(_cookMins),
+                                    numPerson: int.parse(_numPerson),
+                                    ingredients: _ingredients,
+                                    instruction: _instructions);
 
-                                Navigator.popAndPushNamed(context, homeRoute,
+                                widget.user.recipe.add(newRecipe);
+
+                                Navigator.pushReplacementNamed(
+                                    context, homeRoute,
                                     arguments: widget.user);
-
-                                // print('Image:\t'+ _image);
                               }),
                         ],
                       )
@@ -673,22 +659,26 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
       setState(() {
         _pageIndex = 0;
       });
-      Navigator.pushNamed(context, homeRoute, arguments: widget.user);
+      Navigator.pushReplacementNamed(context, homeRoute,
+          arguments: widget.user);
     } else if (index == 1) {
       setState(() {
         _pageIndex = 1;
       });
-      Navigator.pushNamed(context, plusRoute, arguments: widget.user);
+      Navigator.pushReplacementNamed(context, plusRoute,
+          arguments: widget.user);
     } else if (index == 2) {
       setState(() {
         _pageIndex = 2;
       });
-      Navigator.pushNamed(context, profileRoute, arguments: widget.user);
+      Navigator.pushReplacementNamed(context, profileRoute,
+          arguments: widget.user);
     } else {
       setState(() {
         _pageIndex = index;
       });
-      Navigator.pushNamed(context, settingsRoute, arguments: widget.user);
+      Navigator.pushReplacementNamed(context, settingsRoute,
+          arguments: widget.user);
     }
   }
 }

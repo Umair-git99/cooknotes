@@ -36,9 +36,16 @@ e. What CookNotes cannot do:
 
 - Deliverable 1: https://youtu.be/LQ7z7HYDqus
 ==========================================================
-4. Group Members:
+4. Project Module:
 
-- MUHAMMAD AMIRUL BIN ISMAIL (A18CS0126)
-- DARISYAM BIN DARISMAN (A18CS0052)
-- UMAIR BIN ZAINAL KIFLI (A18CS0269)
-- MUHAMMAD ALIF SOLAHUDDIN BIN NORDIN (A18CS0124)
+- MODULE 1 - Splash Screen, Register, Login, Logout
+- MODULE 2 - Home, Profile, Settings
+- Module 3 - CRUD Recipe
+- Module 4 - CRUD Article
+==========================================================
+5. Group Members:
+
+- MUHAMMAD AMIRUL BIN ISMAIL (A18CS0126) - MODULE 1
+- UMAIR BIN ZAINAL KIFLI (A18CS0269) - MODULE 2, CHANGENOTIFIER PROVIDER
+- DARISYAM BIN DARISMAN (A18CS0052) - MODULE 3, ROUTING, STATE MANAGEMENT
+- MUHAMMAD ALIF SOLAHUDDIN BIN NORDIN (A18CS0124) - MODULE 4
