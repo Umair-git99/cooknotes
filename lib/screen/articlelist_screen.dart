@@ -1,3 +1,4 @@
+import 'package:cooknotes/models/article.dart';
 import 'package:cooknotes/models/user.dart';
 import 'package:cooknotes/screen/constants.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,8 @@ class ArticleListScreen extends StatefulWidget {
 }
 
 class _ArticleListScreenState extends State<ArticleListScreen> {
+  int _pageIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +36,10 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
           actions: <Widget>[
             FlatButton(
               textColor: Colors.black,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, logoutRoute, (_) => false);
+              },
               child: Text("Logout",
                   style: TextStyle(
                       fontSize: 15.0,
@@ -50,33 +56,6 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
           child: new Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              new SizedBox(height: 30),
-              new Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  new Image.asset("assets/article.png", width: 120),
-                  SizedBox(width: 10),
-                  new Column(
-                    children: <Widget>[
-                      new Text("Total Article",
-                          style: TextStyle(
-                              fontSize: 20.0,
-                              color: Color(0xff00556A),
-                              fontFamily: 'Lato Black')),
-                      new Text(widget.user.article.length.toString(),
-                          style: TextStyle(
-                              fontSize: 50.0,
-                              color: Color(0xff00556A),
-                              fontFamily: 'Lato Black'))
-                    ],
-                  )
-                ],
-              ),
-              new Container(
-                  child: Divider(
-                color: Colors.black,
-                height: 30,
-              )),
               Container(
                 height: 500,
                 child: ListView.separated(
@@ -84,8 +63,7 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
                   itemBuilder: (context, index) => Padding(
                     padding: EdgeInsets.all(10),
                     child: ListTile(
-                        leading:
-                            Icon(Icons.notes, size: 50, color: Colors.black54),
+                        leading: Image.asset(widget.user.article[index].image),
                         title: Text(widget.user.article[index].title,
                             style: TextStyle(
                                 fontSize: 20.0,
@@ -97,7 +75,9 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
                               children: <Widget>[
                                 new Icon(Icons.person, color: Colors.black54),
                                 SizedBox(width: 5),
-                                new Text("Author: " + widget.user.displayName,
+                                new Text(
+                                    "Author: " +
+                                        widget.user.article[index].author,
                                     style: TextStyle(
                                         fontSize: 15.0,
                                         color: Colors.black54,
@@ -106,7 +86,11 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
                             ),
                           ],
                         ),
-                        onTap: () {}),
+                        onTap: () {
+                          Navigator.pushNamed(context, displayArticle2Route,
+                              arguments: DisplayArticle2Arguments(
+                                  widget.user.article[index], widget.user));
+                        }),
                   ),
                   separatorBuilder: (context, index) => Divider(
                     color: Colors.grey,
@@ -118,12 +102,16 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
+        selectedItemColor: Color(0xff00556A),
         showSelectedLabels: false,
         showUnselectedLabels: false,
+        currentIndex: _pageIndex,
+        onTap: _navigationTap,
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home, color: Color(0xff00556A)),
+            icon: Icon(Icons.home),
             label: "Home",
           ),
           BottomNavigationBarItem(
@@ -142,4 +130,35 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
       ),
     );
   }
+
+  void _navigationTap(int index) {
+    if (index == 0) {
+      setState(() {
+        _pageIndex = 0;
+      });
+      Navigator.pushNamed(context, homeRoute, arguments: widget.user);
+    } else if (index == 1) {
+      setState(() {
+        _pageIndex = 1;
+      });
+      Navigator.pushNamed(context, plusRoute, arguments: widget.user);
+    } else if (index == 2) {
+      setState(() {
+        _pageIndex = 2;
+      });
+      Navigator.pushNamed(context, profileRoute, arguments: widget.user);
+    } else {
+      setState(() {
+        _pageIndex = index;
+      });
+      Navigator.pushNamed(context, settingsRoute, arguments: widget.user);
+    }
+  }
+}
+
+class DisplayArticle2Arguments {
+  Article article;
+  User user;
+
+  DisplayArticle2Arguments(this.article, this.user);
 }

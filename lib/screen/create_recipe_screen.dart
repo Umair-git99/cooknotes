@@ -86,7 +86,7 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
               : InkWell(
                   child: Container(
                     width: 300,
-                    height: 200,
+                    height: 150,
                     color: Colors.black12,
                     child: new Icon(Icons.add_a_photo, size: 70),
                   ),

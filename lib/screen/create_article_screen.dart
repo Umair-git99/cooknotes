@@ -1,17 +1,27 @@
 import 'dart:convert';
 import 'dart:io' as Io;
+import 'package:cooknotes/models/article.dart';
+import 'package:cooknotes/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'constants.dart';
+
 class CreateArticleScreen extends StatefulWidget {
+  final User user;
+
+  CreateArticleScreen(this.user);
   @override
   _CreateArticleScreenState createState() => _CreateArticleScreenState();
 }
 
 class _CreateArticleScreenState extends State<CreateArticleScreen> {
+  int _pageIndex = 1;
   Io.File _image;
   String _articlename;
   String _articlecontent;
+  String _articleauthor;
+  String _articledate;
   final picker = ImagePicker();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -39,7 +49,7 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
             : InkWell(
                 child: Container(
                   width: 300,
-                  height: 200,
+                  height: 150,
                   color: Colors.black12,
                   child: new Icon(Icons.add_a_photo, size: 70),
                 ),
@@ -154,7 +164,9 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
         child: AppBar(
           leading: IconButton(
             icon: Icon(Icons.arrow_back_rounded, color: Color(0xff00556A)),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
           centerTitle: true,
           elevation: 0,
@@ -165,7 +177,10 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
           actions: <Widget>[
             FlatButton(
               textColor: Colors.black,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, logoutRoute, (_) => false);
+              },
               child: Text("Logout",
                   style: TextStyle(
                       fontSize: 15.0,
@@ -201,7 +216,7 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       new Text(
-                        'Post Title',
+                        'Article Name',
                         style: TextStyle(
                             fontSize: 20.0,
                             color: Color(0xff515659),
@@ -210,8 +225,26 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
                       SizedBox(height: 10),
                       _buildArticleName(),
                       SizedBox(height: 20),
+                      new Text(
+                        'Author',
+                        style: TextStyle(
+                            fontSize: 20.0,
+                            color: Color(0xff515659),
+                            fontFamily: 'Lato Black'),
+                      ),
+                      SizedBox(height: 10),
+                      _buildArticleAuthor(),
+                      SizedBox(height: 20),
                       _buildImage(),
                       SizedBox(height: 30),
+                      new Text(
+                        'Article Content',
+                        style: TextStyle(
+                            fontSize: 20.0,
+                            color: Color(0xff515659),
+                            fontFamily: 'Lato Black'),
+                      ),
+                      SizedBox(height: 10),
                       _buildArticleContent(),
                       SizedBox(height: 50),
                       new Row(
@@ -223,7 +256,9 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
                               color: Colors.red,
                             ),
                             iconSize: 70,
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
                           ),
                           SizedBox(width: 30),
                           new IconButton(
@@ -237,13 +272,25 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
 
                               _formKey.currentState.save();
 
-                              List<int> imageFoodBytes =
-                                  _image.readAsBytesSync();
-                              String base64FoodImage =
-                                  base64UrlEncode(imageFoodBytes);
-                              print('Image String: ' + base64FoodImage);
+                              //  List<int> imageFoodBytes =
+                              //     _image.readAsBytesSync();
+                              //  String base64FoodImage =
+                              //     base64UrlEncode(imageFoodBytes);
+                              //    print('Image String: ' + base64FoodImage);
                               print('Article Name: ' + _articlename);
+                              print('Article Name: ' + _articleauthor);
                               print('Article Content: ' + _articlecontent);
+
+                              Article newArticle = new Article(
+                                  title: _articlename,
+                                  author: _articleauthor,
+                                  image: 'assets/article3.jpg',
+                                  content: _articlecontent);
+
+                              widget.user.article.add(newArticle);
+
+                              Navigator.pushReplacementNamed(context, homeRoute,
+                                  arguments: widget.user);
                             },
                           )
                         ],
@@ -257,24 +304,28 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
+        selectedItemColor: Color(0xff00556A),
         showSelectedLabels: false,
         showUnselectedLabels: false,
+        currentIndex: _pageIndex,
+        onTap: _navigationTap,
         type: BottomNavigationBarType.fixed,
-        items: [
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: new Icon(Icons.home, color: Colors.black45),
+            icon: Icon(Icons.home),
             label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.add_circle_outline, color: Color(0xff00556A)),
+            icon: Icon(Icons.add_circle_outline),
             label: "Add",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.person),
+            icon: Icon(Icons.person),
             label: "Profile",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.settings),
+            icon: Icon(Icons.settings),
             label: "Settings",
           ),
         ],
@@ -283,28 +334,84 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
   }
 
   Widget _buildArticleName() {
-    Container(
+    return Container(
       child: TextFormField(
-        validator: (String value) {
-          if (value.isEmpty) {
-            return 'Articles are required';
-          }
-          return null;
-        },
-        onSaved: (String value) {
-          _articlename = value;
-        },
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
           fillColor: Colors.black12,
           filled: true,
-          hintText: '10 Basic Cooking Tricks You Should Know',
+          hintText: 'Article name here',
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.black, width: 1.0),
             borderRadius: BorderRadius.circular(30.0),
           ),
+          border: new OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(30),
+          ),
         ),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Article name is required';
+          }
+        },
+        onSaved: (String value) {
+          _articlename = value;
+        },
       ),
     );
+  }
+
+  Widget _buildArticleAuthor() {
+    return Container(
+      child: TextFormField(
+        decoration: new InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          fillColor: Colors.black12,
+          filled: true,
+          hintText: 'Author name here',
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black, width: 1.0),
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+          border: new OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Author name is required';
+          }
+        },
+        onSaved: (String value) {
+          _articleauthor = value;
+        },
+      ),
+    );
+  }
+
+  void _navigationTap(int index) {
+    if (index == 0) {
+      setState(() {
+        _pageIndex = 0;
+      });
+      Navigator.pushNamed(context, homeRoute, arguments: widget.user);
+    } else if (index == 1) {
+      setState(() {
+        _pageIndex = 1;
+      });
+      Navigator.pushNamed(context, plusRoute, arguments: widget.user);
+    } else if (index == 2) {
+      setState(() {
+        _pageIndex = 2;
+      });
+      Navigator.pushNamed(context, profileRoute, arguments: widget.user);
+    } else {
+      setState(() {
+        _pageIndex = index;
+      });
+      Navigator.pushNamed(context, settingsRoute, arguments: widget.user);
+    }
   }
 }

@@ -11,10 +11,13 @@ import 'package:cooknotes/screen/recipelist_screen.dart';
 import 'package:cooknotes/screen/register_screen.dart';
 import 'package:cooknotes/screen/settings_screen.dart';
 import 'package:cooknotes/screen/splash_screen.dart';
+import 'package:cooknotes/screen/update_article_screen.dart';
 import 'package:cooknotes/screen/update_recipe_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'create_article_screen.dart';
 import 'create_recipe_screen.dart';
+import 'display_article2_screen.dart';
 import 'display_article_screen.dart';
 import 'home_screen.dart';
 import 'logout_screen.dart';
@@ -50,6 +53,13 @@ Route<dynamic> createRoute(settings) {
           return DisplayArticleScreen(argument.article, argument.user);
         },
       );
+    case displayArticle2Route:
+      return MaterialPageRoute(
+        builder: (context) {
+          DisplayArticle2Arguments argument = settings.arguments;
+          return DisplayArticle2Screen(argument.article, argument.user);
+        },
+      );
     case profileRoute:
       return MaterialPageRoute(
         builder: (context) {
@@ -81,11 +91,19 @@ Route<dynamic> createRoute(settings) {
           return DisplayRecipeScreen(argument.recipe, argument.user);
         },
       );
+
     case updateRecipeRoute:
       return MaterialPageRoute(
         builder: (context) {
           UpdateRecipeArguments argument = settings.arguments;
           return UpdateRecipeScreen(argument.recipe, argument.user);
+        },
+      );
+    case updateArticleRoute:
+      return MaterialPageRoute(
+        builder: (context) {
+          UpdateArticleArguments argument = settings.arguments;
+          return UpdateArticleScreen(argument.article, argument.user);
         },
       );
     case plusRoute:
@@ -98,6 +116,12 @@ Route<dynamic> createRoute(settings) {
       return MaterialPageRoute(
         builder: (context) {
           return CreateRecipeScreen(settings.arguments);
+        },
+      );
+    case createArticleRoute:
+      return MaterialPageRoute(
+        builder: (context) {
+          return CreateArticleScreen(settings.arguments);
         },
       );
     case logoutRoute:

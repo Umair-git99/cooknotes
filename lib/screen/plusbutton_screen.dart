@@ -111,7 +111,7 @@ class _PlusButtonScreenState extends State<PlusButtonScreen> {
     return Card(
       child: new InkWell(
         onTap: () {
-          Navigator.pushNamed(context, createRecipeRoute,
+          Navigator.pushNamed(context, createArticleRoute,
               arguments: widget.user);
         },
         child: Padding(

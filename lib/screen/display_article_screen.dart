@@ -86,12 +86,6 @@ class _DisplayArticleScreenState extends State<DisplayArticleScreen> {
                       color: Color(0xff00556A),
                       fontFamily: 'Lato Black')),
               SizedBox(height: 10),
-              new Text('Posted on: ' + widget.article.date,
-                  style: TextStyle(
-                      fontSize: 20.0,
-                      color: Color(0xff00556A),
-                      fontFamily: 'Lato Black')),
-              SizedBox(height: 10),
               new Text(widget.article.content,
                   style: TextStyle(
                       fontSize: 15.0,
