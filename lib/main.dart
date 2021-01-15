@@ -7,17 +7,10 @@ void main() {
       create: (context) => ValueNotifier(true),
       child: Consumer<ValueNotifier<bool>>(
           builder: (_, notifier, __) => MaterialApp(
-                //   onGenerateRoute: createRoute,
                 title: 'Cook Notes Demo',
                 debugShowCheckedModeBanner: false,
-                theme: notifier.value
-                    //? ThemeData(primarySwatch: Colors.blue)
-                    ? ThemeData.light()
-                    : ThemeData.dark(),
-
-                //home: ProfileScreen(mockData[1])
+                theme: notifier.value ? ThemeData.light() : ThemeData.dark(),
                 home: SplashScreens(),
-                //home: HomeScreen(mockData[0], mockData),
               ))));
 }
 /* void main() {

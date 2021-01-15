@@ -23,6 +23,8 @@ import 'constants.dart';
 
 Route<dynamic> createRoute(settings) {
   switch (settings.name) {
+
+    //MODULE 1 - LOGIN, REGISTER, LOGIN, LOGOUT
     case loginRoute:
       return MaterialPageRoute(
         builder: (context) => LoginScreen(mockData),
@@ -31,6 +33,10 @@ Route<dynamic> createRoute(settings) {
       return MaterialPageRoute(
         builder: (context) => RegisterScreen(mockData),
       );
+    case logoutRoute:
+      return MaterialPageRoute(builder: (context) => LogoutScreen());
+
+    //MODULE 2 - HOME, PROFILE, SETTINGS
     case createProfileRoute:
       return MaterialPageRoute(
         builder: (context) => CreateProfileScreen(settings.arguments, mockData),
@@ -38,26 +44,6 @@ Route<dynamic> createRoute(settings) {
     case homeRoute:
       return MaterialPageRoute(
         builder: (context) => HomeScreen(settings.arguments, mockData),
-      );
-    case recipeListRoute:
-      return MaterialPageRoute(
-        builder: (context) {
-          return RecipeListScreen(settings.arguments);
-        },
-      );
-    case displayArticleRoute:
-      return MaterialPageRoute(
-        builder: (context) {
-          DisplayArticleArguments argument = settings.arguments;
-          return DisplayArticleScreen(argument.article, argument.user);
-        },
-      );
-    case displayArticle2Route:
-      return MaterialPageRoute(
-        builder: (context) {
-          DisplayArticle2Arguments argument = settings.arguments;
-          return DisplayArticle2Screen(argument.article, argument.user);
-        },
       );
     case profileRoute:
       return MaterialPageRoute(
@@ -77,10 +63,18 @@ Route<dynamic> createRoute(settings) {
           return SettingsScreen(settings.arguments);
         },
       );
-    case articleListRoute:
+
+    //MODULE 3 - PLUSBUTTON, RECIPE
+    case plusRoute:
       return MaterialPageRoute(
         builder: (context) {
-          return ArticleListScreen(settings.arguments);
+          return PlusButtonScreen(settings.arguments);
+        },
+      );
+    case recipeListRoute:
+      return MaterialPageRoute(
+        builder: (context) {
+          return RecipeListScreen(settings.arguments);
         },
       );
     case displayRecipeRoute:
@@ -90,25 +84,11 @@ Route<dynamic> createRoute(settings) {
           return DisplayRecipeScreen(argument.recipe, argument.user);
         },
       );
-
     case updateRecipeRoute:
       return MaterialPageRoute(
         builder: (context) {
           UpdateRecipeArguments argument = settings.arguments;
           return UpdateRecipeScreen(argument.recipe, argument.user);
-        },
-      );
-    case updateArticleRoute:
-      return MaterialPageRoute(
-        builder: (context) {
-          UpdateArticleArguments argument = settings.arguments;
-          return UpdateArticleScreen(argument.article, argument.user);
-        },
-      );
-    case plusRoute:
-      return MaterialPageRoute(
-        builder: (context) {
-          return PlusButtonScreen(settings.arguments);
         },
       );
     case createRecipeRoute:
@@ -117,13 +97,40 @@ Route<dynamic> createRoute(settings) {
           return CreateRecipeScreen(settings.arguments);
         },
       );
+
+    //MODULE 4 - ARTICLE
+    case updateArticleRoute:
+      return MaterialPageRoute(
+        builder: (context) {
+          UpdateArticleArguments argument = settings.arguments;
+          return UpdateArticleScreen(argument.article, argument.user);
+        },
+      );
+    case displayArticleRoute:
+      return MaterialPageRoute(
+        builder: (context) {
+          DisplayArticleArguments argument = settings.arguments;
+          return DisplayArticleScreen(argument.article, argument.user);
+        },
+      );
+    case displayArticle2Route:
+      return MaterialPageRoute(
+        builder: (context) {
+          DisplayArticle2Arguments argument = settings.arguments;
+          return DisplayArticle2Screen(argument.article, argument.user);
+        },
+      );
+    case articleListRoute:
+      return MaterialPageRoute(
+        builder: (context) {
+          return ArticleListScreen(settings.arguments);
+        },
+      );
     case createArticleRoute:
       return MaterialPageRoute(
         builder: (context) {
           return CreateArticleScreen(settings.arguments);
         },
       );
-    case logoutRoute:
-      return MaterialPageRoute(builder: (context) => LogoutScreen());
   }
 }
