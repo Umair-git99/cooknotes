@@ -14,6 +14,7 @@ class PlusButtonScreen extends StatefulWidget {
 }
 
 class _PlusButtonScreenState extends State<PlusButtonScreen> {
+  int _pageIndex = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,29 +59,61 @@ class _PlusButtonScreenState extends State<PlusButtonScreen> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
+        selectedItemColor: Color(0xff00556A),
         showSelectedLabels: false,
         showUnselectedLabels: false,
+        currentIndex: _pageIndex,
+        onTap: _navigationTap,
         type: BottomNavigationBarType.fixed,
-        items: [
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: new Icon(Icons.home, color: Colors.black45),
+            icon: Icon(Icons.home),
             label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.add_circle_outline, color: Color(0xff00556A)),
+            icon: Icon(Icons.add_circle_outline),
             label: "Add",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.person),
+            icon: Icon(Icons.person),
             label: "Profile",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.settings),
+            icon: Icon(Icons.settings),
             label: "Settings",
           ),
         ],
       ),
     );
+  }
+
+  void _navigationTap(int index) {
+    if (index == 0) {
+      setState(() {
+        _pageIndex = 0;
+      });
+      Navigator.pushReplacementNamed(context, homeRoute,
+          arguments: widget.user);
+    } else if (index == 1) {
+      setState(() {
+        _pageIndex = 1;
+      });
+      Navigator.pushReplacementNamed(context, plusRoute,
+          arguments: widget.user);
+    } else if (index == 2) {
+      setState(() {
+        _pageIndex = 2;
+      });
+      Navigator.pushReplacementNamed(context, profileRoute,
+          arguments: widget.user);
+    } else {
+      setState(() {
+        _pageIndex = index;
+      });
+      Navigator.pushReplacementNamed(context, settingsRoute,
+          arguments: widget.user);
+    }
   }
 }
 
