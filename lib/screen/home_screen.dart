@@ -177,7 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
         for (int i = 0; i < widget.all[index].article.length; i++) {
           list.add(
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
                   InkWell(
@@ -187,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               widget.all[index].article[i], widget.user));
                     },
                     child: new Image.asset(widget.all[index].article[i].image,
-                        width: 200, height: 200),
+                        width: 200, height: 150),
                   ),
                   new Text(
                     widget.all[index].article[i].title,
