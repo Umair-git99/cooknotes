@@ -1,9 +1,12 @@
 import 'dart:io' as Io;
 import 'dart:convert';
+import 'package:cooknotes/models/recipe.dart';
 import 'package:cooknotes/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+
+import 'constants.dart';
 
 class CreateRecipeScreen extends StatefulWidget {
   final User user;
@@ -25,6 +28,8 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
   String _numPerson;
   String _ingredients;
   String _instructions;
+
+  int _pageIndex = 1;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -396,7 +401,9 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
         child: AppBar(
           leading: IconButton(
             icon: Icon(Icons.arrow_back_rounded, color: Color(0xff00556A)),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
           centerTitle: true,
           elevation: 0,
@@ -407,7 +414,10 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
           actions: <Widget>[
             FlatButton(
               textColor: Colors.black,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, logoutRoute, (_) => false);
+              },
               child: Text("Logout",
                   style: TextStyle(
                       fontSize: 15.0,
@@ -559,7 +569,9 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
                           new IconButton(
                               icon: Icon(Icons.cancel, color: Colors.red),
                               iconSize: 70,
-                              onPressed: () {}),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              }),
                           SizedBox(width: 30),
                           new IconButton(
                               icon: Icon(Icons.check_circle,
@@ -576,7 +588,7 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
                                     _image.readAsBytesSync();
                                 String base64FoodImage =
                                     base64UrlEncode(imageFoodBytes);
-                                print('Image String: ' + base64FoodImage);
+                                //print('Image String: ' + base64FoodImage);
 
                                 print('Food Name: ' + _foodname);
                                 print('Preparation Hours:\t\t' + _prepHours);
@@ -586,7 +598,23 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
                                 print('Serving for (person):\t' + _numPerson);
                                 print('Ingredients:\t\t' + _ingredients);
                                 print('Instructions:\t\t' + _instructions);
-                                // print('Image:\t'+ _image);
+
+                                Recipe newRecipe = new Recipe(
+                                    foodName: _foodname,
+                                    image: 'assets/pizza.jpg',
+                                    prepHours: int.parse(_prepHours),
+                                    prepMins: int.parse(_prepMins),
+                                    cookHours: int.parse(_cookHours),
+                                    cookMins: int.parse(_cookMins),
+                                    numPerson: int.parse(_numPerson),
+                                    ingredients: _ingredients,
+                                    instruction: _instructions);
+
+                                widget.user.recipe.add(newRecipe);
+
+                                Navigator.pushReplacementNamed(
+                                    context, recipeListRoute,
+                                    arguments: widget.user);
                               }),
                         ],
                       )
@@ -599,28 +627,60 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
+        selectedItemColor: Color(0xff00556A),
         showSelectedLabels: false,
         showUnselectedLabels: false,
+        currentIndex: _pageIndex,
+        onTap: _navigationTap,
         type: BottomNavigationBarType.fixed,
-        items: [
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: new Icon(Icons.home, color: Colors.black45),
+            icon: Icon(Icons.home),
             label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.add_circle_outline, color: Color(0xff00556A)),
+            icon: Icon(Icons.add_circle_outline),
             label: "Add",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.person),
+            icon: Icon(Icons.person),
             label: "Profile",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.settings),
+            icon: Icon(Icons.settings),
             label: "Settings",
           ),
         ],
       ),
     );
+  }
+
+  void _navigationTap(int index) {
+    if (index == 0) {
+      setState(() {
+        _pageIndex = 0;
+      });
+      Navigator.pushReplacementNamed(context, homeRoute,
+          arguments: widget.user);
+    } else if (index == 1) {
+      setState(() {
+        _pageIndex = 1;
+      });
+      Navigator.pushReplacementNamed(context, plusRoute,
+          arguments: widget.user);
+    } else if (index == 2) {
+      setState(() {
+        _pageIndex = 2;
+      });
+      Navigator.pushReplacementNamed(context, profileRoute,
+          arguments: widget.user);
+    } else {
+      setState(() {
+        _pageIndex = index;
+      });
+      Navigator.pushReplacementNamed(context, settingsRoute,
+          arguments: widget.user);
+    }
   }
 }

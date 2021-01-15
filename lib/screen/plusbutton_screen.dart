@@ -46,6 +46,7 @@ class _PlusButtonScreenState extends State<PlusButtonScreen> {
         ),
       ),
       body: new Container(
+        padding: EdgeInsets.all(20),
         child: new Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
