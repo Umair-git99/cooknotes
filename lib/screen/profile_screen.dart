@@ -19,11 +19,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.0),
         child: AppBar(
-          leading: IconButton(
-            icon: Image.asset('assets/cooknotes.png'),
-            onPressed: () {},
-          ),
-          centerTitle: true,
+          automaticallyImplyLeading: false,
           elevation: 0,
           backgroundColor: Colors.white,
           title: Text('COOKNOTES',
@@ -32,7 +28,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           actions: <Widget>[
             FlatButton(
               textColor: Colors.black,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, logoutRoute, (_) => false);
+              },
               child: Text("Logout",
                   style: TextStyle(
                       fontSize: 15.0,
@@ -72,7 +71,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 80),
+              SizedBox(height: 20),
               Row(
                 children: [
                   SizedBox(width: 20),
@@ -110,7 +109,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: new Color(0xff00556A))),
                 ],
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -129,6 +128,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ])
                 ],
               ),
+              SizedBox(height: 10),
+              widget.user.usertype == 'C' ? buildArticle() : Container(),
               SizedBox(height: 50),
               RaisedButton(
                   padding: EdgeInsets.symmetric(horizontal: 40.0),
@@ -137,7 +138,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   color: new Color(0xff00556A),
                   textColor: Colors.white,
                   child: Text('Edit Profile'),
-                  onPressed: () {}),
+                  onPressed: () {
+                    Navigator.pushNamed(context, editProfileRoute,
+                        arguments: widget.user);
+                  }),
             ],
           ),
         ),
@@ -198,5 +202,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
       Navigator.pushReplacementNamed(context, settingsRoute,
           arguments: widget.user);
     }
+  }
+
+  buildArticle() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        new Image.asset("assets/article.png", width: 90),
+        SizedBox(width: 40),
+        new Column(children: <Widget>[
+          new Text("Total Article",
+              style: TextStyle(
+                  fontSize: 20.0,
+                  color: Color(0xff00556A),
+                  fontFamily: 'Lato Black')),
+          new Text(widget.user.article.length.toString(),
+              style: TextStyle(
+                  fontSize: 50.0,
+                  color: Color(0xff00556A),
+                  fontFamily: 'Lato Black'))
+        ])
+      ],
+    );
   }
 }

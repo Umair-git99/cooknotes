@@ -86,21 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: new Color(0xff00556A),
                     fontWeight: FontWeight.bold)),
             _imageScroll2(widget.all),
-            Visibility(
-              visible: widget.user.usertype == 'C',
-              child: RaisedButton(
-                padding: EdgeInsets.symmetric(horizontal: 40.0),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0)),
-                color: new Color(0xff00556A),
-                textColor: Colors.white,
-                child: Text('My Article'),
-                onPressed: () {
-                  Navigator.pushNamed(context, articleListRoute,
-                      arguments: widget.user);
-                },
-              ),
-            ),
+            widget.user.usertype == 'C' ? _buildArticleButton() : Container(),
             SizedBox(height: 40)
           ],
         )),
@@ -255,6 +241,19 @@ class _HomeScreenState extends State<HomeScreen> {
       });
       Navigator.pushNamed(context, settingsRoute, arguments: widget.user);
     }
+  }
+
+  _buildArticleButton() {
+    return RaisedButton(
+      padding: EdgeInsets.symmetric(horizontal: 40.0),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+      color: new Color(0xff00556A),
+      textColor: Colors.white,
+      child: Text('My Article'),
+      onPressed: () {
+        Navigator.pushNamed(context, articleListRoute, arguments: widget.user);
+      },
+    );
   }
 }
 

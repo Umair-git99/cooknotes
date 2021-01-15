@@ -20,11 +20,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.0),
         child: AppBar(
-          leading: IconButton(
-            icon: Image.asset('assets/cooknotes.png'),
-            onPressed: () {},
-          ),
-          centerTitle: true,
+          automaticallyImplyLeading: false,
           elevation: 0,
           backgroundColor: Colors.white,
           title: Text('COOKNOTES',
@@ -33,7 +29,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
           actions: <Widget>[
             FlatButton(
               textColor: Colors.black,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, logoutRoute, (_) => false);
+              },
               child: Text("Logout",
                   style: TextStyle(
                       fontSize: 15.0,
@@ -143,92 +142,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           widget.user.theme = selected;
                         }),
                       ),
-                      const Divider(
+                      SizedBox(height: 20),
+                      /* const Divider(
                         color: Color(0xFF616161),
                         height: 20,
                         thickness: 1,
                         indent: 10,
                         endIndent: 10,
                       ),
-                      SizedBox(height: 5),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(width: 15),
-                          new Text('Delete Account',
-                              style: new TextStyle(
-                                  fontSize: 18.0,
-                                  fontFamily: 'Lato Black',
-                                  color: new Color(0xFF616161),
-                                  fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(width: 15),
-                          new Text(
-                              'By deleting your account, you will lose all your data.',
-                              style: new TextStyle(
-                                  fontSize: 13.0,
-                                  fontFamily: 'Lato Black',
-                                  color: new Color(0xFF616161))),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Container(
-                        padding: EdgeInsets.all(15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            RaisedButton(
-                                padding: EdgeInsets.symmetric(horizontal: 40.0),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15.0)),
-                                color: Colors.black,
-                                textColor: Colors.white,
-                                child: Text('Delete'),
-                                onPressed: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: Text("Delete Account"),
-                                          content: Text(
-                                              "Are you sure you want to delete your account?"),
-                                          actions: [
-                                            FlatButton(
-                                              child: Text("Yes",
-                                                  style: TextStyle(
-                                                      fontSize: 20.0,
-                                                      color: Color(0xff00556A),
-                                                      fontFamily:
-                                                          'Lato Black')),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                            FlatButton(
-                                              child: Text("No",
-                                                  style: TextStyle(
-                                                      fontSize: 20.0,
-                                                      color: Colors.red,
-                                                      fontFamily:
-                                                          'Lato Black')),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            )
-                                          ],
-                                        );
-                                      });
-                                }),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 40),
-                      RaisedButton(
+                      SizedBox(height: 40), */
+                      /* RaisedButton(
                           padding: EdgeInsets.symmetric(horizontal: 40.0),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15.0)),
@@ -259,8 +182,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     ],
                                   );
                                 });
-                          }),
-                      SizedBox(height: 30),
+                          }), */
+                      //SizedBox(height: 30),
                     ],
                   ),
                 ),

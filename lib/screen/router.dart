@@ -3,6 +3,7 @@ import 'package:cooknotes/screen/articlelist_screen.dart';
 import 'package:cooknotes/screen/constants.dart';
 import 'package:cooknotes/screen/create_profile_screen.dart';
 import 'package:cooknotes/screen/display_recipe_screen.dart';
+import 'package:cooknotes/screen/edit_profile_screen.dart';
 import 'package:cooknotes/screen/login_screen.dart';
 import 'package:cooknotes/screen/plusbutton_screen.dart';
 import 'package:cooknotes/screen/profile_screen.dart';
@@ -53,6 +54,12 @@ Route<dynamic> createRoute(settings) {
       return MaterialPageRoute(
         builder: (context) {
           return ProfileScreen(settings.arguments);
+        },
+      );
+    case editProfileRoute:
+      return MaterialPageRoute(
+        builder: (context) {
+          return EditProfileScreen(settings.arguments);
         },
       );
     case settingsRoute:

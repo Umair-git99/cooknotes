@@ -1,6 +1,9 @@
 import 'package:cooknotes/models/user.dart';
+import 'package:cooknotes/screen/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'constants.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final User user;
@@ -12,12 +15,12 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  int _pageIndex = 2;
   String _username;
   String _displayName;
   String _email;
   String _password;
-  String _age;
+  int _age;
   bool showPass = false;
   @override
   Widget build(BuildContext context) {
@@ -26,8 +29,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         preferredSize: Size.fromHeight(60.0),
         child: AppBar(
           leading: IconButton(
-            icon: Image.asset('assets/cooknotes.png'),
-            onPressed: () {},
+            icon: Icon(Icons.arrow_back_rounded, color: Color(0xff00556A)),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
           centerTitle: true,
           elevation: 0,
@@ -38,7 +43,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           actions: <Widget>[
             FlatButton(
               textColor: Colors.black,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, logoutRoute, (_) => false);
+              },
               child: Text("Logout",
                   style: TextStyle(
                       fontSize: 15.0,
@@ -76,7 +84,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               SizedBox(height: 20),
                               CircleAvatar(
                                 backgroundColor: Color(0xffE6E6E6),
-                                backgroundImage: AssetImage('assets/tony.jpg'),
+                                backgroundImage:
+                                    AssetImage(widget.user.profilePic),
                                 radius: 40,
                               ),
                               SizedBox(height: 10),
@@ -123,7 +132,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                 _displayName);
                                             print('Email: ' + _email);
                                             print('Password: ' + _password);
-                                            print('Age: ' + _age);
+                                            print('Age: ' + _age.toString());
+
+                                            widget.user.username = _username;
+                                            widget.user.displayName =
+                                                _displayName;
+                                            widget.user.email = _email;
+                                            widget.user.password = _password;
+                                            widget.user.age = _age;
+
+                                            Navigator.pushReplacementNamed(
+                                                context, profileRoute,
+                                                arguments: widget.user);
                                           }),
                                     ],
                                   ),
@@ -139,24 +159,28 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
+        selectedItemColor: Color(0xff00556A),
         showSelectedLabels: false,
         showUnselectedLabels: false,
+        currentIndex: _pageIndex,
+        onTap: _navigationTap,
         type: BottomNavigationBarType.fixed,
-        items: [
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: new Icon(Icons.home, color: Colors.black45),
+            icon: Icon(Icons.home),
             label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.add_circle_outline),
+            icon: Icon(Icons.add_circle_outline),
             label: "Add",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.person, color: Color(0xff00556A)),
+            icon: Icon(Icons.person),
             label: "Profile",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.settings),
+            icon: Icon(Icons.settings),
             label: "Settings",
           ),
         ],
@@ -347,6 +371,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Widget _buildAge() {
     return TextFormField(
+      keyboardType: TextInputType.number,
       initialValue: widget.user.age.toString(),
       decoration: InputDecoration(
         labelText: 'Age',
@@ -367,16 +392,39 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ),
       maxLength: 2,
       validator: (String value) {
-        int _age1 = int.tryParse(value);
-        if (_age1 == null || _age1 <= 0) {
-          return 'Age is required';
+        if (value.isEmpty) {
+          return 'Age is Required';
         }
 
         return null;
       },
       onSaved: (String value) {
-        _age = value;
+        _age = int.parse(value);
       },
     );
+  }
+
+  void _navigationTap(int index) {
+    if (index == 0) {
+      setState(() {
+        _pageIndex = 0;
+      });
+      //Navigator.pushNamed(context, homeRoute, arguments: widget.user);
+    } else if (index == 1) {
+      setState(() {
+        _pageIndex = 1;
+      });
+      Navigator.pushNamed(context, plusRoute, arguments: widget.user);
+    } else if (index == 2) {
+      setState(() {
+        _pageIndex = 2;
+      });
+      Navigator.pushNamed(context, profileRoute, arguments: widget.user);
+    } else {
+      setState(() {
+        _pageIndex = index;
+      });
+      Navigator.pushNamed(context, settingsRoute, arguments: widget.user);
+    }
   }
 }
