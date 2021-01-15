@@ -73,31 +73,7 @@ class _PlusButtonScreenState extends State<PlusButtonScreen> {
                 ),
               ),
             ),
-            Visibility(
-              visible: widget.user.usertype == 'C',
-              child: Card(
-                child: new InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, createRecipeRoute,
-                        arguments: widget.user);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: new Column(
-                      children: <Widget>[
-                        new Image.asset('assets/article.png',
-                            height: 100, width: 100),
-                        new Text('Create a new article',
-                            style: TextStyle(
-                                fontSize: 20.0,
-                                color: Color(0xff00556A),
-                                fontFamily: 'Lato Black')),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            widget.user.usertype == 'C' ? newArticleCard() : Container(),
           ],
         ),
       ),
@@ -127,6 +103,30 @@ class _PlusButtonScreenState extends State<PlusButtonScreen> {
             label: "Settings",
           ),
         ],
+      ),
+    );
+  }
+
+  newArticleCard() {
+    return Card(
+      child: new InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, createRecipeRoute,
+              arguments: widget.user);
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: new Column(
+            children: <Widget>[
+              new Image.asset('assets/article.png', height: 100, width: 100),
+              new Text('Create a new article',
+                  style: TextStyle(
+                      fontSize: 20.0,
+                      color: Color(0xff00556A),
+                      fontFamily: 'Lato Black')),
+            ],
+          ),
+        ),
       ),
     );
   }
