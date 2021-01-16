@@ -77,7 +77,6 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
               ),
               new Container(
                   child: Divider(
-                color: Colors.black,
                 height: 40,
               )),
               new Row(
@@ -95,9 +94,7 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
                               fontFamily: 'Lato Black')),
                       new Text(widget.recipe.numPerson.toString() + " person",
                           style: TextStyle(
-                              fontSize: 15.0,
-                              color: Colors.black54,
-                              fontFamily: 'Lato Black'))
+                              fontSize: 15.0, fontFamily: 'Lato Black'))
                     ],
                   ),
                   SizedBox(width: 40),
@@ -116,9 +113,7 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
                               " minutes",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 15.0,
-                              color: Colors.black54,
-                              fontFamily: 'Lato Black'))
+                              fontSize: 15.0, fontFamily: 'Lato Black'))
                     ],
                   ),
                   SizedBox(width: 40),
@@ -138,16 +133,13 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
                               " minutes",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 15.0,
-                              color: Colors.black54,
-                              fontFamily: 'Lato Black'))
+                              fontSize: 15.0, fontFamily: 'Lato Black'))
                     ],
                   )
                 ],
               ),
               new Container(
                   child: Divider(
-                color: Colors.black,
                 height: 30,
               )),
               new Text('Ingredients',
@@ -157,13 +149,9 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
                       fontFamily: 'Lato Black')),
               SizedBox(height: 10),
               new Text(widget.recipe.ingredients,
-                  style: TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.black54,
-                      fontFamily: 'Lato Black')),
+                  style: TextStyle(fontSize: 20.0, fontFamily: 'Lato Black')),
               new Container(
                   child: Divider(
-                color: Colors.black,
                 height: 30,
               )),
               new Text('Instruction',
@@ -174,10 +162,7 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
               SizedBox(height: 10),
               new Text(widget.recipe.instruction,
                   textAlign: TextAlign.justify,
-                  style: TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.black54,
-                      fontFamily: 'Lato Black')),
+                  style: TextStyle(fontSize: 20.0, fontFamily: 'Lato Black')),
               SizedBox(height: 30),
               new Row(
                 mainAxisAlignment: MainAxisAlignment.end,

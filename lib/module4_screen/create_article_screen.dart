@@ -30,10 +30,7 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
         child: new Column(
       children: <Widget>[
         new Text('Header Photo',
-            style: TextStyle(
-                fontSize: 20.0,
-                color: Color(0xff515659),
-                fontFamily: 'Lato Black')),
+            style: TextStyle(fontSize: 20.0, fontFamily: 'Lato Black')),
         SizedBox(height: 10),
         (_image != null)
             ? Column(children: <Widget>[
@@ -51,7 +48,8 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
                   width: 300,
                   height: 150,
                   color: Colors.black12,
-                  child: new Icon(Icons.add_a_photo, size: 70),
+                  child: new Icon(Icons.add_a_photo,
+                      size: 70, color: Color(0xff00556A)),
                 ),
                 onTap: () {
                   _imageDialog(context);
@@ -131,7 +129,6 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
         maxLines: null,
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 75.0, 20.0, 75.0),
-          fillColor: Colors.black12,
           filled: true,
           hintText: 'Type your article here...',
           focusedBorder: OutlineInputBorder(
@@ -204,7 +201,6 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
                       fontFamily: 'Lato Black')),
               new Container(
                 child: Divider(
-                  color: Colors.black,
                   height: 50,
                 ),
               ),
@@ -216,20 +212,16 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
                     children: <Widget>[
                       new Text(
                         'Article Name',
-                        style: TextStyle(
-                            fontSize: 20.0,
-                            color: Color(0xff515659),
-                            fontFamily: 'Lato Black'),
+                        style:
+                            TextStyle(fontSize: 20.0, fontFamily: 'Lato Black'),
                       ),
                       SizedBox(height: 10),
                       _buildArticleName(),
                       SizedBox(height: 20),
                       new Text(
                         'Author',
-                        style: TextStyle(
-                            fontSize: 20.0,
-                            color: Color(0xff515659),
-                            fontFamily: 'Lato Black'),
+                        style:
+                            TextStyle(fontSize: 20.0, fontFamily: 'Lato Black'),
                       ),
                       SizedBox(height: 10),
                       _buildArticleAuthor(),
@@ -238,10 +230,8 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
                       SizedBox(height: 30),
                       new Text(
                         'Article Content',
-                        style: TextStyle(
-                            fontSize: 20.0,
-                            color: Color(0xff515659),
-                            fontFamily: 'Lato Black'),
+                        style:
+                            TextStyle(fontSize: 20.0, fontFamily: 'Lato Black'),
                       ),
                       SizedBox(height: 10),
                       _buildArticleContent(),
@@ -336,7 +326,6 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
       child: TextFormField(
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          fillColor: Colors.black12,
           filled: true,
           hintText: 'Article name here',
           focusedBorder: OutlineInputBorder(
@@ -365,7 +354,6 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
       child: TextFormField(
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          fillColor: Colors.black12,
           filled: true,
           hintText: 'Author name here',
           focusedBorder: OutlineInputBorder(

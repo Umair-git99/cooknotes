@@ -38,7 +38,6 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
       child: TextFormField(
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          fillColor: Colors.black12,
           filled: true,
           hintText: 'Asam Pedas',
           focusedBorder: OutlineInputBorder(
@@ -67,10 +66,7 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
       child: new Column(
         children: <Widget>[
           new Text('Food Photo',
-              style: TextStyle(
-                  fontSize: 20.0,
-                  color: Color(0xff515659),
-                  fontFamily: 'Lato Black')),
+              style: TextStyle(fontSize: 20.0, fontFamily: 'Lato Black')),
           SizedBox(height: 10),
           (_image != null)
               ? Column(children: <Widget>[
@@ -88,7 +84,8 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
                     width: 300,
                     height: 150,
                     color: Colors.black12,
-                    child: new Icon(Icons.add_a_photo, size: 70),
+                    child: new Icon(Icons.add_a_photo,
+                        size: 70, color: Color(0xff00556A)),
                   ),
                   onTap: () {
                     _imageDialog(context);
@@ -176,7 +173,6 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
         textAlign: TextAlign.center,
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          fillColor: Colors.black12,
           filled: true,
           hintText: '0',
           focusedBorder: OutlineInputBorder(
@@ -209,7 +205,6 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
         textAlign: TextAlign.center,
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          fillColor: Colors.black12,
           filled: true,
           hintText: '0',
           focusedBorder: OutlineInputBorder(
@@ -242,7 +237,6 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
         textAlign: TextAlign.center,
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          fillColor: Colors.black12,
           filled: true,
           hintText: '0',
           focusedBorder: OutlineInputBorder(
@@ -275,7 +269,6 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
         textAlign: TextAlign.center,
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          fillColor: Colors.black12,
           filled: true,
           hintText: '0',
           focusedBorder: OutlineInputBorder(
@@ -307,7 +300,6 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
         textAlign: TextAlign.center,
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.symmetric(vertical: 0.5, horizontal: 0.5),
-          fillColor: Colors.black12,
           filled: true,
           hintText: '0',
           focusedBorder: OutlineInputBorder(
@@ -335,10 +327,10 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
     return Container(
       child: TextFormField(
         keyboardType: TextInputType.multiline,
+        minLines: 6,
         maxLines: null,
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          fillColor: Colors.black12,
           filled: true,
           hintText: 'Insert your ingredients here',
           focusedBorder: OutlineInputBorder(
@@ -366,10 +358,10 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
     return Container(
       child: TextFormField(
         keyboardType: TextInputType.multiline,
+        minLines: 6,
         maxLines: null,
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          fillColor: Colors.black12,
           filled: true,
           hintText: 'Insert your instruction here',
           focusedBorder: OutlineInputBorder(
@@ -442,7 +434,6 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
                       fontFamily: 'Lato Black')),
               new Container(
                   child: Divider(
-                color: Colors.black,
                 height: 50,
               )),
               new Form(
@@ -454,9 +445,7 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
                     children: <Widget>[
                       new Text('Food Name?',
                           style: TextStyle(
-                              fontSize: 30.0,
-                              color: Color(0xff515659),
-                              fontFamily: 'Lato Black')),
+                              fontSize: 30.0, fontFamily: 'Lato Black')),
                       SizedBox(height: 10),
                       _buildFoodName(),
                       SizedBox(height: 20),
@@ -465,9 +454,7 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
                       new Row(children: <Widget>[
                         new Text('Preparation Time:',
                             style: TextStyle(
-                                fontSize: 18.0,
-                                color: Color(0xff515659),
-                                fontFamily: 'Lato Black')),
+                                fontSize: 18.0, fontFamily: 'Lato Black')),
                         SizedBox(width: 10),
                         Flexible(
                           child: _buildPrepHours(),
@@ -475,9 +462,7 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
                         SizedBox(width: 5),
                         new Text('h',
                             style: TextStyle(
-                                fontSize: 20.0,
-                                color: Color(0xff515659),
-                                fontFamily: 'Lato Bold')),
+                                fontSize: 20.0, fontFamily: 'Lato Bold')),
                         SizedBox(width: 5),
                         Flexible(
                           child: _buildPrepMins(),
@@ -485,17 +470,13 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
                         SizedBox(width: 5),
                         new Text('m',
                             style: TextStyle(
-                                fontSize: 20.0,
-                                color: Color(0xff515659),
-                                fontFamily: 'Lato Bold')),
+                                fontSize: 20.0, fontFamily: 'Lato Bold')),
                       ]),
                       SizedBox(height: 10),
                       new Row(children: <Widget>[
                         new Text('Cooking Time:',
                             style: TextStyle(
-                                fontSize: 18.0,
-                                color: Color(0xff515659),
-                                fontFamily: 'Lato Black')),
+                                fontSize: 18.0, fontFamily: 'Lato Black')),
                         SizedBox(width: 40),
                         Flexible(
                           child: _buildCookHours(),
@@ -503,9 +484,7 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
                         SizedBox(width: 5),
                         new Text('h',
                             style: TextStyle(
-                                fontSize: 20.0,
-                                color: Color(0xff515659),
-                                fontFamily: 'Lato Bold')),
+                                fontSize: 20.0, fontFamily: 'Lato Bold')),
                         SizedBox(width: 5),
                         Flexible(
                           child: _buildCookMins(),
@@ -513,17 +492,13 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
                         SizedBox(width: 5),
                         new Text('m',
                             style: TextStyle(
-                                fontSize: 20.0,
-                                color: Color(0xff515659),
-                                fontFamily: 'Lato Bold')),
+                                fontSize: 20.0, fontFamily: 'Lato Bold')),
                       ]),
                       SizedBox(height: 10),
                       new Row(children: <Widget>[
                         new Text('Serving for: ',
                             style: TextStyle(
-                                fontSize: 18.0,
-                                color: Color(0xff515659),
-                                fontFamily: 'Lato Black')),
+                                fontSize: 18.0, fontFamily: 'Lato Black')),
                         SizedBox(width: 60),
                         Flexible(
                           child: _buildNumPerson(),
@@ -531,34 +506,26 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
                         SizedBox(width: 5),
                         new Text('person',
                             style: TextStyle(
-                                fontSize: 20.0,
-                                color: Color(0xff515659),
-                                fontFamily: 'Lato Bold')),
+                                fontSize: 20.0, fontFamily: 'Lato Bold')),
                       ]),
                       SizedBox(height: 10),
                       new Container(
                           child: Divider(
-                        color: Colors.black,
                         height: 50,
                       )),
                       new Text('Ingredients',
                           style: TextStyle(
-                              fontSize: 30.0,
-                              color: Color(0xff515659),
-                              fontFamily: 'Lato Black')),
+                              fontSize: 30.0, fontFamily: 'Lato Black')),
                       SizedBox(height: 10),
                       _buildIngredients(),
                       SizedBox(height: 5),
                       new Container(
                           child: Divider(
-                        color: Colors.black,
                         height: 50,
                       )),
                       new Text('Instruction',
                           style: TextStyle(
-                              fontSize: 30.0,
-                              color: Color(0xff515659),
-                              fontFamily: 'Lato Black')),
+                              fontSize: 30.0, fontFamily: 'Lato Black')),
                       SizedBox(height: 10),
                       _buildInstruction(),
                       SizedBox(height: 50),

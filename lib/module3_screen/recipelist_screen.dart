@@ -72,7 +72,9 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
                         children: [
                           new Row(
                             children: <Widget>[
-                              new Icon(Icons.person, color: Colors.black54),
+                              new Icon(
+                                Icons.person,
+                              ),
                               SizedBox(width: 5),
                               new Text(
                                   widget.user.recipe[index].numPerson
@@ -80,14 +82,14 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
                                       ' person',
                                   style: TextStyle(
                                       fontSize: 15.0,
-                                      color: Colors.black54,
                                       fontFamily: 'Lato Black')),
                             ],
                           ),
                           new Row(
                             children: <Widget>[
-                              new Icon(Icons.restaurant_menu,
-                                  color: Colors.black54),
+                              new Icon(
+                                Icons.restaurant_menu,
+                              ),
                               SizedBox(width: 5),
                               new Text(
                                   'Cook Time: ' +
@@ -99,7 +101,6 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
                                       ' mins',
                                   style: TextStyle(
                                       fontSize: 15.0,
-                                      color: Colors.black54,
                                       fontFamily: 'Lato Black')),
                             ],
                           ),

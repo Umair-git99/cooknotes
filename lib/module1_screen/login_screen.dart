@@ -135,7 +135,6 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Text(
           'Forgot Password?',
           style: TextStyle(
-            color: Colors.black,
             fontWeight: FontWeight.bold,
             fontFamily: 'Lato',
           ),
@@ -203,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         color: Color(0xff00556A),
         child: Text(
-          'LOGIN',
+          'Login',
           style: TextStyle(
             color: Colors.white,
             letterSpacing: 1.5,
@@ -222,7 +221,6 @@ class _LoginScreenState extends State<LoginScreen> {
         Text(
           '     Don\'t have an Account? ',
           style: TextStyle(
-            color: Colors.black,
             fontWeight: FontWeight.bold,
             fontSize: 18.0,
           ),

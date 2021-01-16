@@ -3,6 +3,8 @@ import 'package:cooknotes/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../constants.dart';
+
 class DisplayArticleScreen extends StatefulWidget {
   final Article article;
   final User user;
@@ -14,6 +16,7 @@ class DisplayArticleScreen extends StatefulWidget {
 }
 
 class _DisplayArticleScreenState extends State<DisplayArticleScreen> {
+  int _pageIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +37,10 @@ class _DisplayArticleScreenState extends State<DisplayArticleScreen> {
           actions: <Widget>[
             FlatButton(
               textColor: Colors.black,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, logoutRoute, (_) => false);
+              },
               child: Text("Logout",
                   style: TextStyle(
                       fontSize: 15.0,
@@ -71,12 +77,6 @@ class _DisplayArticleScreenState extends State<DisplayArticleScreen> {
               ),
               new Container(
                   child: Divider(
-                color: Colors.black,
-                height: 40,
-              )),
-              new Container(
-                  child: Divider(
-                color: Colors.black,
                 height: 30,
               )),
               new Text('By: ' + widget.article.author,
@@ -86,13 +86,9 @@ class _DisplayArticleScreenState extends State<DisplayArticleScreen> {
                       fontFamily: 'Lato Black')),
               SizedBox(height: 10),
               new Text(widget.article.content,
-                  style: TextStyle(
-                      fontSize: 15.0,
-                      color: Colors.black54,
-                      fontFamily: 'Lato Black')),
+                  style: TextStyle(fontSize: 15.0, fontFamily: 'Lato Black')),
               new Container(
                   child: Divider(
-                color: Colors.black,
                 height: 30,
               )),
               SizedBox(height: 30),
@@ -101,28 +97,55 @@ class _DisplayArticleScreenState extends State<DisplayArticleScreen> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Color(0xff00556A),
         showSelectedLabels: false,
         showUnselectedLabels: false,
+        currentIndex: _pageIndex,
+        onTap: _navigationTap,
         type: BottomNavigationBarType.fixed,
-        items: [
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: new Icon(Icons.home, color: Color(0xff00556A)),
+            icon: Icon(Icons.home),
             label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.add_circle_outline),
+            icon: Icon(Icons.add_circle_outline),
             label: "Add",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.person),
+            icon: Icon(Icons.person),
             label: "Profile",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.settings),
+            icon: Icon(Icons.settings),
             label: "Settings",
           ),
         ],
       ),
     );
+  }
+
+  void _navigationTap(int index) {
+    if (index == 0) {
+      setState(() {
+        _pageIndex = 0;
+      });
+      Navigator.pushNamed(context, homeRoute, arguments: widget.user);
+    } else if (index == 1) {
+      setState(() {
+        _pageIndex = 1;
+      });
+      Navigator.pushNamed(context, plusRoute, arguments: widget.user);
+    } else if (index == 2) {
+      setState(() {
+        _pageIndex = 2;
+      });
+      Navigator.pushNamed(context, profileRoute, arguments: widget.user);
+    } else {
+      setState(() {
+        _pageIndex = index;
+      });
+      Navigator.pushNamed(context, settingsRoute, arguments: widget.user);
+    }
   }
 }

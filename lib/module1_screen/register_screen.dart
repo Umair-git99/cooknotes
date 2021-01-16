@@ -235,9 +235,8 @@ class _LoginScreenState extends State<RegisterScreen> {
     return Row(
       children: <Widget>[
         Text(
-          '     Already have an account ',
+          '     Already have an account ? ',
           style: TextStyle(
-            color: Colors.black,
             fontWeight: FontWeight.bold,
             fontSize: 18.0,
           ),

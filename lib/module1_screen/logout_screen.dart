@@ -17,7 +17,6 @@ class _LogoutScreenState extends State<LogoutScreen> {
         Text(
           'You are now Logged Out.',
           style: TextStyle(
-            color: Colors.black54,
             fontFamily: 'Lato Bold',
             fontSize: 18.0,
           ),
@@ -26,7 +25,6 @@ class _LogoutScreenState extends State<LogoutScreen> {
         Text(
           'Thank You for using CookNotes!',
           style: TextStyle(
-            color: Colors.black54,
             fontWeight: FontWeight.bold,
             fontFamily: 'Lato Bold',
             fontSize: 20.0,

@@ -73,7 +73,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               style: new TextStyle(
                                   fontSize: 18.0,
                                   fontFamily: 'Lato Black',
-                                  color: new Color(0xFF616161),
                                   fontWeight: FontWeight.bold)),
                         ],
                       ),
@@ -84,9 +83,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           SizedBox(width: 15),
                           new Text('Receive Notification',
                               style: new TextStyle(
-                                  fontSize: 15.0,
-                                  fontFamily: 'Lato Black',
-                                  color: new Color(0xFF616161))),
+                                fontSize: 15.0,
+                                fontFamily: 'Lato Black',
+                              )),
                         ],
                       ),
                       CheckboxGroup(
@@ -122,7 +121,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               style: new TextStyle(
                                   fontSize: 18.0,
                                   fontFamily: 'Lato Black',
-                                  color: new Color(0xFF616161),
                                   fontWeight: FontWeight.bold)),
                         ],
                       ),

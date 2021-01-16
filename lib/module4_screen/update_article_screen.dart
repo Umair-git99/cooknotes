@@ -74,7 +74,6 @@ class _UpdateArticleScreenState extends State<UpdateArticleScreen> {
                       fontFamily: 'Lato Black')),
               new Container(
                 child: Divider(
-                  color: Colors.black,
                   height: 50,
                 ),
               ),
@@ -86,26 +85,28 @@ class _UpdateArticleScreenState extends State<UpdateArticleScreen> {
                     children: <Widget>[
                       new Text(
                         'Post Title',
-                        style: TextStyle(
-                            fontSize: 20.0,
-                            color: Color(0xff515659),
-                            fontFamily: 'Lato Black'),
+                        style:
+                            TextStyle(fontSize: 20.0, fontFamily: 'Lato Black'),
                       ),
                       SizedBox(height: 10),
                       _buildArticleName(),
                       SizedBox(height: 10),
                       new Text(
                         'Author',
-                        style: TextStyle(
-                            fontSize: 20.0,
-                            color: Color(0xff515659),
-                            fontFamily: 'Lato Black'),
+                        style:
+                            TextStyle(fontSize: 20.0, fontFamily: 'Lato Black'),
                       ),
                       SizedBox(height: 10),
                       _buildArticleAuthor(),
                       SizedBox(height: 20),
                       _buildImage(),
                       SizedBox(height: 30),
+                      new Text(
+                        'Content',
+                        style:
+                            TextStyle(fontSize: 20.0, fontFamily: 'Lato Black'),
+                      ),
+                      SizedBox(height: 20),
                       _buildArticleContent(),
                       SizedBox(height: 50),
                       new Row(
@@ -195,7 +196,6 @@ class _UpdateArticleScreenState extends State<UpdateArticleScreen> {
         initialValue: widget.article.title,
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          fillColor: Colors.black12,
           filled: true,
           hintText: widget.article.title,
           hintStyle: TextStyle(
@@ -226,10 +226,7 @@ class _UpdateArticleScreenState extends State<UpdateArticleScreen> {
         child: new Column(
       children: <Widget>[
         new Text('Header Photo',
-            style: TextStyle(
-                fontSize: 20.0,
-                color: Color(0xff515659),
-                fontFamily: 'Lato Black')),
+            style: TextStyle(fontSize: 20.0, fontFamily: 'Lato Black')),
         SizedBox(height: 10),
         (_image != null)
             ? Column(children: <Widget>[
@@ -330,7 +327,6 @@ class _UpdateArticleScreenState extends State<UpdateArticleScreen> {
         maxLines: null,
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 75.0, 20.0, 75.0),
-          fillColor: Colors.black12,
           filled: true,
           hintText: widget.article.content,
           focusedBorder: OutlineInputBorder(
@@ -360,7 +356,6 @@ class _UpdateArticleScreenState extends State<UpdateArticleScreen> {
         initialValue: widget.article.author,
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          fillColor: Colors.black12,
           filled: true,
           hintText: widget.article.author,
           focusedBorder: OutlineInputBorder(

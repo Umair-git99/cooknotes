@@ -1,6 +1,5 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:cooknotes/models/mock_user.dart';
-import '../constants.dart';
 import '../router.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -14,16 +13,13 @@ class SplashScreens extends StatefulWidget {
 class _SplashScreensState extends State<SplashScreens> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        onGenerateRoute: createRoute,
-        home: AnimatedSplashScreen(
-            duration: 3000,
-            splash: Image.asset('assets/cooknotes2.png'),
-            nextScreen: LoginScreen(mockData),
-            splashTransition: SplashTransition.scaleTransition,
-            pageTransitionType: PageTransitionType.leftToRight,
-            splashIconSize: 250,
-            backgroundColor: Colors.white));
+    return AnimatedSplashScreen(
+        duration: 3000,
+        splash: Image.asset('assets/cooknotes2.png'),
+        nextScreen: LoginScreen(mockData),
+        splashTransition: SplashTransition.scaleTransition,
+        pageTransitionType: PageTransitionType.rightToLeft,
+        splashIconSize: 250,
+        backgroundColor: Colors.white);
   }
 }

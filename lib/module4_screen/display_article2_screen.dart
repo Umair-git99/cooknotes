@@ -77,12 +77,6 @@ class _DisplayArticle2ScreenState extends State<DisplayArticle2Screen> {
               ),
               new Container(
                   child: Divider(
-                color: Colors.black,
-                height: 40,
-              )),
-              new Container(
-                  child: Divider(
-                color: Colors.black,
                 height: 30,
               )),
               new Text('By: ' + widget.article.author,
@@ -92,13 +86,9 @@ class _DisplayArticle2ScreenState extends State<DisplayArticle2Screen> {
                       fontFamily: 'Lato Black')),
               SizedBox(height: 10),
               new Text(widget.article.content,
-                  style: TextStyle(
-                      fontSize: 15.0,
-                      color: Colors.black54,
-                      fontFamily: 'Lato Black')),
+                  style: TextStyle(fontSize: 15.0, fontFamily: 'Lato Black')),
               new Container(
                   child: Divider(
-                color: Colors.black,
                 height: 30,
               )),
               SizedBox(height: 30),

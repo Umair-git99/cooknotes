@@ -40,7 +40,6 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
         initialValue: widget.recipe.foodName,
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          fillColor: Colors.black12,
           filled: true,
           hintText: widget.recipe.foodName,
           hintStyle: TextStyle(
@@ -71,10 +70,7 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
       child: new Column(
         children: <Widget>[
           new Text('Food Photo',
-              style: TextStyle(
-                  fontSize: 20.0,
-                  color: Color(0xff515659),
-                  fontFamily: 'Lato Black')),
+              style: TextStyle(fontSize: 20.0, fontFamily: 'Lato Black')),
           SizedBox(height: 10),
           (_image != null)
               ? Column(children: <Widget>[
@@ -184,7 +180,6 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
         textAlign: TextAlign.center,
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          fillColor: Colors.black12,
           filled: true,
           hintText: widget.recipe.prepHours.toString(),
           focusedBorder: OutlineInputBorder(
@@ -217,7 +212,6 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
         textAlign: TextAlign.center,
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          fillColor: Colors.black12,
           filled: true,
           hintText: widget.recipe.prepMins.toString(),
           focusedBorder: OutlineInputBorder(
@@ -250,7 +244,6 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
         textAlign: TextAlign.center,
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          fillColor: Colors.black12,
           filled: true,
           hintText: widget.recipe.cookMins.toString(),
           focusedBorder: OutlineInputBorder(
@@ -283,7 +276,6 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
         textAlign: TextAlign.center,
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          fillColor: Colors.black12,
           filled: true,
           hintText: widget.recipe.cookMins.toString(),
           focusedBorder: OutlineInputBorder(
@@ -316,7 +308,6 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
         textAlign: TextAlign.center,
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.symmetric(vertical: 0.5, horizontal: 0.5),
-          fillColor: Colors.black12,
           filled: true,
           hintText: widget.recipe.numPerson.toString(),
           focusedBorder: OutlineInputBorder(
@@ -345,10 +336,10 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
       child: TextFormField(
         initialValue: widget.recipe.ingredients,
         keyboardType: TextInputType.multiline,
+        minLines: 6,
         maxLines: null,
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          fillColor: Colors.black12,
           filled: true,
           hintText: widget.recipe.ingredients,
           focusedBorder: OutlineInputBorder(
@@ -377,10 +368,10 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
       child: TextFormField(
         initialValue: widget.recipe.instruction,
         keyboardType: TextInputType.multiline,
+        minLines: 6,
         maxLines: null,
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          fillColor: Colors.black12,
           filled: true,
           hintText: widget.recipe.instruction,
           focusedBorder: OutlineInputBorder(
@@ -453,7 +444,6 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
                       fontFamily: 'Lato Black')),
               new Container(
                   child: Divider(
-                color: Colors.black,
                 height: 50,
               )),
               new Form(
@@ -465,9 +455,7 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
                     children: <Widget>[
                       new Text('Food Name?',
                           style: TextStyle(
-                              fontSize: 30.0,
-                              color: Color(0xff515659),
-                              fontFamily: 'Lato Black')),
+                              fontSize: 30.0, fontFamily: 'Lato Black')),
                       SizedBox(height: 10),
                       _buildFoodName(),
                       SizedBox(height: 20),
@@ -476,9 +464,7 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
                       new Row(children: <Widget>[
                         new Text('Preparation Time:',
                             style: TextStyle(
-                                fontSize: 18.0,
-                                color: Color(0xff515659),
-                                fontFamily: 'Lato Black')),
+                                fontSize: 18.0, fontFamily: 'Lato Black')),
                         SizedBox(width: 10),
                         Flexible(
                           child: _buildPrepHours(),
@@ -486,9 +472,7 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
                         SizedBox(width: 5),
                         new Text('h',
                             style: TextStyle(
-                                fontSize: 20.0,
-                                color: Color(0xff515659),
-                                fontFamily: 'Lato Bold')),
+                                fontSize: 20.0, fontFamily: 'Lato Bold')),
                         SizedBox(width: 5),
                         Flexible(
                           child: _buildPrepMins(),
@@ -496,17 +480,13 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
                         SizedBox(width: 5),
                         new Text('m',
                             style: TextStyle(
-                                fontSize: 20.0,
-                                color: Color(0xff515659),
-                                fontFamily: 'Lato Bold')),
+                                fontSize: 20.0, fontFamily: 'Lato Bold')),
                       ]),
                       SizedBox(height: 10),
                       new Row(children: <Widget>[
                         new Text('Cooking Time:',
                             style: TextStyle(
-                                fontSize: 18.0,
-                                color: Color(0xff515659),
-                                fontFamily: 'Lato Black')),
+                                fontSize: 18.0, fontFamily: 'Lato Black')),
                         SizedBox(width: 40),
                         Flexible(
                           child: _buildCookHours(),
@@ -514,9 +494,7 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
                         SizedBox(width: 5),
                         new Text('h',
                             style: TextStyle(
-                                fontSize: 20.0,
-                                color: Color(0xff515659),
-                                fontFamily: 'Lato Bold')),
+                                fontSize: 20.0, fontFamily: 'Lato Bold')),
                         SizedBox(width: 5),
                         Flexible(
                           child: _buildCookMins(),
@@ -524,17 +502,13 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
                         SizedBox(width: 5),
                         new Text('m',
                             style: TextStyle(
-                                fontSize: 20.0,
-                                color: Color(0xff515659),
-                                fontFamily: 'Lato Bold')),
+                                fontSize: 20.0, fontFamily: 'Lato Bold')),
                       ]),
                       SizedBox(height: 10),
                       new Row(children: <Widget>[
                         new Text('Serving for: ',
                             style: TextStyle(
-                                fontSize: 18.0,
-                                color: Color(0xff515659),
-                                fontFamily: 'Lato Black')),
+                                fontSize: 18.0, fontFamily: 'Lato Black')),
                         SizedBox(width: 60),
                         Flexible(
                           child: _buildNumPerson(),
@@ -542,34 +516,26 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
                         SizedBox(width: 5),
                         new Text('person',
                             style: TextStyle(
-                                fontSize: 20.0,
-                                color: Color(0xff515659),
-                                fontFamily: 'Lato Bold')),
+                                fontSize: 20.0, fontFamily: 'Lato Bold')),
                       ]),
                       SizedBox(height: 10),
                       new Container(
                           child: Divider(
-                        color: Colors.black,
                         height: 50,
                       )),
                       new Text('Ingredients',
                           style: TextStyle(
-                              fontSize: 30.0,
-                              color: Color(0xff515659),
-                              fontFamily: 'Lato Black')),
+                              fontSize: 30.0, fontFamily: 'Lato Black')),
                       SizedBox(height: 10),
                       _buildIngredients(),
                       SizedBox(height: 5),
                       new Container(
                           child: Divider(
-                        color: Colors.black,
                         height: 50,
                       )),
                       new Text('Instruction',
                           style: TextStyle(
-                              fontSize: 30.0,
-                              color: Color(0xff515659),
-                              fontFamily: 'Lato Black')),
+                              fontSize: 30.0, fontFamily: 'Lato Black')),
                       SizedBox(height: 10),
                       _buildInstruction(),
                       SizedBox(height: 50),
