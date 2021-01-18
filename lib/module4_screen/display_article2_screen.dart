@@ -1,24 +1,36 @@
 import 'package:cooknotes/models/article.dart';
 import 'package:cooknotes/models/user.dart';
+import 'package:cooknotes/services/user_data_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
+import '../dependencies.dart';
 
 class DisplayArticle2Screen extends StatefulWidget {
-  final Article article;
-  final User user;
-
-  DisplayArticle2Screen(this.article, this.user);
-
   @override
   _DisplayArticle2ScreenState createState() => _DisplayArticle2ScreenState();
 }
 
 class _DisplayArticle2ScreenState extends State<DisplayArticle2Screen> {
   int _pageIndex = 0;
+  Article article;
+  final UserDataService userDataService = service();
+
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<Article>(
+        future: userDataService.getArticle(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            article = snapshot.data;
+            return _buildMainScreen();
+          }
+          return _buildFetchingDataScreen();
+        });
+  }
+
+  Scaffold _buildMainScreen() {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.0),
@@ -59,7 +71,7 @@ class _DisplayArticle2ScreenState extends State<DisplayArticle2Screen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              new Text(widget.article.title.toUpperCase(),
+              new Text(article.title.toUpperCase(),
                   style: TextStyle(
                       fontSize: 35.0,
                       color: Color(0xff00556A),
@@ -69,7 +81,7 @@ class _DisplayArticle2ScreenState extends State<DisplayArticle2Screen> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image.asset(
-                  widget.article.image,
+                  article.image,
                   height: 150,
                   width: 100,
                   fit: BoxFit.cover,
@@ -79,13 +91,13 @@ class _DisplayArticle2ScreenState extends State<DisplayArticle2Screen> {
                   child: Divider(
                 height: 30,
               )),
-              new Text('By: ' + widget.article.author,
+              new Text('By: ' + article.author,
                   style: TextStyle(
                       fontSize: 30.0,
                       color: Color(0xff00556A),
                       fontFamily: 'Lato Black')),
               SizedBox(height: 10),
-              new Text(widget.article.content,
+              new Text(article.content,
                   style: TextStyle(fontSize: 15.0, fontFamily: 'Lato Black')),
               new Container(
                   child: Divider(
@@ -100,9 +112,7 @@ class _DisplayArticle2ScreenState extends State<DisplayArticle2Screen> {
                       iconSize: 30,
                       icon: Icon(Icons.edit, color: Color(0xff00556A)),
                       onPressed: () {
-                        Navigator.pushNamed(context, updateArticleRoute,
-                            arguments: UpdateArticleArguments(
-                                widget.article, widget.user));
+                        Navigator.pushNamed(context, updateArticleRoute);
                       }),
                   SizedBox(width: 20),
                   new IconButton(
@@ -123,9 +133,11 @@ class _DisplayArticle2ScreenState extends State<DisplayArticle2Screen> {
                                             fontSize: 20.0,
                                             color: Color(0xff00556A),
                                             fontFamily: 'Lato Black')),
-                                    onPressed: () {
+                                    onPressed: () async {
                                       Navigator.pop(context);
-                                      removeArticle();
+                                      await userDataService
+                                          .removeArticle(article);
+                                      Navigator.pushNamed(context, homeRoute);
                                     },
                                   ),
                                   FlatButton(
@@ -177,40 +189,42 @@ class _DisplayArticle2ScreenState extends State<DisplayArticle2Screen> {
     );
   }
 
-  void removeArticle() {
-    setState(() {
-      widget.user.article.remove(widget.article);
-      Navigator.pushNamed(context, homeRoute, arguments: widget.user);
-    });
-  }
-
   void _navigationTap(int index) {
     if (index == 0) {
       setState(() {
         _pageIndex = 0;
       });
-      //Navigator.pushNamed(context, homeRoute, arguments: widget.user);
+      Navigator.pushNamed(context, homeRoute);
     } else if (index == 1) {
       setState(() {
         _pageIndex = 1;
       });
-      Navigator.pushNamed(context, plusRoute, arguments: widget.user);
+      Navigator.pushNamed(context, plusRoute);
     } else if (index == 2) {
       setState(() {
         _pageIndex = 2;
       });
-      Navigator.pushNamed(context, profileRoute, arguments: widget.user);
+      Navigator.pushNamed(context, profileRoute);
     } else {
       setState(() {
         _pageIndex = index;
       });
-      Navigator.pushNamed(context, settingsRoute, arguments: widget.user);
+      Navigator.pushNamed(context, settingsRoute);
     }
   }
-}
 
-class UpdateArticleArguments {
-  Article article;
-  User user;
-  UpdateArticleArguments(this.article, this.user);
+  Scaffold _buildFetchingDataScreen() {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            SizedBox(height: 50),
+            Text('Fetching article... Please wait'),
+          ],
+        ),
+      ),
+    );
+  }
 }

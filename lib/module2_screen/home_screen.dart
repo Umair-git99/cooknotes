@@ -1,25 +1,43 @@
 import 'package:cooknotes/models/article.dart';
+import 'package:cooknotes/models/recipe.dart';
 import 'package:cooknotes/models/user.dart';
 import 'package:cooknotes/module4_screen/display_article_screen.dart';
 import 'package:cooknotes/module3_screen/recipelist_screen.dart';
+import 'package:cooknotes/services/user_data_service.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
+import '../dependencies.dart';
 
 class HomeScreen extends StatefulWidget {
-  final User user;
-  final List<User> all;
-
-  HomeScreen(this.user, this.all);
+  HomeScreen();
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   int _pageIndex = 0;
+  User user;
+  Article article;
+  List<User> all;
+  final UserDataService userDataService = service();
 
   @override
   Widget build(BuildContext context) {
+    all = userDataService.getAllUser();
+
+    return FutureBuilder<User>(
+        future: userDataService.getUser(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            user = snapshot.data;
+            return _buildMainScreen();
+          }
+          return _buildFetchingDataScreen();
+        });
+  }
+
+  Scaffold _buildMainScreen() {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.0),
@@ -62,7 +80,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontFamily: 'Lato Black',
                     color: new Color(0xff00556A),
                     fontWeight: FontWeight.bold)),
-            (widget.user.recipe.length != null) ? _imageScroll() : null,
+            SizedBox(height: 10),
+            (user.recipe != null)
+                ? _imageScroll()
+                : new Text('Your recipe is empty. Add a new one',
+                    style: new TextStyle(
+                        fontSize: 20.0, fontFamily: 'Lato Black')),
             SizedBox(height: 10),
             RaisedButton(
               padding: EdgeInsets.symmetric(horizontal: 40.0),
@@ -72,8 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
               textColor: Colors.white,
               child: Text('View All'),
               onPressed: () {
-                Navigator.pushNamed(context, recipeListRoute,
-                    arguments: widget.user);
+                Navigator.pushNamed(context, recipeListRoute);
               },
             ),
             SizedBox(height: 40),
@@ -84,8 +106,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontFamily: 'Lato Black',
                     color: new Color(0xff00556A),
                     fontWeight: FontWeight.bold)),
-            _imageScroll2(widget.all),
-            widget.user.usertype == 'C' ? _buildArticleButton() : Container(),
+            _imageScroll2(all),
+            user.usertype == 'C' ? _buildArticleButton() : Container(),
             SizedBox(height: 40)
           ],
         )),
@@ -125,8 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
       height: 260.0,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount:
-            widget.user.recipe.length > 3 ? 3 : widget.user.recipe.length,
+        itemCount: user.recipe.length > 3 ? 3 : user.recipe.length,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.only(right: 20.0),
@@ -136,15 +157,14 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 children: <Widget>[
                   InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, displayRecipeRoute,
-                          arguments: DisplayRecipeArguments(
-                              widget.user.recipe[index], widget.user));
+                    onTap: () async {
+                      await userDataService.setRecipe(index);
+                      Navigator.pushNamed(context, displayRecipeRoute);
                     },
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Image.asset(
-                        widget.user.recipe[index].image,
+                        user.recipe[index].image,
                         height: 200.0,
                         width: 300.0,
                         fit: BoxFit.cover,
@@ -153,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(height: 10),
                   Container(
-                      child: new Text(widget.user.recipe[index].foodName,
+                      child: new Text(user.recipe[index].foodName,
                           style: new TextStyle(
                               fontSize: 25.0,
                               fontFamily: 'Lato Black',
@@ -170,25 +190,24 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _imageScroll2(List<User> all) {
     List<Widget> list = new List<Widget>();
-    for (int index = 0; index < widget.all.length; index++) {
-      if (widget.all[index].usertype == 'C')
-        for (int i = 0; i < widget.all[index].article.length; i++) {
+    for (int index = 0; index < all.length; index++) {
+      if (all[index].usertype == 'C')
+        for (int i = 0; i < all[index].article.length; i++) {
           list.add(
             Container(
               padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
                   InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, displayArticleRoute,
-                          arguments: DisplayArticleArguments(
-                              widget.all[index].article[i], widget.user));
+                    onTap: () async {
+                      await userDataService.setArticle(index, i);
+                      Navigator.pushNamed(context, displayArticleRoute);
                     },
-                    child: new Image.asset(widget.all[index].article[i].image,
+                    child: new Image.asset(all[index].article[i].image,
                         width: 200, height: 150),
                   ),
                   new Text(
-                    widget.all[index].article[i].title,
+                    all[index].article[i].title,
                     style: TextStyle(
                         fontSize: 15.0,
                         fontFamily: 'Lato Black',
@@ -206,9 +225,9 @@ class _HomeScreenState extends State<HomeScreen> {
   _getItemCount() {
     int count = 0;
 
-    for (int index = 0; index < (widget.all.length); index++) {
-      if (widget.all[index].usertype == 'C') {
-        for (int i = 0; i < widget.all[index].article.length; i++) {
+    for (int index = 0; index < (all.length); index++) {
+      if (all[index].usertype == 'C') {
+        for (int i = 0; i < all[index].article.length; i++) {
           count++;
         }
       }
@@ -217,27 +236,42 @@ class _HomeScreenState extends State<HomeScreen> {
     return count;
   }
 
+  Scaffold _buildFetchingDataScreen() {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            SizedBox(height: 50),
+            Text('Fetching recipe... Please wait'),
+          ],
+        ),
+      ),
+    );
+  }
+
   void _navigationTap(int index) {
     if (index == 0) {
       setState(() {
         _pageIndex = 0;
       });
-      //Navigator.pushNamed(context, homeRoute, arguments: widget.user);
+      // Navigator.pushNamed(context, homeRoute);
     } else if (index == 1) {
       setState(() {
         _pageIndex = 1;
       });
-      Navigator.pushNamed(context, plusRoute, arguments: widget.user);
+      Navigator.pushNamed(context, plusRoute);
     } else if (index == 2) {
       setState(() {
         _pageIndex = 2;
       });
-      Navigator.pushNamed(context, profileRoute, arguments: widget.user);
+      Navigator.pushNamed(context, profileRoute);
     } else {
       setState(() {
         _pageIndex = index;
       });
-      Navigator.pushNamed(context, settingsRoute, arguments: widget.user);
+      Navigator.pushNamed(context, settingsRoute);
     }
   }
 
@@ -249,15 +283,8 @@ class _HomeScreenState extends State<HomeScreen> {
       textColor: Colors.white,
       child: Text('My Article'),
       onPressed: () {
-        Navigator.pushNamed(context, articleListRoute, arguments: widget.user);
+        Navigator.pushNamed(context, articleListRoute);
       },
     );
   }
-}
-
-class DisplayArticleArguments {
-  Article article;
-  User user;
-
-  DisplayArticleArguments(this.article, this.user);
 }

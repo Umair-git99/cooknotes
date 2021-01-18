@@ -1,13 +1,13 @@
 import 'package:cooknotes/models/user.dart';
+import 'package:cooknotes/services/user_data_service.dart';
 import '../constants.dart';
 import 'package:cooknotes/module3_screen/create_recipe_screen.dart';
 import 'package:flutter/material.dart';
 
-class PlusButtonScreen extends StatefulWidget {
-  final User user;
-  static String routeName = "/plusbutton";
+import '../dependencies.dart';
 
-  PlusButtonScreen(this.user);
+class PlusButtonScreen extends StatefulWidget {
+  PlusButtonScreen();
 
   @override
   _PlusButtonScreenState createState() => _PlusButtonScreenState();
@@ -15,8 +15,24 @@ class PlusButtonScreen extends StatefulWidget {
 
 class _PlusButtonScreenState extends State<PlusButtonScreen> {
   int _pageIndex = 1;
+  User user;
+
   @override
   Widget build(BuildContext context) {
+    final UserDataService userDataService = service();
+
+    return FutureBuilder<User>(
+        future: userDataService.getUser(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            user = snapshot.data;
+            return _buildMainScreen();
+          }
+          return _buildFetchingDataScreen();
+        });
+  }
+
+  Scaffold _buildMainScreen() {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.0),
@@ -53,8 +69,7 @@ class _PlusButtonScreenState extends State<PlusButtonScreen> {
             new Card(
               child: new InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, createRecipeRoute,
-                      arguments: widget.user);
+                  Navigator.pushNamed(context, createRecipeRoute);
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(30.0),
@@ -72,7 +87,7 @@ class _PlusButtonScreenState extends State<PlusButtonScreen> {
                 ),
               ),
             ),
-            widget.user.usertype == 'C' ? newArticleCard() : Container(),
+            user.usertype == 'C' ? newArticleCard() : Container(),
           ],
         ),
       ),
@@ -109,8 +124,7 @@ class _PlusButtonScreenState extends State<PlusButtonScreen> {
     return Card(
       child: new InkWell(
         onTap: () {
-          Navigator.pushNamed(context, createArticleRoute,
-              arguments: widget.user);
+          Navigator.pushNamed(context, createArticleRoute);
         },
         child: Padding(
           padding: const EdgeInsets.all(30.0),
@@ -129,31 +143,42 @@ class _PlusButtonScreenState extends State<PlusButtonScreen> {
     );
   }
 
+  Scaffold _buildFetchingDataScreen() {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            SizedBox(height: 50),
+            Text('Fetching recipe... Please wait'),
+          ],
+        ),
+      ),
+    );
+  }
+
   void _navigationTap(int index) {
     if (index == 0) {
       setState(() {
         _pageIndex = 0;
       });
-      Navigator.pushReplacementNamed(context, homeRoute,
-          arguments: widget.user);
+      Navigator.pushNamed(context, homeRoute);
     } else if (index == 1) {
       setState(() {
         _pageIndex = 1;
       });
-      //Navigator.pushReplacementNamed(context, plusRoute,
-      //  arguments: widget.user);
+      // Navigator.pushNamed(context, plusRoute);
     } else if (index == 2) {
       setState(() {
         _pageIndex = 2;
       });
-      Navigator.pushReplacementNamed(context, profileRoute,
-          arguments: widget.user);
+      Navigator.pushNamed(context, profileRoute);
     } else {
       setState(() {
         _pageIndex = index;
       });
-      Navigator.pushReplacementNamed(context, settingsRoute,
-          arguments: widget.user);
+      Navigator.pushNamed(context, settingsRoute);
     }
   }
 }

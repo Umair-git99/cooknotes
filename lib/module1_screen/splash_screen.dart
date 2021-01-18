@@ -16,7 +16,7 @@ class _SplashScreensState extends State<SplashScreens> {
     return AnimatedSplashScreen(
         duration: 3000,
         splash: Image.asset('assets/cooknotes2.png'),
-        nextScreen: LoginScreen(mockData),
+        nextScreen: LoginScreen(),
         splashTransition: SplashTransition.scaleTransition,
         pageTransitionType: PageTransitionType.rightToLeft,
         splashIconSize: 250,

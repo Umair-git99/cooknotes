@@ -1,16 +1,12 @@
-import 'package:cooknotes/models/user.dart';
+import 'package:cooknotes/services/user_data_service.dart';
 import '../constants.dart';
-import 'package:cooknotes/module1_screen/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:cooknotes/models/mock_user.dart' as data;
 
-import 'package:cooknotes/module2_screen/home_screen.dart';
+import '../dependencies.dart';
 
 class LoginScreen extends StatefulWidget {
-  final List<User> all;
-
-  LoginScreen(this.all);
+  LoginScreen();
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -19,6 +15,9 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   String _username;
   String _password;
+
+  final UserDataService userDataService = service();
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Widget _buildEmailTF() {
     return Column(
@@ -149,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () {
+        onPressed: () async {
           print('Login Button Pressed');
           if (!_formKey.currentState.validate()) {
             return;
@@ -160,18 +159,11 @@ class _LoginScreenState extends State<LoginScreen> {
           print('Password: ' + _password);
 
           bool correct = false;
-          int index = 0;
-          for (index = 0; index < widget.all.length; index++) {
-            if (_username == widget.all[index].username &&
-                _password == widget.all[index].password) {
-              correct = !correct;
-              break;
-            }
-          }
+
+          correct = await userDataService.login(_username, _password);
 
           if (correct == true) {
-            Navigator.pushReplacementNamed(context, homeRoute,
-                arguments: widget.all[index]);
+            Navigator.pushReplacementNamed(context, homeRoute);
           } else {
             showDialog(
                 context: context,

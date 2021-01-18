@@ -1,6 +1,8 @@
 // Create some mock data of a list of todos, as well as mock data of task list for each todo item.
 // Create your own mock data.
 
+import 'package:cooknotes/services/user_data_service.dart';
+
 import 'recipe.dart';
 import 'user.dart';
 import 'article.dart';
@@ -184,3 +186,69 @@ List<User> mockData = [
         ),
       ]),
 ];
+
+class UserDataServiceMock implements UserDataService {
+  User currentUser;
+  Recipe currentRecipe;
+  Article currentArticle;
+
+  Future<User> addUser(User user) {
+    mockData.add(user);
+    currentUser = user;
+  }
+
+  Future<User> getUser() async {
+    return currentUser;
+  }
+
+  List<User> getAllUser() {
+    return mockData;
+  }
+
+  Future<bool> login(String username, String password) async {
+    int index;
+    for (index = 0; index < mockData.length; index++) {
+      if (username == mockData[index].username &&
+          password == mockData[index].password) {
+        currentUser = mockData[index];
+        return true;
+      }
+    }
+  }
+
+  Future<Recipe> addRecipe(Recipe recipe) {
+    currentUser.recipe.add(recipe);
+  }
+
+  Future<Recipe> getRecipe() async {
+    return currentRecipe;
+  }
+
+  Future<Recipe> setRecipe(int index) {
+    currentRecipe = currentUser.recipe[index];
+  }
+
+  Future<Recipe> removeRecipe(Recipe recipe) {
+    currentUser.recipe.remove(recipe);
+  }
+
+  Future<Article> addArticle(Article article) {
+    currentUser.article.add(article);
+  }
+
+  Future<Article> getArticle() async {
+    return currentArticle;
+  }
+
+  Future<Article> setArticle(int index, int i) {
+    currentArticle = mockData[index].article[i];
+  }
+
+  Future<Article> setArticle2(int index) {
+    currentArticle = currentUser.article[index];
+  }
+
+  Future<Article> removeArticle(Article article) {
+    currentUser.article.remove(article);
+  }
+}

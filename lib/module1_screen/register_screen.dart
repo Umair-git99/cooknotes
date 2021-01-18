@@ -1,14 +1,12 @@
 import 'package:cooknotes/models/mock_user.dart';
 import 'package:cooknotes/models/user.dart';
+import 'package:cooknotes/services/user_data_service.dart';
 import '../constants.dart';
 import 'package:flutter/material.dart';
+import '../dependencies.dart';
 import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
-  final List<User> all;
-
-  RegisterScreen(this.all);
-
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -19,6 +17,55 @@ class _LoginScreenState extends State<RegisterScreen> {
   String _password;
   String _email;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final UserDataService userDataService = service();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Form(
+          key: _formKey,
+          child: Stack(
+            children: <Widget>[
+              Container(
+                //height: double.infinity,
+                child: SingleChildScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 40.0,
+                    vertical: 120.0,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'Register',
+                        style: TextStyle(
+                          color: Color(0xff00556A),
+                          fontFamily: 'Lato Bold',
+                          fontSize: 35.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      _buildDisplayNameTF(),
+                      _buildUsernameTF(),
+                      _buildPasswordTF(),
+                      _buildEmailTF(),
+                      _buildRegisterBtn(),
+                      _buildLoginText(),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildDisplayNameTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -194,7 +241,7 @@ class _LoginScreenState extends State<RegisterScreen> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () {
+        onPressed: () async {
           print('Register Button Pressed');
           if (!_formKey.currentState.validate()) {
             return;
@@ -207,10 +254,9 @@ class _LoginScreenState extends State<RegisterScreen> {
               password: _password,
               email: _email);
 
-          widget.all.add(newUser);
+          await userDataService.addUser(newUser);
 
-          Navigator.pushReplacementNamed(context, createProfileRoute,
-              arguments: newUser);
+          Navigator.pushReplacementNamed(context, createProfileRoute);
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
@@ -254,52 +300,6 @@ class _LoginScreenState extends State<RegisterScreen> {
               Navigator.pushReplacementNamed(context, loginRoute);
             })
       ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Form(
-          key: _formKey,
-          child: Stack(
-            children: <Widget>[
-              Container(
-                //height: double.infinity,
-                child: SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 40.0,
-                    vertical: 120.0,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'Register',
-                        style: TextStyle(
-                          color: Color(0xff00556A),
-                          fontFamily: 'Lato Bold',
-                          fontSize: 35.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      _buildDisplayNameTF(),
-                      _buildUsernameTF(),
-                      _buildPasswordTF(),
-                      _buildEmailTF(),
-                      _buildRegisterBtn(),
-                      _buildLoginText(),
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

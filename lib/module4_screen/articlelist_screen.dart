@@ -1,12 +1,13 @@
 import 'package:cooknotes/models/article.dart';
 import 'package:cooknotes/models/user.dart';
+import 'package:cooknotes/services/user_data_service.dart';
 import '../constants.dart';
 import 'package:flutter/material.dart';
 
-class ArticleListScreen extends StatefulWidget {
-  final User user;
+import '../dependencies.dart';
 
-  ArticleListScreen(this.user);
+class ArticleListScreen extends StatefulWidget {
+  ArticleListScreen();
 
   @override
   _ArticleListScreenState createState() => _ArticleListScreenState();
@@ -14,9 +15,23 @@ class ArticleListScreen extends StatefulWidget {
 
 class _ArticleListScreenState extends State<ArticleListScreen> {
   int _pageIndex = 0;
+  User user;
+  final UserDataService userDataService = service();
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<User>(
+        future: userDataService.getUser(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            user = snapshot.data;
+            return _buildMainScreen();
+          }
+          return _buildFetchingDataScreen();
+        });
+  }
+
+  Scaffold _buildMainScreen() {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.0),
@@ -58,12 +73,12 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
               Container(
                 height: 1200,
                 child: ListView.separated(
-                  itemCount: widget.user.article.length,
+                  itemCount: user.article.length,
                   itemBuilder: (context, index) => Padding(
                     padding: EdgeInsets.all(10),
                     child: ListTile(
-                        leading: Image.asset(widget.user.article[index].image),
-                        title: Text(widget.user.article[index].title,
+                        leading: Image.asset(user.article[index].image),
+                        title: Text(user.article[index].title,
                             style: TextStyle(
                                 fontSize: 20.0,
                                 color: Color(0xff00556A),
@@ -75,8 +90,7 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
                                 new Icon(Icons.person, color: Colors.black54),
                                 SizedBox(width: 5),
                                 new Text(
-                                    "Author: " +
-                                        widget.user.article[index].author,
+                                    "Author: " + user.article[index].author,
                                     style: TextStyle(
                                         fontSize: 15.0,
                                         color: Colors.black54,
@@ -85,10 +99,9 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
                             ),
                           ],
                         ),
-                        onTap: () {
-                          Navigator.pushNamed(context, displayArticle2Route,
-                              arguments: DisplayArticle2Arguments(
-                                  widget.user.article[index], widget.user));
+                        onTap: () async {
+                          await userDataService.setArticle2(index);
+                          Navigator.pushNamed(context, displayArticle2Route);
                         }),
                   ),
                   separatorBuilder: (context, index) => Divider(
@@ -129,34 +142,42 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
     );
   }
 
+  Scaffold _buildFetchingDataScreen() {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            SizedBox(height: 50),
+            Text('Fetching article... Please wait'),
+          ],
+        ),
+      ),
+    );
+  }
+
   void _navigationTap(int index) {
     if (index == 0) {
       setState(() {
         _pageIndex = 0;
       });
-      Navigator.pushNamed(context, homeRoute, arguments: widget.user);
+      Navigator.pushNamed(context, homeRoute);
     } else if (index == 1) {
       setState(() {
         _pageIndex = 1;
       });
-      Navigator.pushNamed(context, plusRoute, arguments: widget.user);
+      Navigator.pushNamed(context, plusRoute);
     } else if (index == 2) {
       setState(() {
         _pageIndex = 2;
       });
-      Navigator.pushNamed(context, profileRoute, arguments: widget.user);
+      Navigator.pushNamed(context, profileRoute);
     } else {
       setState(() {
         _pageIndex = index;
       });
-      Navigator.pushNamed(context, settingsRoute, arguments: widget.user);
+      Navigator.pushNamed(context, settingsRoute);
     }
   }
-}
-
-class DisplayArticle2Arguments {
-  Article article;
-  User user;
-
-  DisplayArticle2Arguments(this.article, this.user);
 }

@@ -1,22 +1,38 @@
+import 'package:cooknotes/services/user_data_service.dart';
 import 'package:flutter/material.dart';
 import 'package:cooknotes/models/user.dart';
 import 'package:grouped_buttons/grouped_buttons.dart';
 import 'package:provider/provider.dart';
 
 import '../constants.dart';
+import '../dependencies.dart';
 
 class SettingsScreen extends StatefulWidget {
-  final User user;
-
-  SettingsScreen(this.user);
+  SettingsScreen();
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
   int _pageIndex = 3;
+  User user;
+
   @override
   Widget build(BuildContext context) {
+    final UserDataService userDataService = service();
+
+    return FutureBuilder<User>(
+        future: userDataService.getUser(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            user = snapshot.data;
+            return _buildMainScreen();
+          }
+          return _buildFetchingDataScreen();
+        });
+  }
+
+  Scaffold _buildMainScreen() {
     final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
     return Scaffold(
       appBar: PreferredSize(
@@ -90,7 +106,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       CheckboxGroup(
                         labels: <String>['Daily', 'Weekly', 'Never'],
-                        checked: widget.user.notification, //_notification,
+                        checked: user.notification, //_notification,
                         onChange: (bool isChecked, String label, int index) =>
                             print(
                                 "isChecked: $isChecked   label: $label  index: $index"),
@@ -101,7 +117,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           } else {
                             print("only one");
                           }
-                          widget.user.notification = selected;
+                          user.notification = selected;
                           print(selected.toString());
                         }),
                       ),
@@ -126,7 +142,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       CheckboxGroup(
                         labels: <String>['Light', 'Dark'],
-                        checked: widget.user.theme,
+                        checked: user.theme,
                         onChange: (bool isChecked, String label, int index) {
                           print(
                               "isChecked: $isChecked   label: $label  index: $index");
@@ -142,7 +158,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           } else {
                             print("only one");
                           }
-                          widget.user.theme = selected;
+                          user.theme = selected;
                         }),
                       ),
                       SizedBox(height: 20),
@@ -183,31 +199,42 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  Scaffold _buildFetchingDataScreen() {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            SizedBox(height: 50),
+            Text('Fetching recipe... Please wait'),
+          ],
+        ),
+      ),
+    );
+  }
+
   void _navigationTap(int index) {
     if (index == 0) {
       setState(() {
         _pageIndex = 0;
       });
-      Navigator.pushReplacementNamed(context, homeRoute,
-          arguments: widget.user);
+      Navigator.pushNamed(context, homeRoute);
     } else if (index == 1) {
       setState(() {
         _pageIndex = 1;
       });
-      Navigator.pushReplacementNamed(context, plusRoute,
-          arguments: widget.user);
+      Navigator.pushNamed(context, plusRoute);
     } else if (index == 2) {
       setState(() {
         _pageIndex = 2;
       });
-      Navigator.pushReplacementNamed(context, profileRoute,
-          arguments: widget.user);
+      Navigator.pushNamed(context, profileRoute);
     } else {
       setState(() {
         _pageIndex = index;
       });
-      // Navigator.pushReplacementNamed(context, settingsRoute,
-      //   arguments: widget.user);
+      // Navigator.pushNamed(context, settingsRoute);
     }
   }
 }

@@ -1,15 +1,14 @@
 import 'package:cooknotes/models/article.dart';
 import 'package:cooknotes/models/user.dart';
+import 'package:cooknotes/services/user_data_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
+import '../dependencies.dart';
 
 class DisplayArticleScreen extends StatefulWidget {
-  final Article article;
-  final User user;
-
-  DisplayArticleScreen(this.article, this.user);
+  DisplayArticleScreen();
 
   @override
   _DisplayArticleScreenState createState() => _DisplayArticleScreenState();
@@ -17,8 +16,24 @@ class DisplayArticleScreen extends StatefulWidget {
 
 class _DisplayArticleScreenState extends State<DisplayArticleScreen> {
   int _pageIndex = 0;
+
+  Article article;
+  final UserDataService userDataService = service();
+
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<Article>(
+        future: userDataService.getArticle(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            article = snapshot.data;
+            return _buildMainScreen();
+          }
+          return _buildFetchingDataScreen();
+        });
+  }
+
+  Scaffold _buildMainScreen() {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.0),
@@ -59,7 +74,7 @@ class _DisplayArticleScreenState extends State<DisplayArticleScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              new Text(widget.article.title.toUpperCase(),
+              new Text(article.title.toUpperCase(),
                   style: TextStyle(
                       fontSize: 35.0,
                       color: Color(0xff00556A),
@@ -69,7 +84,7 @@ class _DisplayArticleScreenState extends State<DisplayArticleScreen> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image.asset(
-                  widget.article.image,
+                  article.image,
                   height: 150,
                   width: 100,
                   fit: BoxFit.cover,
@@ -79,13 +94,13 @@ class _DisplayArticleScreenState extends State<DisplayArticleScreen> {
                   child: Divider(
                 height: 30,
               )),
-              new Text('By: ' + widget.article.author,
+              new Text('By: ' + article.author,
                   style: TextStyle(
                       fontSize: 30.0,
                       color: Color(0xff00556A),
                       fontFamily: 'Lato Black')),
               SizedBox(height: 10),
-              new Text(widget.article.content,
+              new Text(article.content,
                   style: TextStyle(fontSize: 15.0, fontFamily: 'Lato Black')),
               new Container(
                   child: Divider(
@@ -130,22 +145,37 @@ class _DisplayArticleScreenState extends State<DisplayArticleScreen> {
       setState(() {
         _pageIndex = 0;
       });
-      Navigator.pushNamed(context, homeRoute, arguments: widget.user);
+      Navigator.pushNamed(context, homeRoute);
     } else if (index == 1) {
       setState(() {
         _pageIndex = 1;
       });
-      Navigator.pushNamed(context, plusRoute, arguments: widget.user);
+      Navigator.pushNamed(context, plusRoute);
     } else if (index == 2) {
       setState(() {
         _pageIndex = 2;
       });
-      Navigator.pushNamed(context, profileRoute, arguments: widget.user);
+      Navigator.pushNamed(context, profileRoute);
     } else {
       setState(() {
         _pageIndex = index;
       });
-      Navigator.pushNamed(context, settingsRoute, arguments: widget.user);
+      Navigator.pushNamed(context, settingsRoute);
     }
+  }
+
+  Scaffold _buildFetchingDataScreen() {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            SizedBox(height: 50),
+            Text('Fetching article... Please wait'),
+          ],
+        ),
+      ),
+    );
   }
 }

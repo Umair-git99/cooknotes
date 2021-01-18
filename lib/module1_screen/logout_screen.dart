@@ -1,7 +1,5 @@
-import 'package:cooknotes/models/user.dart';
 import '../constants.dart';
 import 'package:flutter/material.dart';
-import 'login_screen.dart';
 
 class LogoutScreen extends StatefulWidget {
   LogoutScreen();
@@ -10,7 +8,6 @@ class LogoutScreen extends StatefulWidget {
 }
 
 class _LogoutScreenState extends State<LogoutScreen> {
-  List<User> all;
   Widget _buildText() {
     return Column(
       children: <Widget>[

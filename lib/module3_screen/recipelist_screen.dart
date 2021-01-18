@@ -1,13 +1,13 @@
+import 'package:cooknotes/dependencies.dart';
 import 'package:cooknotes/models/recipe.dart';
 import 'package:cooknotes/models/user.dart';
+import 'package:cooknotes/services/user_data_service.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
 
 class RecipeListScreen extends StatefulWidget {
-  final User user;
-
-  RecipeListScreen(this.user);
+  RecipeListScreen();
 
   @override
   _RecipeListScreenState createState() => _RecipeListScreenState();
@@ -15,9 +15,23 @@ class RecipeListScreen extends StatefulWidget {
 
 class _RecipeListScreenState extends State<RecipeListScreen> {
   int _pageIndex = 0;
+  User user;
+  final UserDataService userDataService = service();
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<User>(
+        future: userDataService.getUser(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            user = snapshot.data;
+            return _buildMainScreen();
+          }
+          return _buildFetchingDataScreen();
+        });
+  }
+
+  Scaffold _buildMainScreen() {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.0),
@@ -54,69 +68,75 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              height: 1200,
-              child: ListView.separated(
-                itemCount: widget.user.recipe.length,
-                itemBuilder: (context, index) => Padding(
-                  padding: EdgeInsets.all(10),
-                  child: ListTile(
-                      leading: Image.asset(widget.user.recipe[index].image,
-                          width: 100, height: 100),
-                      title: Text(widget.user.recipe[index].foodName,
-                          style: TextStyle(
-                              fontSize: 20.0,
-                              color: Color(0xff00556A),
-                              fontFamily: 'Lato Black')),
-                      subtitle: Column(
-                        children: [
-                          new Row(
-                            children: <Widget>[
-                              new Icon(
-                                Icons.person,
-                              ),
-                              SizedBox(width: 5),
-                              new Text(
-                                  widget.user.recipe[index].numPerson
-                                          .toString() +
-                                      ' person',
-                                  style: TextStyle(
-                                      fontSize: 15.0,
-                                      fontFamily: 'Lato Black')),
-                            ],
-                          ),
-                          new Row(
-                            children: <Widget>[
-                              new Icon(
-                                Icons.restaurant_menu,
-                              ),
-                              SizedBox(width: 5),
-                              new Text(
-                                  'Cook Time: ' +
-                                      widget.user.recipe[index].cookHours
-                                          .toString() +
-                                      ' h ' +
-                                      widget.user.recipe[index].cookMins
-                                          .toString() +
-                                      ' mins',
-                                  style: TextStyle(
-                                      fontSize: 15.0,
-                                      fontFamily: 'Lato Black')),
-                            ],
-                          ),
-                        ],
+            (user.recipe != null)
+                ? Container(
+                    height: 1200,
+                    child: ListView.separated(
+                      itemCount: user.recipe.length,
+                      itemBuilder: (context, index) => Padding(
+                        padding: EdgeInsets.all(10),
+                        child: ListTile(
+                            leading: Image.asset(user.recipe[index].image,
+                                width: 100, height: 100),
+                            title: Text(user.recipe[index].foodName,
+                                style: TextStyle(
+                                    fontSize: 20.0,
+                                    color: Color(0xff00556A),
+                                    fontFamily: 'Lato Black')),
+                            subtitle: Column(
+                              children: [
+                                new Row(
+                                  children: <Widget>[
+                                    new Icon(
+                                      Icons.person,
+                                    ),
+                                    SizedBox(width: 5),
+                                    new Text(
+                                        user.recipe[index].numPerson
+                                                .toString() +
+                                            ' person',
+                                        style: TextStyle(
+                                            fontSize: 15.0,
+                                            fontFamily: 'Lato Black')),
+                                  ],
+                                ),
+                                new Row(
+                                  children: <Widget>[
+                                    new Icon(
+                                      Icons.restaurant_menu,
+                                    ),
+                                    SizedBox(width: 5),
+                                    new Text(
+                                        'Cook Time: ' +
+                                            user.recipe[index].cookHours
+                                                .toString() +
+                                            ' h ' +
+                                            user.recipe[index].cookMins
+                                                .toString() +
+                                            ' mins',
+                                        style: TextStyle(
+                                            fontSize: 15.0,
+                                            fontFamily: 'Lato Black')),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            onTap: () async {
+                              await userDataService.setRecipe(index);
+                              Navigator.pushNamed(
+                                context,
+                                displayRecipeRoute,
+                              );
+                            }),
                       ),
-                      onTap: () {
-                        Navigator.pushNamed(context, displayRecipeRoute,
-                            arguments: DisplayRecipeArguments(
-                                widget.user.recipe[index], widget.user));
-                      }),
-                ),
-                separatorBuilder: (context, index) => Divider(
-                  color: Colors.grey,
-                ),
-              ),
-            ),
+                      separatorBuilder: (context, index) => Divider(
+                        color: Colors.grey,
+                      ),
+                    ),
+                  )
+                : new Text('Your recipe is empty. Add a new one',
+                    style: new TextStyle(
+                        fontSize: 20.0, fontFamily: 'Lato Black')),
           ],
         ),
       ),
@@ -149,34 +169,42 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
     );
   }
 
+  Scaffold _buildFetchingDataScreen() {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            SizedBox(height: 50),
+            Text('Fetching recipe... Please wait'),
+          ],
+        ),
+      ),
+    );
+  }
+
   void _navigationTap(int index) {
     if (index == 0) {
       setState(() {
         _pageIndex = 0;
       });
-      Navigator.pushNamed(context, homeRoute, arguments: widget.user);
+      Navigator.pushNamed(context, homeRoute);
     } else if (index == 1) {
       setState(() {
         _pageIndex = 1;
       });
-      Navigator.pushNamed(context, plusRoute, arguments: widget.user);
+      Navigator.pushNamed(context, plusRoute);
     } else if (index == 2) {
       setState(() {
         _pageIndex = 2;
       });
-      Navigator.pushNamed(context, profileRoute, arguments: widget.user);
+      Navigator.pushNamed(context, profileRoute);
     } else {
       setState(() {
         _pageIndex = index;
       });
-      Navigator.pushNamed(context, settingsRoute, arguments: widget.user);
+      Navigator.pushNamed(context, settingsRoute);
     }
   }
-}
-
-class DisplayRecipeArguments {
-  Recipe recipe;
-  User user;
-
-  DisplayRecipeArguments(this.recipe, this.user);
 }

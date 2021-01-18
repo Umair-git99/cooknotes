@@ -1,14 +1,13 @@
 import 'package:cooknotes/models/user.dart';
-import 'package:cooknotes/module2_screen/profile_screen.dart';
+import 'package:cooknotes/services/user_data_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../constants.dart';
+import '../dependencies.dart';
 
 class EditProfileScreen extends StatefulWidget {
-  final User user;
-
-  EditProfileScreen(this.user);
+  EditProfileScreen();
   @override
   _EditProfileScreenState createState() => _EditProfileScreenState();
 }
@@ -22,8 +21,25 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   String _password;
   int _age;
   bool showPass = false;
+
+  User user;
+
   @override
   Widget build(BuildContext context) {
+    final UserDataService userDataService = service();
+
+    return FutureBuilder<User>(
+        future: userDataService.getUser(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            user = snapshot.data;
+            return _buildMainScreen();
+          }
+          return _buildFetchingDataScreen();
+        });
+  }
+
+  Scaffold _buildMainScreen() {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.0),
@@ -83,8 +99,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               SizedBox(height: 20),
                               CircleAvatar(
                                 backgroundColor: Color(0xffE6E6E6),
-                                backgroundImage:
-                                    AssetImage(widget.user.profilePic),
+                                backgroundImage: AssetImage(user.profilePic),
                                 radius: 40,
                               ),
                               SizedBox(height: 10),
@@ -133,16 +148,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                             print('Password: ' + _password);
                                             print('Age: ' + _age.toString());
 
-                                            widget.user.username = _username;
-                                            widget.user.displayName =
-                                                _displayName;
-                                            widget.user.email = _email;
-                                            widget.user.password = _password;
-                                            widget.user.age = _age;
+                                            user.username = _username;
+                                            user.displayName = _displayName;
+                                            user.email = _email;
+                                            user.password = _password;
+                                            user.age = _age;
 
                                             Navigator.pushReplacementNamed(
-                                                context, profileRoute,
-                                                arguments: widget.user);
+                                                context, profileRoute);
                                           }),
                                     ],
                                   ),
@@ -224,10 +237,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Widget _buildUserName() {
     return TextFormField(
-      initialValue: widget.user.username,
+      initialValue: user.username,
       decoration: InputDecoration(
         labelText: 'Username',
-        hintText: widget.user.username,
+        hintText: user.username,
         contentPadding: EdgeInsets.only(bottom: 3),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         labelStyle: TextStyle(
@@ -258,10 +271,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Widget _buildDisplayName() {
     return TextFormField(
-      initialValue: widget.user.displayName,
+      initialValue: user.displayName,
       decoration: InputDecoration(
         labelText: 'Display Name',
-        hintText: widget.user.displayName,
+        hintText: user.displayName,
         contentPadding: EdgeInsets.only(bottom: 3),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         labelStyle: TextStyle(
@@ -291,10 +304,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Widget _buildEmail() {
     return TextFormField(
-      initialValue: widget.user.email,
+      initialValue: user.email,
       decoration: InputDecoration(
           labelText: 'Email',
-          hintText: widget.user.email,
+          hintText: user.email,
           contentPadding: EdgeInsets.only(bottom: 3),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           labelStyle: TextStyle(
@@ -324,7 +337,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Widget _buildPassword(bool isPassed) {
     return TextFormField(
-      initialValue: widget.user.password,
+      initialValue: user.password,
       obscureText: !showPass,
       decoration: InputDecoration(
         suffixIcon: isPassed
@@ -339,7 +352,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               )
             : null,
         labelText: 'Password',
-        hintText: widget.user.password,
+        hintText: user.password,
         contentPadding: EdgeInsets.only(bottom: 3),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         labelStyle: TextStyle(
@@ -370,10 +383,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget _buildAge() {
     return TextFormField(
       keyboardType: TextInputType.number,
-      initialValue: widget.user.age.toString(),
+      initialValue: user.age.toString(),
       decoration: InputDecoration(
         labelText: 'Age',
-        hintText: widget.user.age.toString(),
+        hintText: user.age.toString(),
         contentPadding: EdgeInsets.only(bottom: 3),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         labelStyle: TextStyle(
@@ -407,22 +420,37 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       setState(() {
         _pageIndex = 0;
       });
-      //Navigator.pushNamed(context, homeRoute, arguments: widget.user);
+      Navigator.pushNamed(context, homeRoute);
     } else if (index == 1) {
       setState(() {
         _pageIndex = 1;
       });
-      Navigator.pushNamed(context, plusRoute, arguments: widget.user);
+      Navigator.pushNamed(context, plusRoute);
     } else if (index == 2) {
       setState(() {
         _pageIndex = 2;
       });
-      Navigator.pushNamed(context, profileRoute, arguments: widget.user);
+      Navigator.pushNamed(context, profileRoute);
     } else {
       setState(() {
         _pageIndex = index;
       });
-      Navigator.pushNamed(context, settingsRoute, arguments: widget.user);
+      Navigator.pushNamed(context, settingsRoute);
     }
+  }
+
+  Scaffold _buildFetchingDataScreen() {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            SizedBox(height: 50),
+            Text('Fetching recipe... Please wait'),
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -2,16 +2,15 @@ import 'dart:io' as Io;
 import 'dart:convert';
 import 'package:cooknotes/models/recipe.dart';
 import 'package:cooknotes/models/user.dart';
+import 'package:cooknotes/services/user_data_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../constants.dart';
+import '../dependencies.dart';
 
 class CreateRecipeScreen extends StatefulWidget {
-  final User user;
-
-  CreateRecipeScreen(this.user);
   @override
   _CreateRecipeScreenState createState() => _CreateRecipeScreenState();
 }
@@ -32,6 +31,243 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
   int _pageIndex = 1;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  Recipe recipe;
+  final UserDataService userDataService = service();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(60.0),
+        child: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_rounded, color: Color(0xff00556A)),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          centerTitle: true,
+          elevation: 0,
+          title: Text('COOKNOTES',
+              style: TextStyle(
+                  color: Color(0xff00556A), fontFamily: 'Montserrat Black')),
+          actions: <Widget>[
+            FlatButton(
+              textColor: Colors.black,
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, logoutRoute, (_) => false);
+              },
+              child: Text("Logout",
+                  style: TextStyle(
+                      fontSize: 15.0,
+                      color: Color(0xff00556A),
+                      fontFamily: 'Lato Black')),
+              shape: RoundedRectangleBorder(
+                  side: BorderSide(color: Colors.transparent)),
+            ),
+          ],
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: new Container(
+          padding: const EdgeInsets.all(30.0),
+          child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            // mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new Text('Create A New Recipe',
+                  style: TextStyle(
+                      fontSize: 30.0,
+                      color: Color(0xff00556A),
+                      fontFamily: 'Lato Black')),
+              new Container(
+                  child: Divider(
+                height: 50,
+              )),
+              new Form(
+                key: _formKey,
+                child: new Container(
+                  //margin: new EdgeInsets.all(15.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      new Text('Food Name?',
+                          style: TextStyle(
+                              fontSize: 30.0, fontFamily: 'Lato Black')),
+                      SizedBox(height: 10),
+                      _buildFoodName(),
+                      SizedBox(height: 20),
+                      _buildImage(),
+                      SizedBox(height: 20),
+                      new Row(children: <Widget>[
+                        new Text('Preparation Time:',
+                            style: TextStyle(
+                                fontSize: 18.0, fontFamily: 'Lato Black')),
+                        SizedBox(width: 10),
+                        Flexible(
+                          child: _buildPrepHours(),
+                        ),
+                        SizedBox(width: 5),
+                        new Text('h',
+                            style: TextStyle(
+                                fontSize: 20.0, fontFamily: 'Lato Bold')),
+                        SizedBox(width: 5),
+                        Flexible(
+                          child: _buildPrepMins(),
+                        ),
+                        SizedBox(width: 5),
+                        new Text('m',
+                            style: TextStyle(
+                                fontSize: 20.0, fontFamily: 'Lato Bold')),
+                      ]),
+                      SizedBox(height: 10),
+                      new Row(children: <Widget>[
+                        new Text('Cooking Time:',
+                            style: TextStyle(
+                                fontSize: 18.0, fontFamily: 'Lato Black')),
+                        SizedBox(width: 40),
+                        Flexible(
+                          child: _buildCookHours(),
+                        ),
+                        SizedBox(width: 5),
+                        new Text('h',
+                            style: TextStyle(
+                                fontSize: 20.0, fontFamily: 'Lato Bold')),
+                        SizedBox(width: 5),
+                        Flexible(
+                          child: _buildCookMins(),
+                        ),
+                        SizedBox(width: 5),
+                        new Text('m',
+                            style: TextStyle(
+                                fontSize: 20.0, fontFamily: 'Lato Bold')),
+                      ]),
+                      SizedBox(height: 10),
+                      new Row(children: <Widget>[
+                        new Text('Serving for: ',
+                            style: TextStyle(
+                                fontSize: 18.0, fontFamily: 'Lato Black')),
+                        SizedBox(width: 60),
+                        Flexible(
+                          child: _buildNumPerson(),
+                        ),
+                        SizedBox(width: 5),
+                        new Text('person',
+                            style: TextStyle(
+                                fontSize: 20.0, fontFamily: 'Lato Bold')),
+                      ]),
+                      SizedBox(height: 10),
+                      new Container(
+                          child: Divider(
+                        height: 50,
+                      )),
+                      new Text('Ingredients',
+                          style: TextStyle(
+                              fontSize: 30.0, fontFamily: 'Lato Black')),
+                      SizedBox(height: 10),
+                      _buildIngredients(),
+                      SizedBox(height: 5),
+                      new Container(
+                          child: Divider(
+                        height: 50,
+                      )),
+                      new Text('Instruction',
+                          style: TextStyle(
+                              fontSize: 30.0, fontFamily: 'Lato Black')),
+                      SizedBox(height: 10),
+                      _buildInstruction(),
+                      SizedBox(height: 50),
+                      new Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          new IconButton(
+                              icon: Icon(Icons.cancel, color: Colors.red),
+                              iconSize: 70,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              }),
+                          SizedBox(width: 30),
+                          new IconButton(
+                              icon: Icon(Icons.check_circle,
+                                  color: Colors.green[900]),
+                              iconSize: 70,
+                              onPressed: () async {
+                                if (!_formKey.currentState.validate()) {
+                                  return;
+                                }
+
+                                _formKey.currentState.save();
+
+                                //  List<int> imageFoodBytes =
+                                //      _image.readAsBytesSync();
+                                //   String base64FoodImage =
+                                //      base64UrlEncode(imageFoodBytes);
+                                //print('Image String: ' + base64FoodImage);
+
+                                print('Food Name: ' + _foodname);
+                                print('Preparation Hours:\t\t' + _prepHours);
+                                print('Preparation Minutes:\t\t' + _prepMins);
+                                print('Cooking Hours:\t\t' + _cookHours);
+                                print('Cooking Minutes:\t\t' + _cookMins);
+                                print('Serving for (person):\t' + _numPerson);
+                                print('Ingredients:\t\t' + _ingredients);
+                                print('Instructions:\t\t' + _instructions);
+
+                                Recipe newRecipe = new Recipe(
+                                    foodName: _foodname,
+                                    image: 'assets/pizza.jpg',
+                                    prepHours: int.parse(_prepHours),
+                                    prepMins: int.parse(_prepMins),
+                                    cookHours: int.parse(_cookHours),
+                                    cookMins: int.parse(_cookMins),
+                                    numPerson: int.parse(_numPerson),
+                                    ingredients: _ingredients,
+                                    instruction: _instructions);
+
+                                await userDataService.addRecipe(newRecipe);
+
+                                Navigator.pushReplacementNamed(
+                                    context, homeRoute);
+                              }),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Color(0xff00556A),
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        currentIndex: _pageIndex,
+        onTap: _navigationTap,
+        type: BottomNavigationBarType.fixed,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_circle_outline),
+            label: "Add",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: "Profile",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: "Settings",
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget _buildFoodName() {
     return Container(
@@ -385,267 +621,27 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60.0),
-        child: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_rounded, color: Color(0xff00556A)),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          centerTitle: true,
-          elevation: 0,
-          title: Text('COOKNOTES',
-              style: TextStyle(
-                  color: Color(0xff00556A), fontFamily: 'Montserrat Black')),
-          actions: <Widget>[
-            FlatButton(
-              textColor: Colors.black,
-              onPressed: () {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, logoutRoute, (_) => false);
-              },
-              child: Text("Logout",
-                  style: TextStyle(
-                      fontSize: 15.0,
-                      color: Color(0xff00556A),
-                      fontFamily: 'Lato Black')),
-              shape: RoundedRectangleBorder(
-                  side: BorderSide(color: Colors.transparent)),
-            ),
-          ],
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: new Container(
-          padding: const EdgeInsets.all(30.0),
-          child: new Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            // mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              new Text('Create A New Recipe',
-                  style: TextStyle(
-                      fontSize: 30.0,
-                      color: Color(0xff00556A),
-                      fontFamily: 'Lato Black')),
-              new Container(
-                  child: Divider(
-                height: 50,
-              )),
-              new Form(
-                key: _formKey,
-                child: new Container(
-                  //margin: new EdgeInsets.all(15.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      new Text('Food Name?',
-                          style: TextStyle(
-                              fontSize: 30.0, fontFamily: 'Lato Black')),
-                      SizedBox(height: 10),
-                      _buildFoodName(),
-                      SizedBox(height: 20),
-                      _buildImage(),
-                      SizedBox(height: 20),
-                      new Row(children: <Widget>[
-                        new Text('Preparation Time:',
-                            style: TextStyle(
-                                fontSize: 18.0, fontFamily: 'Lato Black')),
-                        SizedBox(width: 10),
-                        Flexible(
-                          child: _buildPrepHours(),
-                        ),
-                        SizedBox(width: 5),
-                        new Text('h',
-                            style: TextStyle(
-                                fontSize: 20.0, fontFamily: 'Lato Bold')),
-                        SizedBox(width: 5),
-                        Flexible(
-                          child: _buildPrepMins(),
-                        ),
-                        SizedBox(width: 5),
-                        new Text('m',
-                            style: TextStyle(
-                                fontSize: 20.0, fontFamily: 'Lato Bold')),
-                      ]),
-                      SizedBox(height: 10),
-                      new Row(children: <Widget>[
-                        new Text('Cooking Time:',
-                            style: TextStyle(
-                                fontSize: 18.0, fontFamily: 'Lato Black')),
-                        SizedBox(width: 40),
-                        Flexible(
-                          child: _buildCookHours(),
-                        ),
-                        SizedBox(width: 5),
-                        new Text('h',
-                            style: TextStyle(
-                                fontSize: 20.0, fontFamily: 'Lato Bold')),
-                        SizedBox(width: 5),
-                        Flexible(
-                          child: _buildCookMins(),
-                        ),
-                        SizedBox(width: 5),
-                        new Text('m',
-                            style: TextStyle(
-                                fontSize: 20.0, fontFamily: 'Lato Bold')),
-                      ]),
-                      SizedBox(height: 10),
-                      new Row(children: <Widget>[
-                        new Text('Serving for: ',
-                            style: TextStyle(
-                                fontSize: 18.0, fontFamily: 'Lato Black')),
-                        SizedBox(width: 60),
-                        Flexible(
-                          child: _buildNumPerson(),
-                        ),
-                        SizedBox(width: 5),
-                        new Text('person',
-                            style: TextStyle(
-                                fontSize: 20.0, fontFamily: 'Lato Bold')),
-                      ]),
-                      SizedBox(height: 10),
-                      new Container(
-                          child: Divider(
-                        height: 50,
-                      )),
-                      new Text('Ingredients',
-                          style: TextStyle(
-                              fontSize: 30.0, fontFamily: 'Lato Black')),
-                      SizedBox(height: 10),
-                      _buildIngredients(),
-                      SizedBox(height: 5),
-                      new Container(
-                          child: Divider(
-                        height: 50,
-                      )),
-                      new Text('Instruction',
-                          style: TextStyle(
-                              fontSize: 30.0, fontFamily: 'Lato Black')),
-                      SizedBox(height: 10),
-                      _buildInstruction(),
-                      SizedBox(height: 50),
-                      new Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          new IconButton(
-                              icon: Icon(Icons.cancel, color: Colors.red),
-                              iconSize: 70,
-                              onPressed: () {
-                                Navigator.pop(context);
-                              }),
-                          SizedBox(width: 30),
-                          new IconButton(
-                              icon: Icon(Icons.check_circle,
-                                  color: Colors.green[900]),
-                              iconSize: 70,
-                              onPressed: () {
-                                if (!_formKey.currentState.validate()) {
-                                  return;
-                                }
-
-                                _formKey.currentState.save();
-
-                                //  List<int> imageFoodBytes =
-                                //      _image.readAsBytesSync();
-                                //   String base64FoodImage =
-                                //      base64UrlEncode(imageFoodBytes);
-                                //print('Image String: ' + base64FoodImage);
-
-                                print('Food Name: ' + _foodname);
-                                print('Preparation Hours:\t\t' + _prepHours);
-                                print('Preparation Minutes:\t\t' + _prepMins);
-                                print('Cooking Hours:\t\t' + _cookHours);
-                                print('Cooking Minutes:\t\t' + _cookMins);
-                                print('Serving for (person):\t' + _numPerson);
-                                print('Ingredients:\t\t' + _ingredients);
-                                print('Instructions:\t\t' + _instructions);
-
-                                Recipe newRecipe = new Recipe(
-                                    foodName: _foodname,
-                                    image: 'assets/pizza.jpg',
-                                    prepHours: int.parse(_prepHours),
-                                    prepMins: int.parse(_prepMins),
-                                    cookHours: int.parse(_cookHours),
-                                    cookMins: int.parse(_cookMins),
-                                    numPerson: int.parse(_numPerson),
-                                    ingredients: _ingredients,
-                                    instruction: _instructions);
-
-                                widget.user.recipe.add(newRecipe);
-
-                                Navigator.pushReplacementNamed(
-                                    context, homeRoute,
-                                    arguments: widget.user);
-                              }),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Color(0xff00556A),
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        currentIndex: _pageIndex,
-        onTap: _navigationTap,
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add_circle_outline),
-            label: "Add",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "Profile",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: "Settings",
-          ),
-        ],
-      ),
-    );
-  }
-
   void _navigationTap(int index) {
     if (index == 0) {
       setState(() {
         _pageIndex = 0;
       });
-      Navigator.pushReplacementNamed(context, homeRoute,
-          arguments: widget.user);
+      Navigator.pushNamed(context, homeRoute);
     } else if (index == 1) {
       setState(() {
         _pageIndex = 1;
       });
-      Navigator.pushReplacementNamed(context, plusRoute,
-          arguments: widget.user);
+      Navigator.pushNamed(context, plusRoute);
     } else if (index == 2) {
       setState(() {
         _pageIndex = 2;
       });
-      Navigator.pushReplacementNamed(context, profileRoute,
-          arguments: widget.user);
+      Navigator.pushNamed(context, profileRoute);
     } else {
       setState(() {
         _pageIndex = index;
       });
-      Navigator.pushReplacementNamed(context, settingsRoute,
-          arguments: widget.user);
+      Navigator.pushNamed(context, settingsRoute);
     }
   }
 }

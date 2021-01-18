@@ -1,19 +1,15 @@
 import 'dart:io' as Io;
-import 'dart:convert';
 import 'package:cooknotes/models/recipe.dart';
-import 'package:cooknotes/models/user.dart';
-import 'package:cooknotes/module3_screen/recipelist_screen.dart';
+import 'package:cooknotes/services/user_data_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../constants.dart';
+import '../dependencies.dart';
 
 class UpdateRecipeScreen extends StatefulWidget {
-  final Recipe recipe;
-  final User user;
-
-  UpdateRecipeScreen(this.recipe, this.user);
+  UpdateRecipeScreen();
   @override
   _UpdateRecipeScreenState createState() => _UpdateRecipeScreenState();
 }
@@ -34,369 +30,23 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  Widget _buildFoodName() {
-    return Container(
-      child: TextFormField(
-        initialValue: widget.recipe.foodName,
-        decoration: new InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          filled: true,
-          hintText: widget.recipe.foodName,
-          hintStyle: TextStyle(
-              fontSize: 15.0, color: Colors.black, fontFamily: 'Lato Bold'),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black, width: 1.0),
-            borderRadius: BorderRadius.circular(30.0),
-          ),
-          border: new OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(30),
-          ),
-        ),
-        validator: (String value) {
-          if (value.isEmpty) {
-            return 'Food name is required';
-          }
-        },
-        onSaved: (String value) {
-          _foodname = value;
-        },
-      ),
-    );
-  }
-
-  Widget _buildImage() {
-    return Container(
-      child: new Column(
-        children: <Widget>[
-          new Text('Food Photo',
-              style: TextStyle(fontSize: 20.0, fontFamily: 'Lato Black')),
-          SizedBox(height: 10),
-          (_image != null)
-              ? Column(children: <Widget>[
-                  Image.file(_image),
-                  RaisedButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0)),
-                      child: Text('Change Image'),
-                      onPressed: () {
-                        _imageDialog(context);
-                      })
-                ])
-              : Column(
-                  children: [
-                    Image.asset(
-                      widget.recipe.image,
-                    ),
-                    SizedBox(height: 10),
-                    RaisedButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0)),
-                        child: Text('Change Image'),
-                        onPressed: () {
-                          _imageDialog(context);
-                        }),
-                  ],
-                ),
-        ],
-      ),
-    );
-  }
-
-  Future<void> _imageDialog(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-              title: Text('Source: '),
-              content: SingleChildScrollView(
-                  child: ListBody(
-                children: <Widget>[
-                  InkWell(
-                    child: new Row(children: <Widget>[
-                      new Icon(Icons.camera_alt),
-                      SizedBox(width: 20),
-                      new Text("Camera"),
-                    ]),
-                    onTap: () {
-                      _openCamera(context);
-                    },
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(10.0),
-                  ),
-                  InkWell(
-                    child: new Row(children: <Widget>[
-                      new Icon(Icons.folder),
-                      SizedBox(width: 20),
-                      new Text("Gallery"),
-                    ]),
-                    onTap: () {
-                      _openGallery(context);
-                    },
-                  )
-                ],
-              )));
-        });
-  }
-
-  Future _openGallery(BuildContext context) async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-
-    setState(() {
-      if (pickedFile != null) {
-        _image = Io.File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
-    });
-    Navigator.of(context).pop();
-  }
-
-  Future _openCamera(BuildContext context) async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
-
-    setState(() {
-      if (pickedFile != null) {
-        _image = Io.File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
-    });
-    Navigator.of(context).pop();
-  }
-
-  Widget _buildPrepHours() {
-    return Container(
-      width: 60.0,
-      height: 40.0,
-      child: TextFormField(
-        initialValue: widget.recipe.prepHours.toString(),
-        keyboardType: TextInputType.number,
-        inputFormatters: [
-          new LengthLimitingTextInputFormatter(2),
-          FilteringTextInputFormatter.digitsOnly
-        ],
-        textAlign: TextAlign.center,
-        decoration: new InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          filled: true,
-          hintText: widget.recipe.prepHours.toString(),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black, width: 1.0),
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          border: new OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(20),
-          ),
-        ),
-        onSaved: (String value) {
-          _prepHours = int.parse(value);
-        },
-      ),
-    );
-  }
-
-  Widget _buildPrepMins() {
-    return Container(
-      width: 60.0,
-      height: 40.0,
-      child: TextFormField(
-        initialValue: widget.recipe.prepMins.toString(),
-        keyboardType: TextInputType.number,
-        inputFormatters: [
-          new LengthLimitingTextInputFormatter(2),
-          FilteringTextInputFormatter.digitsOnly
-        ],
-        textAlign: TextAlign.center,
-        decoration: new InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          filled: true,
-          hintText: widget.recipe.prepMins.toString(),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black, width: 1.0),
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          border: new OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(20),
-          ),
-        ),
-        onSaved: (String value) {
-          _prepMins = int.parse(value);
-        },
-      ),
-    );
-  }
-
-  Widget _buildCookHours() {
-    return Container(
-      width: 60.0,
-      height: 40.0,
-      child: TextFormField(
-        initialValue: widget.recipe.cookHours.toString(),
-        keyboardType: TextInputType.number,
-        inputFormatters: [
-          new LengthLimitingTextInputFormatter(2),
-          FilteringTextInputFormatter.digitsOnly
-        ],
-        textAlign: TextAlign.center,
-        decoration: new InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          filled: true,
-          hintText: widget.recipe.cookMins.toString(),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black, width: 1.0),
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          border: new OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(20),
-          ),
-        ),
-        onSaved: (String value) {
-          _cookHours = int.parse(value);
-        },
-      ),
-    );
-  }
-
-  Widget _buildCookMins() {
-    return Container(
-      width: 60.0,
-      height: 40.0,
-      child: TextFormField(
-        initialValue: widget.recipe.cookMins.toString(),
-        keyboardType: TextInputType.number,
-        inputFormatters: [
-          new LengthLimitingTextInputFormatter(2),
-          FilteringTextInputFormatter.digitsOnly
-        ],
-        textAlign: TextAlign.center,
-        decoration: new InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          filled: true,
-          hintText: widget.recipe.cookMins.toString(),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black, width: 1.0),
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          border: new OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(20),
-          ),
-        ),
-        onSaved: (String value) {
-          _cookMins = int.parse(value);
-        },
-      ),
-    );
-  }
-
-  Widget _buildNumPerson() {
-    return Container(
-      //width: 60.0,
-      //height: 40.0,
-      child: TextFormField(
-        initialValue: widget.recipe.numPerson.toString(),
-        keyboardType: TextInputType.number,
-        inputFormatters: [
-          new LengthLimitingTextInputFormatter(2),
-          FilteringTextInputFormatter.digitsOnly
-        ],
-        textAlign: TextAlign.center,
-        decoration: new InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 0.5, horizontal: 0.5),
-          filled: true,
-          hintText: widget.recipe.numPerson.toString(),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black, width: 1.0),
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          border: new OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(20),
-          ),
-        ),
-        validator: (String value) {
-          if (value.isEmpty) {
-            return 'Number is required';
-          }
-        },
-        onSaved: (String value) {
-          _numPerson = int.parse(value);
-        },
-      ),
-    );
-  }
-
-  Widget _buildIngredients() {
-    return Container(
-      child: TextFormField(
-        initialValue: widget.recipe.ingredients,
-        keyboardType: TextInputType.multiline,
-        minLines: 6,
-        maxLines: null,
-        decoration: new InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          filled: true,
-          hintText: widget.recipe.ingredients,
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black, width: 1.0),
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          border: new OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
-        validator: (String value) {
-          if (value.isEmpty) {
-            return 'Ingredients are required';
-          }
-        },
-        onSaved: (String value) {
-          _ingredients = value;
-        },
-      ),
-    );
-  }
-
-  Widget _buildInstruction() {
-    return Container(
-      child: TextFormField(
-        initialValue: widget.recipe.instruction,
-        keyboardType: TextInputType.multiline,
-        minLines: 6,
-        maxLines: null,
-        decoration: new InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          filled: true,
-          hintText: widget.recipe.instruction,
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black, width: 1.0),
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          border: new OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
-        validator: (String value) {
-          if (value.isEmpty) {
-            return 'Instruction is required';
-          }
-        },
-        onSaved: (String value) {
-          _instructions = value;
-        },
-      ),
-    );
-  }
+  Recipe recipe;
+  final UserDataService userDataService = service();
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<Recipe>(
+        future: userDataService.getRecipe(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            recipe = snapshot.data;
+            return _buildMainScreen();
+          }
+          return _buildFetchingDataScreen();
+        });
+  }
+
+  Scaffold _buildMainScreen() {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.0),
@@ -581,17 +231,16 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
                                 print('Ingredients:\t\t' + _ingredients);
                                 print('Instructions:\t\t' + _instructions);
 
-                                widget.recipe.foodName = _foodname;
-                                widget.recipe.prepHours = _prepHours;
-                                widget.recipe.prepMins = _prepMins;
-                                widget.recipe.cookHours = _cookHours;
-                                widget.recipe.cookMins = _cookMins;
-                                widget.recipe.numPerson = _numPerson;
-                                widget.recipe.ingredients = _ingredients;
-                                widget.recipe.instruction = _instructions;
+                                recipe.foodName = _foodname;
+                                recipe.prepHours = _prepHours;
+                                recipe.prepMins = _prepMins;
+                                recipe.cookHours = _cookHours;
+                                recipe.cookMins = _cookMins;
+                                recipe.numPerson = _numPerson;
+                                recipe.ingredients = _ingredients;
+                                recipe.instruction = _instructions;
 
-                                Navigator.popAndPushNamed(context, homeRoute,
-                                    arguments: widget.user);
+                                Navigator.popAndPushNamed(context, homeRoute);
 
                                 // print('Image:\t'+ _image);
                               }),
@@ -634,27 +283,407 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
     );
   }
 
+  Widget _buildFoodName() {
+    return Container(
+      child: TextFormField(
+        initialValue: recipe.foodName,
+        decoration: new InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          filled: true,
+          hintText: recipe.foodName,
+          hintStyle: TextStyle(
+              fontSize: 15.0, color: Colors.black, fontFamily: 'Lato Bold'),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black, width: 1.0),
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+          border: new OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Food name is required';
+          }
+          return null;
+        },
+        onSaved: (String value) {
+          _foodname = value;
+        },
+      ),
+    );
+  }
+
+  Widget _buildImage() {
+    return Container(
+      child: new Column(
+        children: <Widget>[
+          new Text('Food Photo',
+              style: TextStyle(fontSize: 20.0, fontFamily: 'Lato Black')),
+          SizedBox(height: 10),
+          (_image != null)
+              ? Column(children: <Widget>[
+                  Image.file(_image),
+                  RaisedButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0)),
+                      child: Text('Change Image'),
+                      onPressed: () {
+                        _imageDialog(context);
+                      })
+                ])
+              : Column(
+                  children: [
+                    Image.asset(
+                      recipe.image,
+                    ),
+                    SizedBox(height: 10),
+                    RaisedButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0)),
+                        child: Text('Change Image'),
+                        onPressed: () {
+                          _imageDialog(context);
+                        }),
+                  ],
+                ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _imageDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: Text('Source: '),
+              content: SingleChildScrollView(
+                  child: ListBody(
+                children: <Widget>[
+                  InkWell(
+                    child: new Row(children: <Widget>[
+                      new Icon(Icons.camera_alt),
+                      SizedBox(width: 20),
+                      new Text("Camera"),
+                    ]),
+                    onTap: () {
+                      _openCamera(context);
+                    },
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(10.0),
+                  ),
+                  InkWell(
+                    child: new Row(children: <Widget>[
+                      new Icon(Icons.folder),
+                      SizedBox(width: 20),
+                      new Text("Gallery"),
+                    ]),
+                    onTap: () {
+                      _openGallery(context);
+                    },
+                  )
+                ],
+              )));
+        });
+  }
+
+  Future _openGallery(BuildContext context) async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = Io.File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+    Navigator.of(context).pop();
+  }
+
+  Future _openCamera(BuildContext context) async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = Io.File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+    Navigator.of(context).pop();
+  }
+
+  Widget _buildPrepHours() {
+    return Container(
+      width: 60.0,
+      height: 40.0,
+      child: TextFormField(
+        initialValue: recipe.prepHours.toString(),
+        keyboardType: TextInputType.number,
+        inputFormatters: [
+          new LengthLimitingTextInputFormatter(2),
+          FilteringTextInputFormatter.digitsOnly
+        ],
+        textAlign: TextAlign.center,
+        decoration: new InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          filled: true,
+          hintText: recipe.prepHours.toString(),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black, width: 1.0),
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          border: new OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+        onSaved: (String value) {
+          _prepHours = int.parse(value);
+        },
+      ),
+    );
+  }
+
+  Widget _buildPrepMins() {
+    return Container(
+      width: 60.0,
+      height: 40.0,
+      child: TextFormField(
+        initialValue: recipe.prepMins.toString(),
+        keyboardType: TextInputType.number,
+        inputFormatters: [
+          new LengthLimitingTextInputFormatter(2),
+          FilteringTextInputFormatter.digitsOnly
+        ],
+        textAlign: TextAlign.center,
+        decoration: new InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          filled: true,
+          hintText: recipe.prepMins.toString(),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black, width: 1.0),
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          border: new OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+        onSaved: (String value) {
+          _prepMins = int.parse(value);
+        },
+      ),
+    );
+  }
+
+  Widget _buildCookHours() {
+    return Container(
+      width: 60.0,
+      height: 40.0,
+      child: TextFormField(
+        initialValue: recipe.cookHours.toString(),
+        keyboardType: TextInputType.number,
+        inputFormatters: [
+          new LengthLimitingTextInputFormatter(2),
+          FilteringTextInputFormatter.digitsOnly
+        ],
+        textAlign: TextAlign.center,
+        decoration: new InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          filled: true,
+          hintText: recipe.cookMins.toString(),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black, width: 1.0),
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          border: new OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+        onSaved: (String value) {
+          _cookHours = int.parse(value);
+        },
+      ),
+    );
+  }
+
+  Widget _buildCookMins() {
+    return Container(
+      width: 60.0,
+      height: 40.0,
+      child: TextFormField(
+        initialValue: recipe.cookMins.toString(),
+        keyboardType: TextInputType.number,
+        inputFormatters: [
+          new LengthLimitingTextInputFormatter(2),
+          FilteringTextInputFormatter.digitsOnly
+        ],
+        textAlign: TextAlign.center,
+        decoration: new InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          filled: true,
+          hintText: recipe.cookMins.toString(),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black, width: 1.0),
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          border: new OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+        onSaved: (String value) {
+          _cookMins = int.parse(value);
+        },
+      ),
+    );
+  }
+
+  Widget _buildNumPerson() {
+    return Container(
+      //width: 60.0,
+      //height: 40.0,
+      child: TextFormField(
+        initialValue: recipe.numPerson.toString(),
+        keyboardType: TextInputType.number,
+        inputFormatters: [
+          new LengthLimitingTextInputFormatter(2),
+          FilteringTextInputFormatter.digitsOnly
+        ],
+        textAlign: TextAlign.center,
+        decoration: new InputDecoration(
+          contentPadding: EdgeInsets.symmetric(vertical: 0.5, horizontal: 0.5),
+          filled: true,
+          hintText: recipe.numPerson.toString(),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black, width: 1.0),
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          border: new OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Number is required';
+          }
+          return null;
+        },
+        onSaved: (String value) {
+          _numPerson = int.parse(value);
+        },
+      ),
+    );
+  }
+
+  Widget _buildIngredients() {
+    return Container(
+      child: TextFormField(
+        initialValue: recipe.ingredients,
+        keyboardType: TextInputType.multiline,
+        minLines: 6,
+        maxLines: null,
+        decoration: new InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          filled: true,
+          hintText: recipe.ingredients,
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black, width: 1.0),
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          border: new OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Ingredients are required';
+          }
+          return null;
+        },
+        onSaved: (String value) {
+          _ingredients = value;
+        },
+      ),
+    );
+  }
+
+  Widget _buildInstruction() {
+    return Container(
+      child: TextFormField(
+        initialValue: recipe.instruction,
+        keyboardType: TextInputType.multiline,
+        minLines: 6,
+        maxLines: null,
+        decoration: new InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          filled: true,
+          hintText: recipe.instruction,
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black, width: 1.0),
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          border: new OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Instruction is required';
+          }
+          return null;
+        },
+        onSaved: (String value) {
+          _instructions = value;
+        },
+      ),
+    );
+  }
+
+  Scaffold _buildFetchingDataScreen() {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            SizedBox(height: 50),
+            Text('Fetching recipe... Please wait'),
+          ],
+        ),
+      ),
+    );
+  }
+
   void _navigationTap(int index) {
     if (index == 0) {
       setState(() {
         _pageIndex = 0;
       });
-      Navigator.pushNamed(context, homeRoute, arguments: widget.user);
+      Navigator.pushNamed(context, homeRoute);
     } else if (index == 1) {
       setState(() {
         _pageIndex = 1;
       });
-      Navigator.pushNamed(context, plusRoute, arguments: widget.user);
+      Navigator.pushNamed(context, plusRoute);
     } else if (index == 2) {
       setState(() {
         _pageIndex = 2;
       });
-      Navigator.pushNamed(context, profileRoute, arguments: widget.user);
+      Navigator.pushNamed(context, profileRoute);
     } else {
       setState(() {
         _pageIndex = index;
       });
-      Navigator.pushNamed(context, settingsRoute, arguments: widget.user);
+      Navigator.pushNamed(context, settingsRoute);
     }
   }
 }

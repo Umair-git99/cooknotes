@@ -1,15 +1,14 @@
 import 'package:cooknotes/models/recipe.dart';
 import 'package:cooknotes/models/user.dart';
+import 'package:cooknotes/services/user_data_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
+import '../dependencies.dart';
 
 class DisplayRecipeScreen extends StatefulWidget {
-  final Recipe recipe;
-  final User user;
-
-  DisplayRecipeScreen(this.recipe, this.user);
+  DisplayRecipeScreen();
 
   @override
   _DisplayRecipeScreenState createState() => _DisplayRecipeScreenState();
@@ -17,8 +16,23 @@ class DisplayRecipeScreen extends StatefulWidget {
 
 class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
   int _pageIndex = 0;
+  Recipe recipe;
+  final UserDataService userDataService = service();
+
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<Recipe>(
+        future: userDataService.getRecipe(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            recipe = snapshot.data;
+            return _buildMainScreen();
+          }
+          return _buildFetchingDataScreen();
+        });
+  }
+
+  Scaffold _buildMainScreen() {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.0),
@@ -59,7 +73,7 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              new Text(widget.recipe.foodName.toUpperCase(),
+              new Text(recipe.foodName.toUpperCase(),
                   style: TextStyle(
                       fontSize: 35.0,
                       color: Color(0xff00556A),
@@ -69,7 +83,7 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image.asset(
-                  widget.recipe.image,
+                  recipe.image,
                   height: 150,
                   width: 100,
                   fit: BoxFit.cover,
@@ -92,7 +106,7 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
                               fontSize: 15.0,
                               color: Color(0xff00556A),
                               fontFamily: 'Lato Black')),
-                      new Text(widget.recipe.numPerson.toString() + " person",
+                      new Text(recipe.numPerson.toString() + " person",
                           style: TextStyle(
                               fontSize: 15.0, fontFamily: 'Lato Black'))
                     ],
@@ -107,9 +121,9 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
                               color: Color(0xff00556A),
                               fontFamily: 'Lato Black')),
                       new Text(
-                          widget.recipe.prepHours.toString() +
+                          recipe.prepHours.toString() +
                               " hour\n" +
-                              widget.recipe.prepMins.toString() +
+                              recipe.prepMins.toString() +
                               " minutes",
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -127,9 +141,9 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
                               color: Color(0xff00556A),
                               fontFamily: 'Lato Black')),
                       new Text(
-                          widget.recipe.cookHours.toString() +
+                          recipe.cookHours.toString() +
                               " hour \n" +
-                              widget.recipe.cookMins.toString() +
+                              recipe.cookMins.toString() +
                               " minutes",
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -148,7 +162,7 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
                       color: Color(0xff00556A),
                       fontFamily: 'Lato Black')),
               SizedBox(height: 10),
-              new Text(widget.recipe.ingredients,
+              new Text(recipe.ingredients,
                   style: TextStyle(fontSize: 20.0, fontFamily: 'Lato Black')),
               new Container(
                   child: Divider(
@@ -160,7 +174,7 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
                       color: Color(0xff00556A),
                       fontFamily: 'Lato Black')),
               SizedBox(height: 10),
-              new Text(widget.recipe.instruction,
+              new Text(recipe.instruction,
                   textAlign: TextAlign.justify,
                   style: TextStyle(fontSize: 20.0, fontFamily: 'Lato Black')),
               SizedBox(height: 30),
@@ -172,9 +186,7 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
                       iconSize: 30,
                       icon: Icon(Icons.edit, color: Color(0xff00556A)),
                       onPressed: () {
-                        Navigator.pushNamed(context, updateRecipeRoute,
-                            arguments: UpdateRecipeArguments(
-                                widget.recipe, widget.user));
+                        Navigator.pushNamed(context, updateRecipeRoute);
                       }),
                   SizedBox(width: 20),
                   new IconButton(
@@ -195,9 +207,11 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
                                             fontSize: 20.0,
                                             color: Color(0xff00556A),
                                             fontFamily: 'Lato Black')),
-                                    onPressed: () {
+                                    onPressed: () async {
                                       Navigator.pop(context);
-                                      removeRecipe();
+                                      await userDataService
+                                          .removeRecipe(recipe);
+                                      Navigator.pushNamed(context, homeRoute);
                                     },
                                   ),
                                   FlatButton(
@@ -254,36 +268,37 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
       setState(() {
         _pageIndex = 0;
       });
-      Navigator.pushNamed(context, homeRoute, arguments: widget.user);
+      Navigator.pushNamed(context, homeRoute);
     } else if (index == 1) {
       setState(() {
         _pageIndex = 1;
       });
-      Navigator.pushNamed(context, plusRoute, arguments: widget.user);
+      Navigator.pushNamed(context, plusRoute);
     } else if (index == 2) {
       setState(() {
         _pageIndex = 2;
       });
-      Navigator.pushNamed(context, profileRoute, arguments: widget.user);
+      Navigator.pushNamed(context, profileRoute);
     } else {
       setState(() {
         _pageIndex = index;
       });
-      Navigator.pushNamed(context, settingsRoute, arguments: widget.user);
+      Navigator.pushNamed(context, settingsRoute);
     }
   }
 
-  void removeRecipe() {
-    setState(() {
-      widget.user.recipe.remove(widget.recipe);
-      Navigator.pushNamed(context, homeRoute, arguments: widget.user);
-    });
+  Scaffold _buildFetchingDataScreen() {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            SizedBox(height: 50),
+            Text('Fetching recipe... Please wait'),
+          ],
+        ),
+      ),
+    );
   }
-}
-
-class UpdateRecipeArguments {
-  Recipe recipe;
-  User user;
-
-  UpdateRecipeArguments(this.recipe, this.user);
 }

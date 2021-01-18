@@ -2,8 +2,10 @@ import 'package:cooknotes/module1_screen/splash_screen.dart';
 import 'package:cooknotes/router.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:cooknotes/dependencies.dart' as di;
 
 void main() {
+  di.init();
   runApp(ChangeNotifierProvider<ValueNotifier<bool>>(
       create: (context) => ValueNotifier(true),
       child: Consumer<ValueNotifier<bool>>(

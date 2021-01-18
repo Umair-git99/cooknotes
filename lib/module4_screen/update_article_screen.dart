@@ -2,16 +2,14 @@ import 'dart:convert';
 import 'dart:io' as Io;
 import 'package:cooknotes/models/article.dart';
 import 'package:cooknotes/models/user.dart';
+import 'package:cooknotes/services/user_data_service.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../constants.dart';
+import '../dependencies.dart';
 
 class UpdateArticleScreen extends StatefulWidget {
-  final Article article;
-  final User user;
-
-  UpdateArticleScreen(this.article, this.user);
   @override
   _UpdateArticleScreenState createState() => _UpdateArticleScreenState();
 }
@@ -26,8 +24,23 @@ class _UpdateArticleScreenState extends State<UpdateArticleScreen> {
   final picker = ImagePicker();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  Article article;
+  final UserDataService userDataService = service();
+
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<Article>(
+        future: userDataService.getArticle(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            article = snapshot.data;
+            return _buildMainScreen();
+          }
+          return _buildFetchingDataScreen();
+        });
+  }
+
+  Scaffold _buildMainScreen() {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.0),
@@ -143,12 +156,11 @@ class _UpdateArticleScreenState extends State<UpdateArticleScreen> {
                               print('Article Name: ' + _articlename);
                               print('Article Content: ' + _articleauthor);
                               print('Article Content: ' + _articlecontent);
-                              widget.article.title = _articlename;
-                              widget.article.author = _articleauthor;
-                              widget.article.content = _articlecontent;
+                              article.title = _articlename;
+                              article.author = _articleauthor;
+                              article.content = _articlecontent;
 
-                              Navigator.popAndPushNamed(context, homeRoute,
-                                  arguments: widget.user);
+                              Navigator.popAndPushNamed(context, homeRoute);
                             },
                           )
                         ],
@@ -193,11 +205,11 @@ class _UpdateArticleScreenState extends State<UpdateArticleScreen> {
   Widget _buildArticleName() {
     return Container(
       child: TextFormField(
-        initialValue: widget.article.title,
+        initialValue: article.title,
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
           filled: true,
-          hintText: widget.article.title,
+          hintText: article.title,
           hintStyle: TextStyle(
               fontSize: 15.0, color: Colors.black, fontFamily: 'Lato Bold'),
           focusedBorder: OutlineInputBorder(
@@ -241,7 +253,7 @@ class _UpdateArticleScreenState extends State<UpdateArticleScreen> {
               ])
             : Column(
                 children: [
-                  Image.asset(widget.article.image, width: 200, height: 200),
+                  Image.asset(article.image, width: 200, height: 200),
                   SizedBox(height: 10),
                   RaisedButton(
                       shape: RoundedRectangleBorder(
@@ -322,13 +334,13 @@ class _UpdateArticleScreenState extends State<UpdateArticleScreen> {
   Widget _buildArticleContent() {
     return Container(
       child: TextFormField(
-        initialValue: widget.article.content,
+        initialValue: article.content,
         keyboardType: TextInputType.multiline,
         maxLines: null,
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 75.0, 20.0, 75.0),
           filled: true,
-          hintText: widget.article.content,
+          hintText: article.content,
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.black, width: 1.0),
             borderRadius: BorderRadius.circular(30.0),
@@ -353,11 +365,11 @@ class _UpdateArticleScreenState extends State<UpdateArticleScreen> {
   Widget _buildArticleAuthor() {
     return Container(
       child: TextFormField(
-        initialValue: widget.article.author,
+        initialValue: article.author,
         decoration: new InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
           filled: true,
-          hintText: widget.article.author,
+          hintText: article.author,
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.black, width: 1.0),
             borderRadius: BorderRadius.circular(30.0),
@@ -384,22 +396,37 @@ class _UpdateArticleScreenState extends State<UpdateArticleScreen> {
       setState(() {
         _pageIndex = 0;
       });
-      Navigator.pushNamed(context, homeRoute, arguments: widget.user);
+      Navigator.pushNamed(context, homeRoute);
     } else if (index == 1) {
       setState(() {
         _pageIndex = 1;
       });
-      Navigator.pushNamed(context, plusRoute, arguments: widget.user);
+      Navigator.pushNamed(context, plusRoute);
     } else if (index == 2) {
       setState(() {
         _pageIndex = 2;
       });
-      Navigator.pushNamed(context, profileRoute, arguments: widget.user);
+      Navigator.pushNamed(context, profileRoute);
     } else {
       setState(() {
         _pageIndex = index;
       });
-      Navigator.pushNamed(context, settingsRoute, arguments: widget.user);
+      Navigator.pushNamed(context, settingsRoute);
     }
+  }
+
+  Scaffold _buildFetchingDataScreen() {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            SizedBox(height: 50),
+            Text('Fetching article... Please wait'),
+          ],
+        ),
+      ),
+    );
   }
 }

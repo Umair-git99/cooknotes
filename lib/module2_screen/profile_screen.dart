@@ -1,20 +1,36 @@
 import 'package:cooknotes/models/user.dart';
+import 'package:cooknotes/services/user_data_service.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
+import '../dependencies.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final User user;
-
-  ProfileScreen(this.user);
+  ProfileScreen();
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
   int _pageIndex = 2;
+  User user;
+
   @override
   Widget build(BuildContext context) {
+    final UserDataService userDataService = service();
+
+    return FutureBuilder<User>(
+        future: userDataService.getUser(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            user = snapshot.data;
+            return _buildMainScreen();
+          }
+          return _buildFetchingDataScreen();
+        });
+  }
+
+  Scaffold _buildMainScreen() {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.0),
@@ -52,8 +68,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(width: 20),
-                  new Text(
-                      widget.user.displayName + '\n@' + widget.user.username,
+                  new Text(user.displayName + '\n@' + user.username,
                       style: new TextStyle(
                           fontSize: 25.0,
                           fontFamily: 'Lato Black',
@@ -64,7 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     backgroundColor: Colors.blueGrey[50],
                     radius: 45,
                     child: CircleAvatar(
-                      backgroundImage: AssetImage(widget.user.profilePic),
+                      backgroundImage: AssetImage(user.profilePic),
                       radius: 45.0 - 5,
                     ),
                   ),
@@ -82,7 +97,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: new Color(0xff00556A),
                           fontWeight: FontWeight.bold)),
                   SizedBox(width: 80),
-                  new Text(widget.user.age.toString(),
+                  new Text(user.age.toString(),
                       style: new TextStyle(
                           fontSize: 20.0,
                           fontFamily: 'Lato Black',
@@ -101,7 +116,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: new Color(0xff00556A),
                           fontWeight: FontWeight.bold)),
                   SizedBox(width: 65),
-                  new Text(widget.user.email,
+                  new Text(user.email,
                       style: new TextStyle(
                           fontSize: 20.0,
                           fontFamily: 'Lato Black',
@@ -119,16 +134,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             fontSize: 20.0,
                             color: Color(0xff00556A),
                             fontFamily: 'Lato Black')),
-                    new Text(widget.user.recipe.length.toString(),
-                        style: TextStyle(
-                            fontSize: 50.0,
-                            color: Color(0xff00556A),
-                            fontFamily: 'Lato Black'))
+                    (user.recipe != null)
+                        ? new Text(user.recipe.length.toString(),
+                            style: TextStyle(
+                                fontSize: 50.0,
+                                color: Color(0xff00556A),
+                                fontFamily: 'Lato Black'))
+                        : new Text('0',
+                            style: TextStyle(
+                                fontSize: 50.0,
+                                color: Color(0xff00556A),
+                                fontFamily: 'Lato Black'))
                   ])
                 ],
               ),
               SizedBox(height: 10),
-              widget.user.usertype == 'C' ? buildArticle() : Container(),
+              (user.usertype == 'C' && user.article != null)
+                  ? buildArticle()
+                  : Container(),
               SizedBox(height: 50),
               RaisedButton(
                   padding: EdgeInsets.symmetric(horizontal: 40.0),
@@ -138,8 +161,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   textColor: Colors.white,
                   child: Text('Edit Profile'),
                   onPressed: () {
-                    Navigator.pushNamed(context, editProfileRoute,
-                        arguments: widget.user);
+                    Navigator.pushNamed(context, editProfileRoute);
                   }),
             ],
           ),
@@ -179,27 +201,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() {
         _pageIndex = 0;
       });
-      Navigator.pushReplacementNamed(context, homeRoute,
-          arguments: widget.user);
+      Navigator.pushNamed(context, homeRoute);
     } else if (index == 1) {
       setState(() {
         _pageIndex = 1;
       });
-      Navigator.pushReplacementNamed(context, plusRoute,
-          arguments: widget.user);
+      Navigator.pushNamed(context, plusRoute);
     } else if (index == 2) {
       setState(() {
         _pageIndex = 2;
       });
-      // Navigator.pushReplacementNamed(context, profileRoute,
-      //    arguments: widget.user);
+      //  Navigator.pushNamed(context, profileRoute);
     } else {
       setState(() {
         _pageIndex = index;
       });
-      Navigator.pushReplacementNamed(context, settingsRoute,
-          arguments: widget.user);
+      Navigator.pushNamed(context, settingsRoute);
     }
+  }
+
+  Scaffold _buildFetchingDataScreen() {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            SizedBox(height: 50),
+            Text('Fetching recipe... Please wait'),
+          ],
+        ),
+      ),
+    );
   }
 
   buildArticle() {
@@ -214,7 +247,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   fontSize: 20.0,
                   color: Color(0xff00556A),
                   fontFamily: 'Lato Black')),
-          new Text(widget.user.article.length.toString(),
+          new Text(user.article.length.toString(),
               style: TextStyle(
                   fontSize: 50.0,
                   color: Color(0xff00556A),
