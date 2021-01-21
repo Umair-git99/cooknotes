@@ -35,7 +35,7 @@ e. What CookNotes cannot do:
 3. Video Links:
 
 - Deliverable 1: https://youtu.be/LQ7z7HYDqus
-- Deliverable 2: https://youtu.be/z3prr0GgN2w
+- Deliverable 2: https://youtu.be/oqBHdkqum20
 ==========================================================
 4. Project Module:
 
