@@ -1,6 +1,7 @@
 import 'package:cooknotes/models/user.dart';
 import 'package:cooknotes/services/user_data_service.dart';
 import 'package:cooknotes/services/user_rest_service.dart';
+import 'package:cooknotes/widget/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -42,162 +43,139 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Scaffold _buildMainScreen() {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60.0),
-        child: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_rounded, color: Color(0xff00556A)),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          centerTitle: true,
-          elevation: 0,
-          title: Text('COOKNOTES',
-              style: TextStyle(
-                  color: Color(0xff00556A), fontFamily: 'Montserrat Black')),
-          actions: <Widget>[
-            FlatButton(
-              textColor: Colors.black,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(60.0),
+          child: AppBar(
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back_rounded, color: Color(0xff00556A)),
               onPressed: () {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, logoutRoute, (_) => false);
+                Navigator.pop(context);
               },
-              child: Text("Logout",
-                  style: TextStyle(
-                      fontSize: 15.0,
-                      color: Color(0xff00556A),
-                      fontFamily: 'Lato Black')),
-              shape: RoundedRectangleBorder(
-                  side: BorderSide(color: Colors.transparent)),
             ),
-          ],
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: new Container(
-          padding: const EdgeInsets.all(20.0),
-          child: new Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(height: 30),
-              new Text(' Edit Profile',
-                  textAlign: TextAlign.center,
-                  style: new TextStyle(
-                      fontSize: 25.0,
-                      fontFamily: 'Lato Black',
-                      color: new Color(0xff00556A),
-                      fontWeight: FontWeight.bold)),
-              Container(
-                child: new Card(
-                    child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                        child: Form(
-                          key: _formKey,
-                          child: new Column(
-                            children: <Widget>[
-                              SizedBox(height: 20),
-                              CircleAvatar(
-                                backgroundColor: Color(0xffE6E6E6),
-                                backgroundImage: AssetImage(user.profilePic),
-                                radius: 40,
-                              ),
-                              SizedBox(height: 10),
-                              RaisedButton(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(15.0)),
-                                  child: Text('Change Image'),
-                                  onPressed: () {}),
-                              SizedBox(height: 20),
-                              Container(
-                                  child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: <Widget>[
-                                  _buildUserName(),
-                                  _buildDisplayName(),
-                                  SizedBox(height: 15),
-                                  _buildEmail(),
-                                  SizedBox(height: 15),
-                                  _buildPassword(true),
-                                  SizedBox(height: 15),
-                                  _buildAge(),
-                                  SizedBox(height: 40),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      RaisedButton(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 40.0),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(15.0)),
-                                          color: new Color(0xff00556A),
-                                          textColor: Colors.white,
-                                          child: Text('Save Changes'),
-                                          onPressed: () {
-                                            if (!_formKey.currentState
-                                                .validate()) {
-                                              return;
-                                            }
-                                            _formKey.currentState.save();
-                                            print('Username: ' + _username);
-                                            print('Display name: ' +
-                                                _displayName);
-                                            print('Email: ' + _email);
-                                            print('Password: ' + _password);
-                                            print('Age: ' + _age.toString());
-
-                                            user.username = _username;
-                                            user.displayName = _displayName;
-                                            user.email = _email;
-                                            user.password = _password;
-                                            user.age = _age;
-
-                                            Navigator.pushReplacementNamed(
-                                                context, profileRoute);
-                                          }),
-                                    ],
-                                  ),
-                                  SizedBox(height: 30),
-                                ],
-                              ))
-                            ],
-                          ),
-                        ))),
-              )
+            centerTitle: true,
+            elevation: 0,
+            title: Text('COOKNOTES',
+                style: TextStyle(
+                    color: Color(0xff00556A), fontFamily: 'Montserrat Black')),
+            actions: <Widget>[
+              FlatButton(
+                textColor: Colors.black,
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, logoutRoute, (_) => false);
+                },
+                child: Text("Logout",
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        color: Color(0xff00556A),
+                        fontFamily: 'Lato Black')),
+                shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.transparent)),
+              ),
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Color(0xff00556A),
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        currentIndex: _pageIndex,
-        onTap: _navigationTap,
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home",
+        body: SingleChildScrollView(
+          child: new Container(
+            padding: const EdgeInsets.all(20.0),
+            child: new Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(height: 30),
+                new Text(' Edit Profile',
+                    textAlign: TextAlign.center,
+                    style: new TextStyle(
+                        fontSize: 25.0,
+                        fontFamily: 'Lato Black',
+                        color: new Color(0xff00556A),
+                        fontWeight: FontWeight.bold)),
+                Container(
+                  child: new Card(
+                      child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          child: Form(
+                            key: _formKey,
+                            child: new Column(
+                              children: <Widget>[
+                                SizedBox(height: 20),
+                                CircleAvatar(
+                                  backgroundColor: Color(0xffE6E6E6),
+                                  backgroundImage: AssetImage(user.profilePic),
+                                  radius: 40,
+                                ),
+                                SizedBox(height: 10),
+                                RaisedButton(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15.0)),
+                                    child: Text('Change Image'),
+                                    onPressed: () {}),
+                                SizedBox(height: 20),
+                                Container(
+                                    child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: <Widget>[
+                                    _buildUserName(),
+                                    _buildDisplayName(),
+                                    SizedBox(height: 15),
+                                    _buildEmail(),
+                                    SizedBox(height: 15),
+                                    _buildPassword(true),
+                                    SizedBox(height: 15),
+                                    _buildAge(),
+                                    SizedBox(height: 40),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        RaisedButton(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 40.0),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        15.0)),
+                                            color: new Color(0xff00556A),
+                                            textColor: Colors.white,
+                                            child: Text('Save Changes'),
+                                            onPressed: () {
+                                              if (!_formKey.currentState
+                                                  .validate()) {
+                                                return;
+                                              }
+                                              _formKey.currentState.save();
+                                              print('Username: ' + _username);
+                                              print('Display name: ' +
+                                                  _displayName);
+                                              print('Email: ' + _email);
+                                              print('Password: ' + _password);
+                                              print('Age: ' + _age.toString());
+
+                                              user.username = _username;
+                                              user.displayName = _displayName;
+                                              user.email = _email;
+                                              user.password = _password;
+                                              user.age = _age;
+
+                                              Navigator.pushReplacementNamed(
+                                                  context, profileRoute);
+                                            }),
+                                      ],
+                                    ),
+                                    SizedBox(height: 30),
+                                  ],
+                                ))
+                              ],
+                            ),
+                          ))),
+                )
+              ],
+            ),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add_circle_outline),
-            label: "Add",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "Profile",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: "Settings",
-          ),
-        ],
-      ),
-    );
+        ),
+        bottomNavigationBar: Navbar(_pageIndex));
   }
 
   Widget textField(String labelText, String hintText, bool isPassed) {
@@ -414,30 +392,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         _age = int.parse(value);
       },
     );
-  }
-
-  void _navigationTap(int index) {
-    if (index == 0) {
-      setState(() {
-        _pageIndex = 0;
-      });
-      Navigator.pushNamed(context, homeRoute);
-    } else if (index == 1) {
-      setState(() {
-        _pageIndex = 1;
-      });
-      Navigator.pushNamed(context, plusRoute);
-    } else if (index == 2) {
-      setState(() {
-        _pageIndex = 2;
-      });
-      Navigator.pushNamed(context, profileRoute);
-    } else {
-      setState(() {
-        _pageIndex = index;
-      });
-      Navigator.pushNamed(context, settingsRoute);
-    }
   }
 
   Scaffold _buildFetchingDataScreen() {
