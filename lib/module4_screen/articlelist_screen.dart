@@ -2,6 +2,8 @@ import 'package:cooknotes/models/article.dart';
 import 'package:cooknotes/models/user.dart';
 import 'package:cooknotes/services/user_data_service.dart';
 import 'package:cooknotes/services/user_rest_service.dart';
+import 'package:cooknotes/user_viewmodel.dart';
+import 'package:cooknotes/view.dart';
 import '../constants.dart';
 import 'package:flutter/material.dart';
 
@@ -21,14 +23,15 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<User>(
-        future: userDataService.getUser(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            user = snapshot.data;
-            return _buildMainScreen();
+    return View<UserViewmodel>(
+        initViewmodel: (viewmodel) => viewmodel.getUser(),
+        // future: userDataService.getUser(),
+        builder: (context, viewmodel, _) {
+          if (viewmodel.busy) {
+            return _buildFetchingDataScreen();
           }
-          return _buildFetchingDataScreen();
+          user = viewmodel.users;
+          return _buildMainScreen();
         });
   }
 
