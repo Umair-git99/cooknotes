@@ -209,9 +209,11 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
                                             color: Color(0xff00556A),
                                             fontFamily: 'Lato Black')),
                                     onPressed: () async {
+                                      userDataService.removeRecipe(recipe);
+                                      final updatedUser =
+                                          await userDataService.updateUser();
+                                      userDataService.setUser(updatedUser);
                                       Navigator.pop(context);
-                                      await userDataService
-                                          .removeRecipe(recipe);
                                       Navigator.pushNamed(context, homeRoute);
                                     },
                                   ),

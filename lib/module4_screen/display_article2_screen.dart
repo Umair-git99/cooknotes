@@ -135,9 +135,11 @@ class _DisplayArticle2ScreenState extends State<DisplayArticle2Screen> {
                                             color: Color(0xff00556A),
                                             fontFamily: 'Lato Black')),
                                     onPressed: () async {
+                                      userDataService.removeArticle(article);
+                                      final updatedUser =
+                                          await userDataService.updateUser();
+                                      userDataService.setUser(updatedUser);
                                       Navigator.pop(context);
-                                      await userDataService
-                                          .removeArticle(article);
                                       Navigator.pushNamed(context, homeRoute);
                                     },
                                   ),

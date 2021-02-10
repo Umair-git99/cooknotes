@@ -19,113 +19,85 @@ GET {{baseUrl}}/qr
 ###  Getting a books for a given id
 GET {{baseUrl}}/books/H8102ae5M94LcNhBtuAx
 
-###  Add a new books
-POST {{baseUrl}}/books
-Content-Type: application/json
-
-{
-    "title": "Bahasa Melayu Pemahaman Tahun 2",
-    "year" : 2,
-    "price" : 25,
-    "image": "assets/book_three.jpeg"
-}
-
-###  Add a new users
+###  Add a new user
 POST {{baseUrl}}/users
 Content-Type: application/json
 
 {
-    "username": "nurain",
-                "password": "ain123",
-                "name": "Nur Ain",
-                "type": "teacher",
-                "year": 0,
-                "phone": "0175875565",
-                "email": "ainn765@gmail.com"
-}
+               "username": "umair",
+                "displayName": "Umair Hamzah",
+                "profilePic": "assets/tony.jpg",
+                "usertype": "U",
+                "age": "21",
+                "email": "umair.bzk@gmail.com",
+                "password": "Abc123",
+                "recipe": [
 
-###  Add a new fee
-POST {{baseUrl}}/fees
-Content-Type: application/json
-
-{
-    
- "monthFee": "May",
-    "date": "13/5/2021",
-    "amount": "100.00",
-    "feeStatus": "UNPAID"
-}
-
-###  Add a new qr
-POST {{baseUrl}}/qr
-Content-Type: application/json
-
-{
-    
-   "year": 5,
-                "subject": "Bahasa Melayu",
-                "classTime": "2021–01–16 10:00 AM"
-}
-
-###  Add a new todo
-POST {{baseUrl}}/todos
-Content-Type: application/json
-
-{
-                "title": "Bahasa Malaysia",
-                "items": [
                     {
-                        "title": "Mari Membaca",
-                        "completed": true
+                        "foodName": "Asam Pedas",
+                        "image": "assets/asampedas.jpg",
+                        "prepHours": 0,
+                        "prepMins": 30,
+                        "cookHours": 1,
+                        "cookMins": 30,
+                        "numPerson": 5,
+                        "ingredients": "ikan\nasam\nsantan\nbawang",
+                        "instruction": "masak sampai sedap"
+                    },
+
+                    {
+                        "foodName": "Chicken Lasagna",
+                        "image": "assets/chickenlasagna.jpg",
+                        "prepHours": 0,
+                        "prepMins": 40,
+                        "cookHours": 2,
+                        "cookMins": 0,
+                        "numPerson": 1,
+                        "ingredients": "chicken\nlasagna\ncheese",
+                        "instruction": "masak sampai sedap"
+                    },
+
+                    {
+                        "foodName": "Ayam Goreng Crispy",
+                        "image": "assets/ayamgoreng.jpg",
+                        "prepHours": 0,
+                        "prepMins": 15,
+                        "cookHours": 0,
+                        "cookMins": 30,
+                        "numPerson": 4,
+                        "ingredients": "ayam\nbawang\ntepung",
+                        "instruction": "masak sampai sedap"
                     },
                     {
-                        "title": "Karangan: Aku Sebatang Pensel",
-                        "completed": false
-                    },
-                    {
-                        "title": "Pemahaman tatabahasa",
-                        "completed": true
-                    },
-                    {
-                        "title": "Karangan: Keluarga saya",
-                        "completed": true
+                        "foodName": "Ikan Siakap Tiga Rasa",
+                        "image": "assets/siakap.jpg",
+                        "prepHours": 0,
+                        "prepMins": 40,
+                        "cookHours": 2,
+                        "cookMins": 0,
+                        "numPerson": 1,
+                        "ingredients": "ikan\nsos\ntepung jagung",
+                        "instruction": "masak sampai sedap ye!"
                     }
-
+                ],
+                "article": [{
+                        "title": "",
+                        "image": "",
+                        "author": "",
+                        "content": "",
+                    },
                 ]
             
 }
 
-### Update a fee partly
-PATCH {{baseUrl}}/fees/3rxmr5S8mb23NotFX9Vl
+### Update a user partly
+PATCH {{baseUrl}}/user/3rxmr5S8mb23NotFX9Vl
 Content-Type: application/json
 
 {
         "feeStatus": "UNPAID"
 }
 
-### Update a qr partly
-PATCH {{baseUrl}}/qr/ghkJ1PWw3XqhdmdDUkTf
-Content-Type: application/json
-
-{
-        "year": 2
-}
-
-### Update a book partly
-PATCH {{baseUrl}}/books/TuXQxdH1swNFTeeFsUr1
-Content-Type: application/json
-
-{
-    "year": 1
-}
-
-### Update a user partly
-PATCH {{baseUrl}}/users/MHO6yltvwidyJ4TjfTNi
-Content-Type: application/json
-
-{
-    "phone": "0111111112"
-}
 
 ### Update a todo partly
 PATCH {{baseUrl}}/todos/G5GaM5UvWcvLTuvJPgCB

@@ -141,7 +141,7 @@ class _UpdateArticleScreenState extends State<UpdateArticleScreen> {
                             icon: Icon(Icons.check_circle,
                                 color: Colors.green[900]),
                             iconSize: 70,
-                            onPressed: () {
+                            onPressed: () async {
                               FocusScope.of(context).requestFocus(FocusNode());
                               if (!_formKey.currentState.validate()) {
                                 return;
@@ -160,6 +160,10 @@ class _UpdateArticleScreenState extends State<UpdateArticleScreen> {
                               article.title = _articlename;
                               article.author = _articleauthor;
                               article.content = _articlecontent;
+
+                              final updatedUser =
+                                  await userDataService.updateUser();
+                              userDataService.setUser(updatedUser);
 
                               Navigator.popAndPushNamed(context, homeRoute);
                             },

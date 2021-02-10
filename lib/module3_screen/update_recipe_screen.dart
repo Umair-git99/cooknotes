@@ -204,7 +204,7 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
                               icon: Icon(Icons.check_circle,
                                   color: Colors.green[900]),
                               iconSize: 70,
-                              onPressed: () {
+                              onPressed: () async {
                                 FocusScope.of(context)
                                     .requestFocus(FocusNode());
                                 if (!_formKey.currentState.validate()) {
@@ -240,6 +240,10 @@ class _UpdateRecipeScreenState extends State<UpdateRecipeScreen> {
                                 recipe.numPerson = _numPerson;
                                 recipe.ingredients = _ingredients;
                                 recipe.instruction = _instructions;
+
+                                final updatedUser =
+                                    await userDataService.updateUser();
+                                userDataService.setUser(updatedUser);
 
                                 Navigator.popAndPushNamed(context, homeRoute);
 

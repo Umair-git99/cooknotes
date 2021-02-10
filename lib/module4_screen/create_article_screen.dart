@@ -149,8 +149,10 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
                                   image: 'assets/article3.jpg',
                                   content: _articlecontent);
 
-                              await userDataService.addArticle(newArticle);
-
+                              userDataService.addArticle(newArticle);
+                              final updatedUser =
+                                  await userDataService.updateUser();
+                              userDataService.setUser(updatedUser);
                               Navigator.pushReplacementNamed(
                                   context, homeRoute);
                             },

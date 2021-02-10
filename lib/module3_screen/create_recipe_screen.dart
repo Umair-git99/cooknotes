@@ -226,8 +226,10 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
                                     ingredients: _ingredients,
                                     instruction: _instructions);
 
-                                await userDataService.addRecipe(newRecipe);
-
+                                userDataService.addRecipe(newRecipe);
+                                final updatedUser =
+                                    await userDataService.updateUser();
+                                userDataService.setUser(updatedUser);
                                 Navigator.pushReplacementNamed(
                                     context, homeRoute);
                               }),

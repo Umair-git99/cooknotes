@@ -2,6 +2,7 @@ import 'package:cooknotes/models/article.dart';
 import 'package:cooknotes/models/recipe.dart';
 
 class User {
+  String id;
   String username;
   String profilePic;
   String displayName;
@@ -14,6 +15,7 @@ class User {
   List<Article> article;
 
   User({
+    this.id,
     this.username,
     this.profilePic,
     this.displayName,
@@ -27,6 +29,7 @@ class User {
 
   User.fromJson(Map<String, dynamic> json)
       : this(
+          id: json['id'],
           username: json['username'],
           profilePic: json['profilePic'],
           displayName: json['displayName'],
@@ -43,6 +46,7 @@ class User {
         );
 
   Map<String, dynamic> toJson() => {
+        'id': id,
         'username': username,
         'profilePic': profilePic,
         'displayName': displayName,

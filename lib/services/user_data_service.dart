@@ -7,6 +7,8 @@ abstract class UserDataService {
   //User
   Future<User> addUser(User user);
   Future<User> getUser();
+  Future<User> setUser(User user);
+  Future<User> updateUser();
   Future<bool> login(String username, String password);
   Future<List<User>> getAllUser();
   //Recipe

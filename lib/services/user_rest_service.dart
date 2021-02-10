@@ -28,6 +28,18 @@ class UserRestService implements UserDataService {
     return currentUser;
   }
 
+  Future<User> setUser(User user) async {
+    currentUser = user;
+  }
+
+  Future<User> updateUser() async {
+    User user = await getUser();
+    String id = user.id;
+
+    final json = await rest.patch('users/$id', data: user);
+    return User.fromJson(json);
+  }
+
   Future<List<User>> getAllUser() async {
     final listJson = await rest.get('users');
     return (listJson as List)
