@@ -3,6 +3,8 @@ import 'package:cooknotes/models/recipe.dart';
 import 'package:cooknotes/models/user.dart';
 import 'package:cooknotes/services/user_data_service.dart';
 import 'package:cooknotes/services/user_rest_service.dart';
+import 'package:cooknotes/user_viewmodel.dart';
+import 'package:cooknotes/view.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
@@ -21,14 +23,14 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<User>(
-        future: userDataService.getUser(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            user = snapshot.data;
-            return _buildMainScreen();
+    return View<UserViewmodel>(
+        initViewmodel: (viewmodel) => viewmodel.getUser(),
+        builder: (context, viewmodel, _) {
+          if (viewmodel.busy) {
+            return _buildFetchingDataScreen();
           }
-          return _buildFetchingDataScreen();
+          user = viewmodel.users;
+          return _buildMainScreen();
         });
   }
 

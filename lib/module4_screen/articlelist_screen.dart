@@ -25,7 +25,6 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
   Widget build(BuildContext context) {
     return View<UserViewmodel>(
         initViewmodel: (viewmodel) => viewmodel.getUser(),
-        // future: userDataService.getUser(),
         builder: (context, viewmodel, _) {
           if (viewmodel.busy) {
             return _buildFetchingDataScreen();
