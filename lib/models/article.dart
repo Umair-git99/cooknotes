@@ -8,9 +8,17 @@ class Article {
 
   Article.copy(Article from)
       : this(
-          title: from.title,
-          image: from.image,
-          author: from.author,
-          content: from.content,
-        );
+            title: from.title,
+            image: from.image,
+            author: from.author,
+            content: from.content);
+  Article.fromJson(Map<String, dynamic> json)
+      : this(
+            title: json['title'],
+            image: json['image'],
+            author: json['author'],
+            content: json['content']);
+
+  Map<String, dynamic> toJson() =>
+      {'title': title, 'image': image, 'author': author, 'content': content};
 }

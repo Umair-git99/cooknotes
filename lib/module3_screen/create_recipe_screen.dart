@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cooknotes/models/recipe.dart';
 import 'package:cooknotes/models/user.dart';
 import 'package:cooknotes/services/user_data_service.dart';
+import 'package:cooknotes/services/user_rest_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -32,7 +33,7 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Recipe recipe;
-  final UserDataService userDataService = service();
+  final userDataService = UserRestService();
 
   @override
   Widget build(BuildContext context) {

@@ -33,25 +33,3 @@ void main() {
                 home: SplashScreens(),
               ))));
 }
-/* void main() {
-  runApp(MyApp());
-} */
-
-/* class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Cook Notes Demo',
-        //    onGenerateRoute: createRoute,
-        debugShowCheckedModeBanner: false,
-        //  home: HomeScreen(mockData[0], mockData));
-        // home: ProfileScreen(mockData[1]));
-
-        home: SplashScreens());
-    //  home: UpdateRecipeScreen(mockData[1].recipe[1]));
-    //  home: DisplayRecipeScreen(mockData[1].recipe[1]));
-    //home: RecipeListScreen(mockData[1]));
-    //home: DisplayArticleScreen(mockData[1].article[0]));
-  }
-} */

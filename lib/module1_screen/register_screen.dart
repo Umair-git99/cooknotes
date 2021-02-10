@@ -1,6 +1,6 @@
-import 'package:cooknotes/models/mock_user.dart';
 import 'package:cooknotes/models/user.dart';
 import 'package:cooknotes/services/user_data_service.dart';
+import 'package:cooknotes/services/user_rest_service.dart';
 import '../constants.dart';
 import 'package:flutter/material.dart';
 import '../dependencies.dart';
@@ -18,7 +18,7 @@ class _LoginScreenState extends State<RegisterScreen> {
   String _email;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final UserDataService userDataService = service();
+  final userDataService = UserRestService();
 
   @override
   Widget build(BuildContext context) {

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io' as Io;
 import 'package:cooknotes/models/article.dart';
 import 'package:cooknotes/services/user_data_service.dart';
+import 'package:cooknotes/services/user_rest_service.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -23,7 +24,7 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Article article;
-  final UserDataService userDataService = service();
+  final userDataService = UserRestService();
 
   @override
   Widget build(BuildContext context) {

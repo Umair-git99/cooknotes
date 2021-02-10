@@ -1,6 +1,7 @@
 import 'package:cooknotes/models/recipe.dart';
 import 'package:cooknotes/models/user.dart';
 import 'package:cooknotes/services/user_data_service.dart';
+import 'package:cooknotes/services/user_rest_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,7 @@ class DisplayRecipeScreen extends StatefulWidget {
 class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
   int _pageIndex = 0;
   Recipe recipe;
-  final UserDataService userDataService = service();
+  final userDataService = UserRestService();
 
   @override
   Widget build(BuildContext context) {

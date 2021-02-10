@@ -1,6 +1,7 @@
 import 'package:cooknotes/models/article.dart';
 import 'package:cooknotes/models/user.dart';
 import 'package:cooknotes/services/user_data_service.dart';
+import 'package:cooknotes/services/user_rest_service.dart';
 import '../constants.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,7 @@ class ArticleListScreen extends StatefulWidget {
 class _ArticleListScreenState extends State<ArticleListScreen> {
   int _pageIndex = 0;
   User user;
-  final UserDataService userDataService = service();
+  final userDataService = UserRestService();
 
   @override
   Widget build(BuildContext context) {

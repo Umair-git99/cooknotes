@@ -1,4 +1,3 @@
-import 'package:cooknotes/models/mock_user.dart';
 import 'package:cooknotes/module1_screen/login_screen.dart';
 import 'package:cooknotes/module1_screen/logout_screen.dart';
 import 'package:cooknotes/module1_screen/register_screen.dart';

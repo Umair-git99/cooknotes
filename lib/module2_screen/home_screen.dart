@@ -4,6 +4,7 @@ import 'package:cooknotes/models/user.dart';
 import 'package:cooknotes/module4_screen/display_article_screen.dart';
 import 'package:cooknotes/module3_screen/recipelist_screen.dart';
 import 'package:cooknotes/services/user_data_service.dart';
+import 'package:cooknotes/services/user_rest_service.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
@@ -20,18 +21,24 @@ class _HomeScreenState extends State<HomeScreen> {
   User user;
   Article article;
   List<User> all;
-  final UserDataService userDataService = service();
+  final userDataService = UserRestService();
 
   @override
   Widget build(BuildContext context) {
-    all = userDataService.getAllUser();
-
-    return FutureBuilder<User>(
-        future: userDataService.getUser(),
+    return FutureBuilder<List<User>>(
+        future: userDataService.getAllUser(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            user = snapshot.data;
-            return _buildMainScreen();
+            all = snapshot.data;
+            return FutureBuilder<User>(
+                future: userDataService.getUser(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    user = snapshot.data;
+                    return _buildMainScreen();
+                  }
+                  return _buildFetchingDataScreen();
+                });
           }
           return _buildFetchingDataScreen();
         });

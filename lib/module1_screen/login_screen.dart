@@ -1,4 +1,5 @@
 import 'package:cooknotes/services/user_data_service.dart';
+import 'package:cooknotes/services/user_rest_service.dart';
 import '../constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,7 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String _username;
   String _password;
 
-  final UserDataService userDataService = service();
+  final userDataService = UserRestService();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Widget _buildEmailTF() {

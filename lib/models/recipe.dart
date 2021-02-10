@@ -32,4 +32,28 @@ class Recipe {
           ingredients: from.ingredients,
           instruction: from.instruction,
         );
+
+  Recipe.fromJson(Map<String, dynamic> json)
+      : this(
+            foodName: json['foodName'],
+            image: json['image'],
+            prepHours: json['prepHours'],
+            prepMins: json['prepMins'],
+            cookHours: json['cookHours'],
+            cookMins: json['cookMins'],
+            numPerson: json['numPerson'],
+            ingredients: json['ingredients'],
+            instruction: json['instruction']);
+
+  Map<String, dynamic> toJson() => {
+        'foodName': foodName,
+        'image': image,
+        'prepHours': prepHours,
+        'prepMins': prepMins,
+        'cookHours': cookHours,
+        'cookMins': cookMins,
+        'numPerson': numPerson,
+        'ingredients': ingredients,
+        'instruction': instruction
+      };
 }

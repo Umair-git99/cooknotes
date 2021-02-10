@@ -1,5 +1,6 @@
 import 'package:cooknotes/models/user.dart';
 import 'package:cooknotes/services/user_data_service.dart';
+import 'package:cooknotes/services/user_rest_service.dart';
 import '../constants.dart';
 import 'package:cooknotes/module3_screen/create_recipe_screen.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class _PlusButtonScreenState extends State<PlusButtonScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final UserDataService userDataService = service();
+    final userDataService = UserRestService();
 
     return FutureBuilder<User>(
         future: userDataService.getUser(),

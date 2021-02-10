@@ -1,5 +1,6 @@
 import 'package:cooknotes/models/user.dart';
 import 'package:cooknotes/services/user_data_service.dart';
+import 'package:cooknotes/services/user_rest_service.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
@@ -17,7 +18,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final UserDataService userDataService = service();
+    final userDataService = UserRestService();
 
     return FutureBuilder<User>(
         future: userDataService.getUser(),

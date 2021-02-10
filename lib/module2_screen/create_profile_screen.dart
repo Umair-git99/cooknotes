@@ -2,6 +2,7 @@ import 'dart:io' as Io;
 import 'dart:convert';
 import 'package:cooknotes/models/user.dart';
 import 'package:cooknotes/services/user_data_service.dart';
+import 'package:cooknotes/services/user_rest_service.dart';
 import '../constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,18 +24,24 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
 
   User user;
   List<User> all;
-  final UserDataService userDataService = service();
+  final userDataService = UserRestService();
 
   @override
   Widget build(BuildContext context) {
-    all = userDataService.getAllUser();
-
-    return FutureBuilder<User>(
-        future: userDataService.getUser(),
+    return FutureBuilder<List<User>>(
+        future: userDataService.getAllUser(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            user = snapshot.data;
-            return _buildMainScreen();
+            all = snapshot.data;
+            return FutureBuilder<User>(
+                future: userDataService.getUser(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    user = snapshot.data;
+                    return _buildMainScreen();
+                  }
+                  return _buildFetchingDataScreen();
+                });
           }
           return _buildFetchingDataScreen();
         });
@@ -102,14 +109,9 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                                       }
                                       _formKey.currentState.save();
                                       print('Age: ' + _age.toString());
-
                                       user.age = _age;
-                                      user.profilePic = 'assets/tony.jpg';
                                       user.usertype = 'U';
-                                      user.notification = all[0].notification;
-                                      user.theme = all[0].theme;
-                                      //user.recipe = all[0].recipe;
-
+                                      // user.notification = all[0].notification;
                                       Navigator.pushReplacementNamed(
                                           context, homeRoute);
                                     }),
