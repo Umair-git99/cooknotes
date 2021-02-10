@@ -1,6 +1,9 @@
+import 'package:cooknotes/models/article.dart';
+import 'package:cooknotes/models/recipe.dart';
 import 'package:cooknotes/models/user.dart';
 import 'package:cooknotes/services/user_data_service.dart';
 import 'package:cooknotes/services/user_rest_service.dart';
+import 'package:flutter/services.dart';
 import '../constants.dart';
 import 'package:flutter/material.dart';
 import '../dependencies.dart';
@@ -16,6 +19,7 @@ class _LoginScreenState extends State<RegisterScreen> {
   String _username;
   String _password;
   String _email;
+  int _age;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final userDataService = UserRestService();
@@ -49,10 +53,10 @@ class _LoginScreenState extends State<RegisterScreen> {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      _buildDisplayNameTF(),
-                      _buildUsernameTF(),
-                      _buildPasswordTF(),
-                      _buildEmailTF(),
+                      _buildDisplayName(),
+                      _buildUsername(),
+                      _buildPassword(),
+                      _buildEmailandAge(),
                       _buildRegisterBtn(),
                       _buildLoginText(),
                     ],
@@ -66,7 +70,7 @@ class _LoginScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildDisplayNameTF() {
+  Widget _buildDisplayName() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -108,7 +112,7 @@ class _LoginScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildUsernameTF() {
+  Widget _buildUsername() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -150,7 +154,7 @@ class _LoginScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildPasswordTF() {
+  Widget _buildPassword() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -193,7 +197,7 @@ class _LoginScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildEmailTF() {
+  Widget _buildEmailandAge() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -231,6 +235,45 @@ class _LoginScreenState extends State<RegisterScreen> {
             ],
           ),
         ),
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Row(
+            children: <Widget>[
+              IconButton(
+                  icon: Icon(
+                    Icons.mail,
+                    color: Color(0xff00556A),
+                  ),
+                  onPressed: null),
+              Expanded(
+                  child: Container(
+                      margin: EdgeInsets.only(right: 20, left: 10),
+                      child: TextFormField(
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          new LengthLimitingTextInputFormatter(2),
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                        validator: (String value) {
+                          if (value.isEmpty) {
+                            return 'Age is required';
+                          }
+                          return null;
+                        },
+                        onSaved: (String value) {
+                          _age = int.parse(value);
+                        },
+                        decoration: InputDecoration(
+                          hintText: '18',
+                          hintStyle: TextStyle(
+                            color: Color(0xff00556A),
+                            fontFamily: 'Lato',
+                          ),
+                        ),
+                      )))
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -247,16 +290,32 @@ class _LoginScreenState extends State<RegisterScreen> {
             return;
           }
           _formKey.currentState.save();
-
           User newUser = new User(
               username: _username,
               displayName: _displayname,
+              profilePic: "assets/tony.png",
+              usertype: "U",
+              age: _age,
+              email: _email,
               password: _password,
-              email: _email);
+              recipe: [
+                Recipe(
+                    foodName: "default",
+                    image: 'assets/asampedas.jpg',
+                    prepHours: 0,
+                    prepMins: 30,
+                    cookHours: 1,
+                    cookMins: 30,
+                    numPerson: 5,
+                    ingredients: "default ingredient",
+                    instruction: "defailt instruction")
+              ],
+              article: [
+                Article(title: "", image: "", author: "", content: "")
+              ]);
 
-          await userDataService.addUser(newUser);
-
-          Navigator.pushReplacementNamed(context, createProfileRoute);
+          userDataService.addUser(newUser);
+          Navigator.pushReplacementNamed(context, homeRoute);
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(

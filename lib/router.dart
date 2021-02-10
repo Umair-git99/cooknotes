@@ -1,7 +1,6 @@
 import 'package:cooknotes/module1_screen/login_screen.dart';
 import 'package:cooknotes/module1_screen/logout_screen.dart';
 import 'package:cooknotes/module1_screen/register_screen.dart';
-import 'package:cooknotes/module2_screen/create_profile_screen.dart';
 import 'package:cooknotes/module2_screen/edit_profile_screen.dart';
 import 'package:cooknotes/module2_screen/home_screen.dart';
 import 'package:cooknotes/module2_screen/profile_screen.dart';
@@ -36,10 +35,6 @@ Route<dynamic> createRoute(settings) {
       return MaterialPageRoute(builder: (context) => LogoutScreen());
 
     //MODULE 2 - HOME, PROFILE, SETTINGS
-    case createProfileRoute:
-      return MaterialPageRoute(
-        builder: (context) => CreateProfileScreen(),
-      );
     case homeRoute:
       return MaterialPageRoute(
         builder: (context) => HomeScreen(),

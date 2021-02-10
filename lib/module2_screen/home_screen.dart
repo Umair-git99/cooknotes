@@ -5,6 +5,7 @@ import 'package:cooknotes/module4_screen/display_article_screen.dart';
 import 'package:cooknotes/module3_screen/recipelist_screen.dart';
 import 'package:cooknotes/services/user_data_service.dart';
 import 'package:cooknotes/services/user_rest_service.dart';
+import 'package:cooknotes/widget/appbar.dart';
 import 'package:cooknotes/widget/navbar.dart';
 import 'package:flutter/material.dart';
 
@@ -48,31 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Scaffold _buildMainScreen() {
     return Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60.0),
-          child: AppBar(
-            automaticallyImplyLeading: false,
-            elevation: 0,
-            title: Text('COOKNOTES',
-                style: TextStyle(
-                    color: Color(0xff00556A), fontFamily: 'Montserrat Black')),
-            actions: <Widget>[
-              FlatButton(
-                textColor: Colors.black,
-                onPressed: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, logoutRoute, (_) => false);
-                },
-                child: Text("Logout",
-                    style: TextStyle(
-                        fontSize: 15.0,
-                        color: Color(0xff00556A),
-                        fontFamily: 'Lato Black')),
-                shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.transparent)),
-              ),
-            ],
-          ),
-        ),
+            preferredSize: Size.fromHeight(60.0), child: Appbar()),
         body: SingleChildScrollView(
           child: Container(
               child: Column(
@@ -226,7 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
             CircularProgressIndicator(),
             SizedBox(height: 50),
-            Text('Fetching recipe... Please wait'),
+            Text('Loading... Please wait'),
           ],
         ),
       ),
