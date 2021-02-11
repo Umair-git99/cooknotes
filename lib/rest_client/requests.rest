@@ -1,23 +1,13 @@
 
 @baseUrl = https://us-central1-cooknotes-backend.cloudfunctions.net/api/
 
-### Get the list of books
-GET {{baseUrl}}/books
-
-### Get the list of todos
-GET {{baseUrl}}/todos
-
-### Get the list of fees
-GET {{baseUrl}}/fees
 
 ### Get the list of users
 GET {{baseUrl}}/users
 
-### Get the list of qr
-GET {{baseUrl}}/qr
+###  Getting a user for a given id
+GET {{baseUrl}}/users/SzjLGyjRf5UQMmtDTbnO
 
-###  Getting a books for a given id
-GET {{baseUrl}}/books/H8102ae5M94LcNhBtuAx
 
 ###  Add a new user
 POST {{baseUrl}}/users
@@ -90,61 +80,78 @@ Content-Type: application/json
             
 }
 
-### Update a user partly
-PATCH {{baseUrl}}/user/3rxmr5S8mb23NotFX9Vl
+### Update a user 
+PATCH {{baseUrl}}/users/SzjLGyjRf5UQMmtDTbnO
+
 Content-Type: application/json
 
 {
-        "feeStatus": "UNPAID"
-}
+        "username": "umairun",
+                "displayName": "Umairun Hamzah",
+                "profilePic": "assets/tony.jpg",
+                "usertype": "U",
+                "age": "21",
+                "email": "umairun.bzk@gmail.com",
+                "password": "Abc123",
+                "recipe": [
 
+                    {
+                        "foodName": "Asam Pedas",
+                        "image": "assets/asampedas.jpg",
+                        "prepHours": 0,
+                        "prepMins": 30,
+                        "cookHours": 1,
+                        "cookMins": 30,
+                        "numPerson": 5,
+                        "ingredients": "ikan\nasam\nsantan\nbawang",
+                        "instruction": "masak sampai sedap"
+                    },
 
-### Update a todo partly
-PATCH {{baseUrl}}/todos/G5GaM5UvWcvLTuvJPgCB
-Content-Type: application/json
+                    {
+                        "foodName": "Chicken Lasagna",
+                        "image": "assets/chickenlasagna.jpg",
+                        "prepHours": 0,
+                        "prepMins": 40,
+                        "cookHours": 2,
+                        "cookMins": 0,
+                        "numPerson": 1,
+                        "ingredients": "chicken\nlasagna\ncheese",
+                        "instruction": "masak sampai sedap"
+                    },
 
-{
-    
-                "title": "Mathematics",
-                "items": [
                     {
-                        "title": "Quiz 1: Addition & Substraction",
-                        "completed": false
+                        "foodName": "Ayam Goreng Crispy",
+                        "image": "assets/ayamgoreng.jpg",
+                        "prepHours": 0,
+                        "prepMins": 15,
+                        "cookHours": 0,
+                        "cookMins": 30,
+                        "numPerson": 4,
+                        "ingredients": "ayam\nbawang\ntepung",
+                        "instruction": "masak sampai sedap"
                     },
                     {
-                        "title": "Exercise multiplication",
-                        "completed": false
-                    },
-                    {
-                        "title": "Homework: Let's learn about money",
-                        "completed": true
-                    },
-                    {
-                        "title": "Test 1: Calculation of money",
-                        "completed": false
-                    },
-                    {
-                        "title": "Quiz 2: Fraction",
-                        "completed": false
+                        "foodName": "Ikan Siakap Tiga Rasa",
+                        "image": "assets/siakap.jpg",
+                        "prepHours": 0,
+                        "prepMins": 40,
+                        "cookHours": 2,
+                        "cookMins": 0,
+                        "numPerson": 1,
+                        "ingredients": "ikan\nsos\ntepung jagung",
+                        "instruction": "masak sampai sedap ye!"
                     }
-
+                ],
+                "article": [{
+                        "title": "",
+                        "image": "",
+                        "author": "",
+                        "content": "",
+                    },
                 ]
 }
 
-### Replace an existing quote entirely
-PUT {{baseUrl}}/books/7hafVnkozwXR6u2world
-Content-Type: application/json
+### Delete a user
+DELETE {{baseUrl}}/users/SzjLGyjRf5UQMmtDTbnO
 
-{
-    "year" : 2,
-    "price" : 25,
-}
 
-### Delete a quote
-DELETE {{baseUrl}}/books/H8102ae5M94LcNhBtuAx
-
-### Delete a todo
-DELETE {{baseUrl}}/todos/N53VillbPnmPASGu9lBT
-
-### Delete a qr
-DELETE {{baseUrl}}/qr/ghkJ1PWw3XqhdmdDUkTf
